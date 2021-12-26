@@ -1,5 +1,5 @@
 <template>
-  <div class="CodeButtons">
+  <div class="code-buttons">
     <h1>{{ msg }}</h1>
   </div>
 </template>
