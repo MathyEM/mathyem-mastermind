@@ -1,0 +1,20 @@
+<template>
+  <div class="Attempts">
+    <h1>{{ msg }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Attempts',
+  props: {
+    msg: String
+  }
+}
+</script>
+
+<style scoped lang="scss">
+h3 {
+  margin: 40px 0 0;
+}
+</style>
