@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 7070",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
+    "socket.io-client": "^4.4.0",
     "vue": "^2.6.11",
     "vue-native-websocket": "^2.0.14",
     "vue-router": "^3.2.0",
