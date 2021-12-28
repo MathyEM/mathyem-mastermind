@@ -16,6 +16,9 @@ export default {
   components: {},
   created() {
     SocketioService.setupSocketConnection();
+  },
+  beforeUnmount() {
+    SocketioService.disconnect();
   }
 }
 </script>
