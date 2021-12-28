@@ -5,6 +5,11 @@
 npm install
 ```
 
+### .ENV setup example
+```
+VUE_APP_SOCKET_ENDPOINT=localhost:3001
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
