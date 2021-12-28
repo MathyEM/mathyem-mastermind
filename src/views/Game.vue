@@ -1,6 +1,6 @@
 <template>
   <div class="game">
-    <HomeMenu msg="Vælg"/>
+    <HomeMenu/>
     <Options msg="⚙"/>
     <Solution msg="Solution"/>
     <Attempts msg="Attempts"/>

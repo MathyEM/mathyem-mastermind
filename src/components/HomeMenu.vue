@@ -1,14 +1,26 @@
 <template>
   <div class="home-menu">
-    <h1>{{ msg }}</h1>
+			<button @click="createRoom">Create Room</button>
+			<button @click="joinRoom">Join Room</button>
   </div>
 </template>
 
 <script>
+import SocketioService from '@/services/socketio.service.js'
+
 export default {
   name: 'HomeMenu',
   props: {
-    msg: String
+  },
+  methods: {
+		createRoom(e) {
+			console.log(e);
+			SocketioService.createRoom('create')
+    },
+    joinRoom(e) {
+			console.log(e);
+			SocketioService.joinRoom('join')
+    }
   }
 }
 </script>
