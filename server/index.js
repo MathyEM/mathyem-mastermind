@@ -16,11 +16,15 @@ io.on('connection', (socket) => {
   // CREATE ROOM
   socket.on('create-room', (data) => {
     console.log(data);
+    socket.join(data)
+    socket.to(data).emit('create-status', 'Room created')
   })
 
   // JOIN ROOM
   socket.on('join-room', (data) => {
-    console.log(data);
+    console.log(data)
+    socket.join(data)
+    socket.to(data).emit('join-status', 'Room joined')
   })
 
   // ON DISCONNECT
