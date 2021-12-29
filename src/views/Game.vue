@@ -27,3 +27,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.game {
+  margin: auto;
+  width: 25%;
+}
+</style>

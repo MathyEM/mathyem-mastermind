@@ -1,6 +1,8 @@
 <template>
   <div class="code-row">
-    <h1>{{ msg }}</h1>
+    <div v-for="(piece, index) in code" :key="index" class="code-piece">
+      <p>{{ piece }}</p>
+    </div>
   </div>
 </template>
 
@@ -8,13 +10,25 @@
 export default {
   name: 'CodeRow',
   props: {
-    msg: String
+    code: Array,
   }
 }
 </script>
 
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+div {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  width: 100%;
+  .code-piece {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    aspect-ratio: 1/1;
+
+    p {
+      text-align: center;
+    }
+  }
 }
 </style>
