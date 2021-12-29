@@ -7,10 +7,7 @@ class SocketioService {
   setupSocketConnection() {
     this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
 
-		this.socket.on('create-status', response => {
-			console.log(response);
-		})
-		this.socket.on('join-status', response => {
+		this.socket.on('room-status', response => {
 			console.log(response);
 		})
   }
@@ -21,15 +18,19 @@ class SocketioService {
     }
   }
 
-  createRoom(roomName) {
+  createRoom(name) {
     if (this.socket) {
-      this.socket.emit('create-room', roomName)
+      this.socket.emit('create-room', { roomName: name }, (response) => {
+        console.log(response)
+      })
     }
   }
 
-  joinRoom(roomId) {
+  joinRoom(id) {
     if (this.socket) {
-      this.socket.emit('join-room', roomId)
+      this.socket.emit('join-room', { roomId: id }, (response) => {
+        console.log(response)
+      })
     }
   }
 

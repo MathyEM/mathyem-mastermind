@@ -1,7 +1,8 @@
 <template>
   <div class="home-menu">
-			<button @click="createRoom">Create Room</button>
-			<button @click="joinRoom">Join Room</button>
+			<input v-model="roomName" type="text" placeholder="Navn på nyt rum/kode til eksisterende"><br/>
+			<button @click="createRoom">Opret Rum</button>
+			<button @click="joinRoom">Tilslut Rum</button>
   </div>
 </template>
 
@@ -12,14 +13,19 @@ export default {
   name: 'HomeMenu',
   props: {
   },
+	data() {
+		return {
+			roomName: '',
+		}
+	},
   methods: {
-		createRoom(e) {
-			console.log(e);
-			SocketioService.createRoom('create')
+		createRoom() {
+			console.log();
+			SocketioService.createRoom(this.roomName)
     },
-    joinRoom(e) {
-			console.log(e);
-			SocketioService.joinRoom('join')
+    joinRoom() {
+			console.log();
+			SocketioService.joinRoom(this.roomName)
     }
   }
 }
