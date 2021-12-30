@@ -38,6 +38,28 @@ exports.socketConnection = (server) => {
 				roomId: data.roomId,
 			})
 		})
+
+		socket.on('get-game-data', (data, callback) => {
+			console.log(data.username, ' is fetching game data for ', data.roomId)
+
+			//DB connection
+			//gameData = await fetchGameData(data.username, data.roomId)
+			const gameData = {
+				solution: [1, 2, 3, 4],
+				attempts: [
+					[4, 3, 2, 1],
+					[3, 2, 4 ,1],
+					[2, 2, 1, 3],
+					[4, 4, 1, 1],
+					[1, 2, 3, 4]
+				]
+			}
+
+			callback({
+				status: 'ok',
+				gameData: gameData
+			})
+		})
 	
 		// ON DISCONNECT
 		socket.on('disconnect', () => {
