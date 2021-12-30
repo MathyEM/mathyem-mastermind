@@ -8,6 +8,7 @@
 
 <script>
 import SocketioService from '@/services/socketio.service.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeMenu',
@@ -17,6 +18,9 @@ export default {
 		return {
 			roomName: '',
 		}
+	},
+	computed: {
+		...mapGetters(['getUsername', 'getCurrentRoom', 'getGameData'])
 	},
   methods: {
 		createRoom() {
