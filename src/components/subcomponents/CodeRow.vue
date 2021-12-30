@@ -21,10 +21,14 @@ div {
   flex-wrap: nowrap;
   gap: 1rem;
   width: 100%;
+  align-items: center;
+  justify-content: center;
+
   .code-piece {
     border: 1px solid black;
     border-radius: 0.5rem;
     aspect-ratio: 1/1;
+    cursor: pointer;
 
     p {
       text-align: center;
