@@ -40,7 +40,7 @@ exports.socketConnection = (server) => {
 		})
 
 		socket.on('get-game-data', (data, callback) => {
-			console.log(data.username, ' is fetching game data for ', data.roomId)
+			console.log(data.username, 'is fetching game data for', data.roomId)
 
 			//DB connection
 			//gameData = await fetchGameData(data.username, data.roomId)
