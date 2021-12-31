@@ -16,7 +16,7 @@ export default new Vuex.Store({
       name: '',
     },
     gameData: {
-      solution: [],
+      solution: [1, 2, 3, 4],
       attempts: [],
     }
   },
@@ -42,18 +42,20 @@ export default new Vuex.Store({
     async setCurrentRoom({commit}, payload) {
       commit('SET_CURRENT_ROOM', payload)
     },
-    async getGameData({getters, commit}) {
+    getGameData({getters}) {
       if (getters.getUsername && getters.getCurrentRoom.id ) {
         const userData = {
           username: getters.getUsername,
           roomId: getters.getCurrentRoom.id
         }
-        const gameData = SocketioService.getGameData(userData)
-        commit('SET_GAME_DATA', gameData)
+        SocketioService.getGameData(userData)
         return
       }
       console.log('Game data could not be set')
       return
+    },
+    setGameData({commit}, payload) {
+      commit('SET_GAME_DATA', payload)
     }
   },
   modules: {

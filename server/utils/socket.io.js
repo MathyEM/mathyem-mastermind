@@ -1,5 +1,5 @@
 let io;
-exports.socketConnection = (server) => {
+exports.socketConnection = async (server) => {
 	io = require('socket.io')(server, {
 		cors: {
 			origins: ['http://localhost:7070']
@@ -39,13 +39,14 @@ exports.socketConnection = (server) => {
 			})
 		})
 
-		socket.on('get-game-data', (data, callback) => {
+		socket.on('get-game-data', async (data, callback) => {
 			console.log(data.username, 'is fetching game data for', data.roomId)
 
 			//DB connection
 			//gameData = await fetchGameData(data.username, data.roomId)
+
 			const gameData = {
-				solution: [1, 2, 3, 4],
+				solution: [1, 3, 3, 4],
 				attempts: [
 					[4, 3, 2, 1],
 					[3, 2, 4 ,1],
@@ -54,10 +55,10 @@ exports.socketConnection = (server) => {
 					[1, 2, 3, 4]
 				]
 			}
+			io.to(data.roomId).emit('game-data-retrieved', gameData)
 
-			callback({
-				status: 'ok',
-				gameData: gameData
+			await callback({
+				status: 'ok'
 			})
 		})
 	

@@ -1,12 +1,13 @@
 <template>
   <div class="solution">
     <h1>{{ msg }}</h1>
-    <CodeRow :code="code" />
+    <CodeRow :code="gameData.solution" />
   </div>
 </template>
 
 <script>
 import CodeRow from '@/components/subcomponents/CodeRow.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Solution',
@@ -18,9 +19,14 @@ export default {
   },
   data() {
     return {
-      code: [1, 2, 3, 4]
+      
     }
-  }
+  },
+  computed: {
+    ...mapGetters({
+      gameData: 'getGameData'
+    })
+  },
 }
 </script>
 

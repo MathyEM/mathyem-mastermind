@@ -1,6 +1,6 @@
 <template>
   <div class="code-row">
-    <div v-for="(piece, index) in code" :key="index" class="code-piece">
+    <div v-for="(piece, index) in code" :key="index" ref="code-piece" class="code-piece">
       <p>{{ piece }}</p>
     </div>
   </div>

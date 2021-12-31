@@ -11,6 +11,11 @@ class SocketioService {
 		this.socket.on('room-status', response => {
 			console.log(response)
 		})
+
+    this.socket.on('game-data-retrieved', async response => {
+      console.log('game-data-retrieved')
+      await store.dispatch('setGameData', response)
+    })
   }
 
   disconnect() {
@@ -41,7 +46,7 @@ class SocketioService {
   getGameData(userData) {
     if (this.socket) {
       this.socket.emit('get-game-data', userData, (response) => {
-        console.log(response)
+        console.log(response);
       })
     }
   }
