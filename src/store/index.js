@@ -16,8 +16,20 @@ export default new Vuex.Store({
       name: '',
     },
     gameData: {
-      solution: [1, 2, 3, 4],
-      attempts: [],
+      solution: [1, 3, 3, 4],
+      attempts: [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      codeSet: [1, 2, 3, 4]
     }
   },
   getters: {

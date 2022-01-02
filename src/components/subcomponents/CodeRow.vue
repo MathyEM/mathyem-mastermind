@@ -1,6 +1,6 @@
 <template>
   <div class="code-row">
-    <div v-for="(piece, index) in code" :key="index" ref="code-piece" class="code-piece">
+    <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index)" class="code-piece">
       <p>{{ piece }}</p>
     </div>
   </div>
@@ -11,6 +11,7 @@ export default {
   name: 'CodeRow',
   props: {
     code: Array,
+    onClick: Function,
   }
 }
 </script>
