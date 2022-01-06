@@ -15,8 +15,8 @@ export default {
   },
 	data() {
 		return {
-			username: '',
-      password: '',
+			username: 'Mathy',
+      password: 'budding1337',
 		}
 	},
 	computed: {
