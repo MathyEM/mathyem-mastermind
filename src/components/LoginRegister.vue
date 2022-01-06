@@ -2,8 +2,8 @@
   <div class="login-register">
     <input v-model="username" type="text" placeholder="Username"><br/>
     <input v-model="password" type="password" placeholder="Password"><br/>
-    <button @click="login">Opret Rum</button>
-    <button @click="register">Tilslut Rum</button>
+    <button @click="login">Login</button>
+    <button @click="register">Register</button>
   </div>
 </template>
 
