@@ -31,6 +31,6 @@ export default {
 <style lang="scss" scoped>
 .game {
   margin: auto;
-  width: 25%;
+  width: 20%;
 }
 </style>
