@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'LoginRegister',
@@ -25,6 +26,7 @@ export default {
   methods: {
 		login() {
 			console.log('login clicked')
+      axios.post('http://'+process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {username: 'test', password: 'testpw'})
     },
     register() {
 			console.log('register clicked')
