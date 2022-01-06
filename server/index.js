@@ -3,6 +3,10 @@ const app = require('express')();
 const http = require('http').createServer(app);
 socketConnection(http);
 
+const loginRouter = require('./routes/login')
+
+app.use('/', loginRouter)
+
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>')
