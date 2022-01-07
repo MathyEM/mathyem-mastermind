@@ -1,16 +1,47 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+const passport = require('passport')
+const userController = require('../controllers/userController')
+const User = require("../models/user")
 
 /* POST login */
-router.post('/login', function(req, res, next) {
-  console.log('login attempted')
-  console.log(req.body);
-});
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local',
+  (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      return res.json(info);
+    }
+
+
+    req.login(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+
+      return res.redirect('/')
+    });
+
+  })(req, res, next)
+})
 
 /* POST register */
-router.post('/register', function(req, res, next) {
-    console.log('register attempted')
-    console.log(req.body);
-  });
+router.post('/register', (req, res, next) => {
+  const newUser = new User({ username: req.body.username, email: req.body.email })
+  User.register(newUser, req.body.password, function (err, user) {
+    if (err) {
+      console.log(err)
+      res.status(409).json({ message: 'some error', error: err })
+    }
+
+    passport.authenticate('local')(req, res, function () {
+      res.status(201).json({ message: 'Success!' })
+    })
+  })
+})
 
 module.exports = router;
+
