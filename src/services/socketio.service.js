@@ -2,15 +2,18 @@ import { io } from 'socket.io-client'
 import store from '../store';
 
 class SocketioService {
-  socket;
-  constructor() {}
+  socket
+  namespace
+  constructor(namespace) {
+    this.namespace = namespace
+  }
 
   setupSocketConnection() {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT)
+    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+this.namespace)
 
-		this.socket.on('room-status', response => {
-			console.log(response)
-		})
+    this.socket.on('room-status', response => {
+      console.log(response)
+    })
 
     this.socket.on('game-data-retrieved', async response => {
       console.log('game-data-retrieved')
@@ -30,7 +33,7 @@ class SocketioService {
         console.log(response)
 
         await store.dispatch('setCurrentRoom', {id: response.id, name: response.roomName})
-        await store.dispatch('getGameData')
+        await store.dispatch('fetchGameData')
       })
     }
   }
@@ -53,4 +56,7 @@ class SocketioService {
 
 }
 
-export default new SocketioService();
+const guestSocket = new SocketioService('/guest')
+const userSocket = new SocketioService('/user')
+
+export {guestSocket, userSocket}

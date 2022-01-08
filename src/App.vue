@@ -9,16 +9,16 @@
 </template>
 
 <script>
-import SocketioService from './services/socketio.service.js'
+import { guestSocket } from './services/socketio.service.js'
 
 export default {
   name: 'App',
   components: {},
   created() {
-    SocketioService.setupSocketConnection();
+    guestSocket.setupSocketConnection();
   },
   beforeUnmount() {
-    SocketioService.disconnect();
+    guestSocket.disconnect();
   }
 }
 </script>

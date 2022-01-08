@@ -4,7 +4,7 @@ import attempts from './modules/attempts'
 import codeButtons from './modules/codeButtons'
 import options from './modules/options'
 import solution from './modules/solution'
-import SocketioService from '@/services/socketio.service.js'
+import { guestSocket } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
 
@@ -55,13 +55,13 @@ export default new Vuex.Store({
     async setCurrentRoom({commit}, payload) {
       commit('SET_CURRENT_ROOM', payload)
     },
-    getGameData({getters}) {
+    fetchGameData({getters}) {
       if (getters.getUsername && getters.getCurrentRoom.id ) {
         const userData = {
           username: getters.getUsername,
           roomId: getters.getCurrentRoom.id
         }
-        SocketioService.getGameData(userData)
+        guestSocket.getGameData(userData)
         return
       }
       console.log('Game data could not be set')

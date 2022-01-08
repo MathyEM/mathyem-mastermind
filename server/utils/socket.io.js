@@ -9,12 +9,16 @@ exports.socketConnection = async (server) => {
 		}
 	})
 
-	io.on('connection', (socket) => {
+	const guestNamespace = io.of('/guest')
+
+	guestNamespace.on('connection', (socket) => {
 		const uid = function(){
 			return Date.now().toString(36) + Math.random().toString(36).substr(2);
 		}
 	
-		console.log('a user connected: ' + socket.id)
+		console.log('a guest connected: ' + socket.id)
+
+		socket.emit('connected', 'guest connection successful')
 	
 		// CREATE ROOM
 		socket.on('create-room', (data, callback) => {
@@ -68,8 +72,8 @@ exports.socketConnection = async (server) => {
 		// ON DISCONNECT
 		socket.on('disconnect', () => {
 			console.log('user disconnected')
-		});
-	});
+		})
+	})
 }
 
 
