@@ -1,10 +1,13 @@
-let io;
+
+
+let io
+
 exports.socketConnection = async (server) => {
 	io = require('socket.io')(server, {
 		cors: {
 			origins: ['http://localhost:7070']
 		}
-	});
+	})
 
 	io.on('connection', (socket) => {
 		const uid = function(){

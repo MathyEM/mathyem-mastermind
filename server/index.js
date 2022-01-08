@@ -11,7 +11,6 @@ const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
 const LocalStrategy = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
 const { socketConnection } = require('./utils/socket.io')
 socketConnection(http)
 
