@@ -9,7 +9,9 @@ class SocketioService {
   }
 
   setupSocketConnection() {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+this.namespace)
+    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+this.namespace, {
+      withCredentials: true,
+    })
 
     this.socket.on('room-status', response => {
       console.log(response)
@@ -18,6 +20,10 @@ class SocketioService {
     this.socket.on('game-data-retrieved', async response => {
       console.log('game-data-retrieved')
       await store.dispatch('setGameData', response)
+    })
+
+    this.socket.on('connected', async response => {
+      console.log(response)
     })
   }
 

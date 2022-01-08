@@ -12,23 +12,27 @@ const passport = require('passport')
 const User = require('./models/user')
 const LocalStrategy = require('passport-local').Strategy
 const { socketConnection } = require('./utils/socket.io')
-socketConnection(http)
 
 //Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.use(session({
+const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
-}))
+})
 
 //Setup CORS
 app.use(cors({
   credentials: true,
+  methods: ['GET', 'POST'],
   origin: 'http://localhost:7070'
 }))
+
+socketConnection(http, sessionMiddleware)
+
+app.use(sessionMiddleware)
 
 //Initialize passport
 app.use(passport.initialize())

@@ -1,15 +1,18 @@
-
-
+const sharedSession = require('express-socket.io-session')
 let io
 
-exports.socketConnection = async (server) => {
+exports.socketConnection = async (server, session) => {
 	io = require('socket.io')(server, {
 		cors: {
-			origins: ['http://localhost:7070']
+			credentials: true,
+			methods: ['GET', 'POST'],
+			origin: ['http://localhost:7070']
 		}
 	})
 
-	const guestNamespace = io.of('/guest')
+	const guestNamespace = io.of('/guest').use(sharedSession(session, {
+		autoSave: true
+	}))
 
 	guestNamespace.on('connection', (socket) => {
 		const uid = function(){
@@ -17,8 +20,8 @@ exports.socketConnection = async (server) => {
 		}
 	
 		console.log('a guest connected: ' + socket.id)
-
 		socket.emit('connected', 'guest connection successful')
+		console.log(socket.handshake.session)
 	
 		// CREATE ROOM
 		socket.on('create-room', (data, callback) => {
