@@ -25,6 +25,25 @@ class SocketioService {
     this.socket.on('connected', async response => {
       console.log(response)
     })
+
+    this.socket.on('login', (response) => {
+      console.log(response)
+      store.commit('SET_USER', {
+        username: response.username,
+        email: response.email,
+      })
+    })
+
+    // ON DISCONNECT
+    this.socket.on('disconnect', () => {
+      console.log('user disconnected')
+    })
+  }
+  
+  functionCall() {
+    if (this.socket) {
+      this.socket.emit('function-call')
+    }
   }
 
   disconnect() {

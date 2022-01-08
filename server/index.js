@@ -11,7 +11,7 @@ const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
 const LocalStrategy = require('passport-local').Strategy
-const { socketConnection } = require('./utils/socket.io')
+const guestSocket = require('./utils/socket.io')
 
 //Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -30,9 +30,16 @@ app.use(cors({
   origin: 'http://localhost:7070'
 }))
 
-socketConnection(http, sessionMiddleware)
+io = require('socket.io')(http, {
+  cors: {
+    credentials: true,
+    methods: ['GET', 'POST'],
+    origin: ['http://localhost:7070']
+  }
+})
 
 app.use(sessionMiddleware)
+guestSocket.setupSocketConnection(io, sessionMiddleware)
 
 //Initialize passport
 app.use(passport.initialize())
@@ -53,7 +60,7 @@ mongoose
   })
   .catch(err => {
     console.log({ database_error: err });
-  });
+  })
 
 //Added routes
 const loginRouter = require('./routes/login')
@@ -62,9 +69,9 @@ app.use('/', loginRouter)
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>')
-});
+})
 
 //Start server
 http.listen(3001, () => {
   console.log(`listening on *${PORT}`)
-});
+})

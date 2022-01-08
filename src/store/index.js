@@ -10,7 +10,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    username: '',
+    user: {
+      username: '',
+      email: '',
+    },
     currentRoom: {
       id: '',
       name: '',
@@ -33,12 +36,19 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getUsername: state => state.username,
+    getUsername: state => state.user.username,
+    getEmail: state => state.user.email,
     getCurrentRoom: state => state.currentRoom,
     getGameData: state => state.gameData,
-    getLoginStatus: state => state.username != '',
+    getLoginStatus: state => state.user.username != '',
   },
   mutations: {
+    SET_USER(state, payload) {
+      state.user = {
+        username: payload.username,
+        email: payload.email,
+      }
+    },
     SET_CURRENT_ROOM(state, payload) {
       state.currentRoom = {
         id: payload.id,
