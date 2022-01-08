@@ -1,4 +1,5 @@
 const sharedSession = require('express-socket.io-session')
+const passport = require('passport')
 
 class SocketConnection {
 	socket
@@ -9,7 +10,8 @@ class SocketConnection {
 	}
 
 	setupSocketConnection(io, session) {
-		const namespace = io.of(this.namespace).use(sharedSession(session, {
+		const namespace = io.of(this.namespace)
+		namespace.use(sharedSession(session, {
 			autoSave: true
 		}))
 
@@ -21,7 +23,7 @@ class SocketConnection {
 		
 			console.log('a guest connected: ' + socket.id)
 			socket.emit('connected', 'guest connection successful')
-			console.log(socket.handshake.session.passport)
+			// console.log(socket.handshake.session.passport)
 		
 			// CREATE ROOM
 			socket.on('create-room', (data, callback) => {
@@ -48,7 +50,28 @@ class SocketConnection {
 					roomId: data.roomId,
 				})
 			})
-	
+
+			// LOGIN
+			socket.on('req-authenticate', (socket, next) => {
+				console.log('test')
+				passport.authenticate('local',
+					(err, user, info) => {
+						if (err) {
+							return next(err);
+						}
+
+						if (!user) {
+							return console.log(info)
+						}
+
+
+						console.log('user:')
+						console.log(user)
+						// guestSocket.login(user)
+					})
+			})
+			
+			// GET GAME DATA
 			socket.on('get-game-data', async (data, callback) => {
 				console.log(data.username, 'is fetching game data for', data.roomId)
 	

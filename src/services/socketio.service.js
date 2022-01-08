@@ -46,6 +46,12 @@ class SocketioService {
     }
   }
 
+  authenticate() {
+    if (this.socket) {
+      this.socket.emit('req-authenticate')
+    }
+  }
+
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();

@@ -17,7 +17,7 @@ export default {
   components: {},
   methods: {
     functionCall() {
-      guestSocket.functionCall()
+      // guestSocket.authenticate()
     }
   },
   created() {
