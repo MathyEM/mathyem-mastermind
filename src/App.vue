@@ -10,21 +10,27 @@
 </template>
 
 <script>
-import { guestSocket } from './services/socketio.service.js'
+import { guestSocket, userSocket } from './services/socketio.service.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {},
   methods: {
     functionCall() {
-      // guestSocket.authenticate()
+      guestSocket.authenticate()
     }
   },
-  created() {
-    guestSocket.setupSocketConnection();
+  computed: {
+    ...mapGetters(['getLoginStatus']),
+  },
+  async created() {
+    guestSocket.setupSocketConnection()
+    userSocket.setupSocketConnection()
   },
   beforeUnmount() {
-    guestSocket.disconnect();
+    userSocket.disconnect()
+    guestSocket.disconnect()
   }
 }
 </script>

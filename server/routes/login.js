@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 const passport = require('passport')
 const User = require("../models/user")
-const guestSocket = require('../utils/socket.io')
+const {userSocket} = require('../utils/socket.io')
 
 /* POST login */
 router.post('/login', (req, res, next) => {
@@ -13,7 +13,7 @@ router.post('/login', (req, res, next) => {
     }
 
     if (!user) {
-      return res.json(info);
+      return res.status(401).json(info);
     }
 
 
@@ -21,7 +21,7 @@ router.post('/login', (req, res, next) => {
       if (err) {
         return next(err);
       }
-      guestSocket.login(user)
+      userSocket.login(user)
       return res.redirect('/')
     });
 

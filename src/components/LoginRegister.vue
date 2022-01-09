@@ -10,6 +10,9 @@
 
 <script>
 import axios from 'axios'
+// import { guestSocket, userSocket } from '../services/socketio.service'
+import { mapActions } from 'vuex'
+
 
 export default {
   name: 'LoginRegister',
@@ -26,9 +29,16 @@ export default {
 
   },
   methods: {
+    ...mapActions(['socketLogin']),
 		login() {
 			console.log('login clicked')
       axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {username: this.username, email: this.email, password: this.password}, { withCredentials: true })
+        .then((response) => {
+          if (response.status !== 200) {
+            return
+          }
+          this.socketLogin()
+        })
     },
     register() {
 			console.log('register clicked')

@@ -4,7 +4,7 @@ import attempts from './modules/attempts'
 import codeButtons from './modules/codeButtons'
 import options from './modules/options'
 import solution from './modules/solution'
-import { guestSocket } from '@/services/socketio.service.js'
+import { guestSocket, userSocket } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
 
@@ -14,6 +14,7 @@ export default new Vuex.Store({
       username: '',
       email: '',
     },
+    loginStatus: false,
     currentRoom: {
       id: '',
       name: '',
@@ -37,10 +38,10 @@ export default new Vuex.Store({
   },
   getters: {
     getUsername: state => state.user.username,
+    getLoginStatus: state => state.loginStatus,
     getEmail: state => state.user.email,
     getCurrentRoom: state => state.currentRoom,
     getGameData: state => state.gameData,
-    getLoginStatus: state => state.user.username != '',
   },
   mutations: {
     SET_USER(state, payload) {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
         username: payload.username,
         email: payload.email,
       }
+    },
+    SET_LOGIN_STATUS(state, payload) {
+      state.loginStatus = payload
     },
     SET_CURRENT_ROOM(state, payload) {
       state.currentRoom = {
@@ -62,6 +66,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    socketLogin({dispatch}) {
+      dispatch('updateLoginStatus', true)
+      guestSocket.disconnect()
+      userSocket.setupSocketConnection()
+    },
+    updateLoginStatus({commit}, payload) {
+      commit('SET_LOGIN_STATUS', payload)
+    },
     async setCurrentRoom({commit}, payload) {
       commit('SET_CURRENT_ROOM', payload)
     },

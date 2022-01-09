@@ -1,6 +1,7 @@
 <template>
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
+			<h2>Welcome {{ getUsername }}!</h2>
 			<input v-model="roomName" type="text" placeholder="Navn på nyt rum/kode til eksisterende"><br/>
 			<button @click="createRoom">Opret Rum</button>
 			<button @click="joinRoom">Tilslut Rum</button>
@@ -38,7 +39,9 @@ export default {
 			console.log();
 			guestSocket.joinRoom(this.roomName)
     }
-  }
+  },
+	created() {
+	}
 }
 </script>
 

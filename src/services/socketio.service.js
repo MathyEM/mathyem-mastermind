@@ -8,7 +8,7 @@ class SocketioService {
     this.namespace = namespace
   }
 
-  setupSocketConnection() {
+  async setupSocketConnection() {
     this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+this.namespace, {
       withCredentials: true,
     })
@@ -23,11 +23,22 @@ class SocketioService {
     })
 
     this.socket.on('connected', async response => {
-      console.log(response)
+      console.log(response.message)
+
+      if (response.user && !response.authorization) {
+        console.log('user is not anonymous')
+        this.disconnect()
+        return
+      }
+
+      if (response.user && !store.getters.getLoginStatus) {
+        store.commit('SET_LOGIN_STATUS', true)
+        return
+      }
     })
 
     this.socket.on('login', (response) => {
-      console.log(response)
+      console.log(`logging in socket user: ${response.username}`)
       store.commit('SET_USER', {
         username: response.username,
         email: response.email,
@@ -36,7 +47,7 @@ class SocketioService {
 
     // ON DISCONNECT
     this.socket.on('disconnect', () => {
-      console.log('user disconnected')
+      console.log(`disconnected from ${this.namespace}`)
     })
   }
   
@@ -49,6 +60,12 @@ class SocketioService {
   authenticate() {
     if (this.socket) {
       this.socket.emit('req-authenticate')
+    }
+  }
+
+  connect() {
+    if (this.socket) {
+      this.socket.emit('connection')
     }
   }
 

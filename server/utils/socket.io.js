@@ -4,27 +4,55 @@ const passport = require('passport')
 class SocketConnection {
 	socket
 	namespace
+	authorization
 
 	constructor(namespace) {
 		this.namespace = namespace
 	}
 
-	setupSocketConnection(io, session) {
+	setupSocketConnection(io, session, authorization = false) {
 		const namespace = io.of(this.namespace)
-		namespace.use(sharedSession(session, {
-			autoSave: true
-		}))
+		this.authorization = authorization
+		// namespace.use(sharedSession(session, {
+		// 	autoSave: true
+		// }))
+
+		const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+
+		namespace.use(wrap(session))
+		namespace.use(wrap(passport.initialize()))
+		namespace.use(wrap(passport.session()))
+
+		if (this.authorization) {
+			namespace.use((socket, next) => {
+				if (socket.request.user) {
+					console.log('authorized')
+					next()
+				} else {
+					console.log('unauthorized')
+					next(new Error('unauthorized'))
+				}
+			})
+		}
 
 		namespace.on('connection', (socket) => {
 			this.socket = socket
 			const uid = function(){
 				return Date.now().toString(36) + Math.random().toString(36).substr(2);
 			}
-		
-			console.log('a guest connected: ' + socket.id)
-			socket.emit('connected', 'guest connection successful')
-			// console.log(socket.handshake.session.passport)
-		
+
+			if (authorization) {
+				const user = socket.request.user
+				this.login(user)
+			}
+			
+			console.log(`connected to ${this.namespace}: ` + socket.id)
+			socket.emit('connected', {
+				message: `connection to ${this.namespace} successful`,
+				user: socket.request.user || null,
+				authorization: this.authorization
+			})
+					
 			// CREATE ROOM
 			socket.on('create-room', (data, callback) => {
 				const id = uid()
@@ -126,5 +154,7 @@ class SocketConnection {
 }
 
 const guestSocket = new SocketConnection('/guest')
+const userSocket = new SocketConnection('/user')
 
-module.exports = guestSocket
+
+module.exports = { guestSocket, userSocket}

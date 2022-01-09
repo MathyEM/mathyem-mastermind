@@ -11,7 +11,7 @@ const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
 const LocalStrategy = require('passport-local').Strategy
-const guestSocket = require('./utils/socket.io')
+const {guestSocket, userSocket} = require('./utils/socket.io')
 
 //Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -40,6 +40,8 @@ io = require('socket.io')(http, {
 
 app.use(sessionMiddleware)
 guestSocket.setupSocketConnection(io, sessionMiddleware)
+userSocket.setupSocketConnection(io, sessionMiddleware, true)
+
 
 //Initialize passport
 app.use(passport.initialize())
