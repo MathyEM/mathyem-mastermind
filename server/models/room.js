@@ -41,11 +41,24 @@ const roomSchema = new Schema({
 		type: Array,
 		default: [1, 2, 3, 4]
 	}
+}, {
+	timestamps: true
 })
 
 function usersLimit(val) {
 	return val.length <= 2
 }
 
+const anonymousRoom = roomSchema.clone()
+anonymousRoom.index({
+	createdAt: 1
+},
+{
+	expires: '1d'
+})
+
+
+
 const Room = mongoose.model("Room", roomSchema)
-module.exports = Room
+const AnonymousRoom = mongoose.model('AnonymousRoom', anonymousRoom)
+module.exports = { Room, AnonymousRoom }
