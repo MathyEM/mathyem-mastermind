@@ -8,6 +8,7 @@ const roomSchema = new Schema({
 		ref: 'User',
 		required: true
 	},
+	name: String,
 	solution: Array,
   attempts: {	// USe this to update Array in mongoose Schema: Room.attempts.set(0, [1, 2, 2, 3]) to set index 0 in the array.
     type: [Array],
