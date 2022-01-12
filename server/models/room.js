@@ -17,9 +17,9 @@ const roomSchema = new Schema({
 	},
 	name: String,
 	solution: Array,
-  attempts: {	// USe this to update Array in mongoose Schema: Room.attempts.set(0, [1, 2, 2, 3]) to set index 0 in the array.
-    type: [Array],
-    required: true,
+	attempts: {	// USe this to update Array in mongoose Schema: Room.attempts.set(0, [1, 2, 2, 3]) to set index 0 in the array.
+		type: [Array],
+		required: true,
 		default: [
 			['','','',''],
 			['','','',''],
@@ -32,7 +32,7 @@ const roomSchema = new Schema({
 			['','','',''],
 			['','','','']
 		]
-  },
+	},
 	users: {
 		type: [usersSchema],
 		validate: [usersLimit, '{PATH} exceeds the limit of 2 users']
