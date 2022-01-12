@@ -2,16 +2,16 @@
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
 			<h2>Welcome {{ getUsername }}!</h2>
-			<input v-model="roomName" type="text" placeholder="Navn på nyt rum/kode til eksisterende"><br/>
-			<button @click="createRoom">Opret Rum</button>
-			<button @click="joinRoom">Tilslut Rum</button>
+			<input v-model="roomName" type="text" placeholder="Name your new room or enter join code"><br/>
+			<button @click="createRoom">Create Room</button>
+			<button @click="joinRoom">Join Room</button>
 		</div>
 		<LoginRegister v-else />
   </div>
 </template>
 
 <script>
-import { guestSocket } from '@/services/socketio.service.js'
+import { guestSocket, userSocket } from '@/services/socketio.service.js'
 import LoginRegister from './LoginRegister.vue'
 import { mapGetters } from 'vuex'
 
@@ -32,11 +32,15 @@ export default {
 	},
   methods: {
 		createRoom() {
-			console.log();
-			guestSocket.createRoom(this.roomName)
+			console.log()
+			if (!this.getLoginStatus) {
+				guestSocket.createRoom(this.roomName)
+				return
+			}
+			userSocket.createRoom(this.roomName)
     },
     joinRoom() {
-			console.log();
+			console.log()
 			guestSocket.joinRoom(this.roomName)
     }
   },

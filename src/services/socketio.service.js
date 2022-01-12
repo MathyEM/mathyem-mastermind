@@ -22,6 +22,7 @@ class SocketioService {
       await store.dispatch('setGameData', response)
     })
 
+    // ON CONNECTED
     this.socket.on('connected', async response => {
       console.log(response.message)
 
@@ -37,12 +38,22 @@ class SocketioService {
       }
     })
 
+    // ON LOGIN
     this.socket.on('login', (response) => {
       console.log(`logging in socket user: ${response.username}`)
       store.commit('SET_USER', {
         username: response.username,
         email: response.email,
       })
+    })
+
+    // ON ROOM CREATED
+    this.socket.on('room-created', async (response) => {
+      console.log('room created:')
+      console.log(response)
+
+      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
+      // await store.dispatch('fetchGameData')
     })
 
     // ON DISCONNECT
@@ -54,12 +65,6 @@ class SocketioService {
   functionCall() {
     if (this.socket) {
       this.socket.emit('function-call')
-    }
-  }
-
-  authenticate() {
-    if (this.socket) {
-      this.socket.emit('req-authenticate')
     }
   }
 
@@ -77,12 +82,7 @@ class SocketioService {
 
   createRoom(name) {
     if (this.socket) {
-      this.socket.emit('create-room', { roomName: name }, async (response) => {
-        console.log(response)
-
-        await store.dispatch('setCurrentRoom', {id: response.id, name: response.roomName})
-        await store.dispatch('fetchGameData')
-      })
+      this.socket.emit('create-room', { roomName: name })
     }
   }
 

@@ -1,5 +1,6 @@
 const sharedSession = require('express-socket.io-session')
 const passport = require('passport')
+const roomController = require('../controllers/roomController')
 
 class SocketConnection {
 	socket
@@ -54,16 +55,13 @@ class SocketConnection {
 			})
 					
 			// CREATE ROOM
-			socket.on('create-room', (data, callback) => {
+			socket.on('create-room', async (data) => {
 				const id = uid()
 				console.log('Room created: ', data.roomName, id)
 				socket.join(id)
 				
-				callback({
-					status: 'ok',
-					roomName: data.roomName,
-					id: id,
-				})
+				const newRoom = await roomController.createRoom(socket, data)
+				socket.emit('room-created', newRoom)
 			})
 		
 			// JOIN ROOM
@@ -78,26 +76,6 @@ class SocketConnection {
 					roomId: data.roomId,
 				})
 			})
-
-			// LOGIN
-			socket.on('req-authenticate', (socket, next) => {
-				console.log('test')
-				passport.authenticate('local',
-					(err, user, info) => {
-						if (err) {
-							return next(err);
-						}
-
-						if (!user) {
-							return console.log(info)
-						}
-
-
-						console.log('user:')
-						console.log(user)
-						// guestSocket.login(user)
-					})
-			})
 			
 			// GET GAME DATA
 			socket.on('get-game-data', async (data, callback) => {
@@ -106,16 +84,16 @@ class SocketConnection {
 				//DB connection
 				//gameData = await fetchGameData(data.username, data.roomId)
 	
-				const gameData = {
-					solution: [1, 3, 3, 4],
-					attempts: [
-						[4, 3, 2, 1],
-						[3, 2, 4 ,1],
-						[2, 2, 1, 3],
-						[4, 4, 1, 1],
-						[1, 2, 3, 4]
-					]
-				}
+				// const gameData = {
+				// 	solution: [1, 3, 3, 4],
+				// 	attempts: [
+				// 		[4, 3, 2, 1],
+				// 		[3, 2, 4 ,1],
+				// 		[2, 2, 1, 3],
+				// 		[4, 4, 1, 1],
+				// 		[1, 2, 3, 4]
+				// 	]
+				// }
 				io.to(data.roomId).emit('game-data-retrieved', gameData)
 	
 				await callback({
@@ -131,7 +109,7 @@ class SocketConnection {
 		
 			// ON DISCONNECT
 			socket.on('disconnect', () => {
-				console.log('user disconnected')
+				console.log(`user disconnected from ${this.namespace}`)
 			})
 		})
 	}

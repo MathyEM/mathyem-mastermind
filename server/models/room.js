@@ -1,6 +1,13 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+const usersSchema = new Schema({
+	user: {type: Schema.Types.ObjectId, ref: 'User'},
+	wins: {
+		type: Number,
+		default: 0,
+	}
+})
 
 const roomSchema = new Schema({
 	owner: {
@@ -26,20 +33,19 @@ const roomSchema = new Schema({
 			['','','','']
 		]
   },
-	users: [{
-		user: {type: Schema.Types.ObjectId, ref: 'User'},
-		wins: {
-			type: Number,
-			default: 0,
-		},
-
-	}],
+	users: {
+		type: [usersSchema],
+		validate: [usersLimit, '{PATH} exceeds the limit of 2 users']
+	},
 	codeSet: {
 		type: Array,
 		default: [1, 2, 3, 4]
 	}
 })
 
+function usersLimit(val) {
+	return val.length <= 2
+}
 
 const Room = mongoose.model("Room", roomSchema)
 module.exports = Room
