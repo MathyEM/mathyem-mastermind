@@ -25,6 +25,9 @@ class SocketioService {
     // ON CONNECTED
     this.socket.on('connected', async response => {
       console.log(response.message)
+      console.log(this.namespace, this.socket.id)
+
+      store.commit('SET_SOCKET_ID', this.socket.id)
 
       if (response.user && !response.authorization) {
         console.log('user is not anonymous')
@@ -32,12 +35,21 @@ class SocketioService {
         return
       }
 
-      if (response.user && !store.getters.getLoginStatus) {
-        store.commit('SET_LOGIN_STATUS', true)
-        return
+      if (response.authorization) {
+        this.socket.emit('req-login', {message: 'attempting login'})
       }
-    })
 
+      // if (response.user && !store.getters.getLoginStatus) {
+      //   const user = response.user
+      //   console.log(`logging in socket user: ${user.username}`)
+      //   store.commit('SET_USER', {
+      //     username: user.username,
+      //     email: user.email,
+      //   })
+      //   return
+      // }
+    })
+    
     // ON LOGIN
     this.socket.on('login', (response) => {
       console.log(`logging in socket user: ${response.username}`)
@@ -45,6 +57,7 @@ class SocketioService {
         username: response.username,
         email: response.email,
       })
+      store.commit('SET_LOGIN_STATUS', true)
     })
 
     // ON ROOM CREATED
@@ -62,15 +75,15 @@ class SocketioService {
     })
   }
   
-  functionCall() {
-    if (this.socket) {
-      this.socket.emit('function-call')
-    }
-  }
-
   connect() {
     if (this.socket) {
       this.socket.emit('connection')
+    }
+  }
+
+  login() {
+    if (this.socket) {
+      this.socket.emit('req-login', {message: 'attempting login'})
     }
   }
 

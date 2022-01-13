@@ -2,6 +2,7 @@
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
 			<h2>Welcome {{ getUsername }}!</h2>
+			<h3>your id is {{ getSocketId }}</h3>
 			<input v-model="roomName" type="text" placeholder="Name your new room or enter join code"><br/>
 			<button @click="createRoom">Create Room</button>
 			<button @click="joinRoom">Join Room</button>
@@ -28,7 +29,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUsername', 'getCurrentRoom', 'getGameData', 'getLoginStatus'])
+		...mapGetters(['getUsername', 'getCurrentRoom', 'getGameData', 'getLoginStatus', 'getSocketId'])
 	},
   methods: {
 		createRoom() {

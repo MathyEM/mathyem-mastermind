@@ -27,14 +27,14 @@ const sessionMiddleware = session({
 app.use(cors({
   credentials: true,
   methods: ['GET', 'POST'],
-  origin: 'http://localhost:7070'
+  origin: ['http://localhost:7070', 'http://192.168.87.196:7070']
 }))
 
 io = require('socket.io')(http, {
   cors: {
     credentials: true,
     methods: ['GET', 'POST'],
-    origin: ['http://localhost:7070']
+    origin: ['http://localhost:7070', 'http://192.168.87.196:7070']
   }
 })
 

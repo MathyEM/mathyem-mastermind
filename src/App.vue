@@ -5,7 +5,6 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
-    <button @click="functionCall">tester</button>
   </div>
 </template>
 
@@ -17,9 +16,6 @@ export default {
   name: 'App',
   components: {},
   methods: {
-    functionCall() {
-      guestSocket.authenticate()
-    }
   },
   computed: {
     ...mapGetters(['getLoginStatus']),

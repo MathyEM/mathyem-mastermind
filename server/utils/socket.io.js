@@ -1,8 +1,10 @@
 const sharedSession = require('express-socket.io-session')
 const passport = require('passport')
+const { io } = require('socket.io-client')
 const roomController = require('../controllers/roomController')
 
 class SocketConnection {
+	io
 	socket
 	namespace
 	authorization
@@ -12,6 +14,7 @@ class SocketConnection {
 	}
 
 	setupSocketConnection(io, session, authorization = false) {
+		this.io = io
 		const namespace = io.of(this.namespace)
 		this.authorization = authorization
 		// namespace.use(sharedSession(session, {
@@ -37,21 +40,28 @@ class SocketConnection {
 		}
 
 		namespace.on('connection', (socket) => {
-			this.socket = socket
+			var user;
 			const uid = function(){
 				return Date.now().toString(36) + Math.random().toString(36).substr(2);
 			}
 
 			if (authorization) {
-				const user = socket.request.user
-				this.login(user)
+				user = socket.request.user
+				// login(socket, user)
 			}
 			
 			console.log(`connected to ${this.namespace}: ` + socket.id)
 			socket.emit('connected', {
 				message: `connection to ${this.namespace} successful`,
+				socketId: socket.id,
 				user: socket.request.user || null,
 				authorization: this.authorization
+			})
+
+			// ON LOGIN
+			socket.on('req-login', (data) => {
+				data
+				login(socket, user)
 			})
 					
 			// CREATE ROOM
@@ -104,7 +114,7 @@ class SocketConnection {
 			//TEST CALL
 			socket.on('function-call', () => {
 				console.log('function called')
-				this.disconnect()
+				disconnect()
 			})
 		
 			// ON DISCONNECT
@@ -112,23 +122,20 @@ class SocketConnection {
 				console.log(`user disconnected from ${this.namespace}`)
 			})
 		})
+
+		function disconnect() {
+			if (this.socket) {
+				this.socket.disconnect()
+				return
+			}
+			console.log('no socket')
+		}
+	
+		function login(socket, user) {
+			socket.emit('login', user)
+		}
 	}
 
-	disconnect() {
-		if (this.socket) {
-      this.socket.disconnect()
-			return
-    }
-		console.log('no socket')
-	}
-
-	login(data) {
-		if (this.socket) {
-      this.socket.emit('login', data)
-			return
-    }
-		console.log('no socket')
-	}
 }
 
 const guestSocket = new SocketConnection('/guest')

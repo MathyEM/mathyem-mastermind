@@ -14,6 +14,7 @@ export default new Vuex.Store({
       username: '',
       email: '',
     },
+    socketId: '',
     loginStatus: false,
     currentRoom: {
       id: '',
@@ -38,6 +39,7 @@ export default new Vuex.Store({
   },
   getters: {
     getUsername: state => state.user.username,
+    getSocketId: state => state.socketId,
     getLoginStatus: state => state.loginStatus,
     getEmail: state => state.user.email,
     getCurrentRoom: state => state.currentRoom,
@@ -49,6 +51,9 @@ export default new Vuex.Store({
         username: payload.username,
         email: payload.email,
       }
+    },
+    SET_SOCKET_ID(state, payload) {
+      state.socketId = payload
     },
     SET_LOGIN_STATUS(state, payload) {
       state.loginStatus = payload
@@ -67,9 +72,9 @@ export default new Vuex.Store({
   },
   actions: {
     socketLogin({dispatch}) {
-      dispatch('updateLoginStatus', true)
-      guestSocket.disconnect()
       userSocket.setupSocketConnection()
+      guestSocket.disconnect()
+      dispatch('updateLoginStatus', true)
     },
     updateLoginStatus({commit}, payload) {
       commit('SET_LOGIN_STATUS', payload)
