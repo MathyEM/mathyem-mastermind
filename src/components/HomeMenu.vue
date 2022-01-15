@@ -7,19 +7,16 @@
 			<button @click="createRoom">Create Room</button>
 			<button @click="joinRoom">Join Room</button>
 		</div>
-		<LoginRegister v-else />
   </div>
 </template>
 
 <script>
 import { socketConnection } from '@/services/socketio.service.js'
-import LoginRegister from './LoginRegister.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeMenu',
 	components: {
-		LoginRegister,
 	},
   props: {
   },
