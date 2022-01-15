@@ -4,7 +4,6 @@ const { Room } = require('../models/room')
 
 class SocketConnection {
 	io
-	socket
 	
 	constructor() {
 	}
@@ -71,9 +70,13 @@ class SocketConnection {
 		
 			// JOIN ROOM
 			socket.on('join-room', async (data) => {
-				const { status, room, message } = await roomController.joinRoom(socket, data.roomId)
+				const joinRoom = await roomController.joinRoom(socket, data.roomId)
+				const status = joinRoom.status || null
+				const message = joinRoom.message || null
+				const room = joinRoom.room || null
 
 				if (!status) {
+					console.log(message)
 					socket.emit('error', { message: message })
 					return
 				}
@@ -81,17 +84,16 @@ class SocketConnection {
 				console.log('Room joined: ', data.roomId)
 				socket.join(data.roomId)
 
-
-				// room
-				// .populate([
-				// 	'owner', 
-				// 	{ path: 'users._id', model: 'User' }
-				// ], function(err, room) {
-				// 	console.log(room)
-				// 	io.in(data.roomId).emit('room-status', 'A new user joined the room')
-				// 	socket.emit('room-joined', room)
-				// 	return room
-				// })
+				room
+				.populate([
+					'owner', 
+					{ path: 'users._id', model: 'User' }
+				], function(err, room) {
+					console.log(room)
+					io.in(data.roomId).emit('room-status', 'A new user joined the room')
+					socket.emit('room-joined', room)
+					return room
+				})
 				
 			})
 			

@@ -17,20 +17,24 @@ exports.createRoom = async function (socket, data) {
 
 exports.joinRoom = async function (socket, id) {
 	const userId = socket.request.user._id
-	const room = Room.findById(id)
+	const room = await Room.findById(id)
+	console.log(userId)
+	console.log(room)
+
+	const userAlreadyJoined = room.users.find((user) => {
+		console.log(user._id, userId)
+		if (user._id === userId) {
+			return true
+		}
+		return false
+	})
+
+	if (userAlreadyJoined) { //  if the user is already in the room
+		return { status: false, message: 'this user is already in the room'}
+	}
 
 	if (room.users.length >= 2) {
 		return { status: false, message: 'this room is full'}
-	}
-
-	const userAlreadyJoined = room.users.find((user) => {
-		if (user.user === userId) {
-			return true
-		}
-	})
-
-	if (userAlreadyJoined === undefined) { //  if the user is already in the room
-		return { status: false, message: 'this user is already in the room'}
 	}
 
 	room.users.push(userId)
@@ -39,3 +43,4 @@ exports.joinRoom = async function (socket, id) {
 	room.solution = [] //hide solution just in case
 	return { status: true, room: room}
 }
+

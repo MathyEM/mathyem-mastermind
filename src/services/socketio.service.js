@@ -47,6 +47,7 @@ class SocketioService {
     // ON LOGIN
     this.socket.on('login', (response) => {
       console.log(`logging in socket user: ${response.username}`)
+      console.log(response);
       store.commit('SET_USER', {
         username: response.username,
         email: response.email,
@@ -61,6 +62,13 @@ class SocketioService {
 
       await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
       // await store.dispatch('fetchGameData')
+    })
+
+    this.socket.on('room-joined', async (response) => {
+      console.log('room joined:')
+      console.log(response)
+
+      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
     })
 
     // ON DISCONNECT
