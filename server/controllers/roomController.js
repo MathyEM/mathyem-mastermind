@@ -7,6 +7,7 @@ exports.createRoom = async function (socket, data) {
 
 	room.name = data.roomName
 	room.owner = ownerId
+	room.currentCodemaker = ownerId // set th
 	room.users.push(ownerId)
 	console.log(room)
 
