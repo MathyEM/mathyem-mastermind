@@ -44,3 +44,9 @@ exports.joinRoom = async function (socket, id) {
 	return { status: true, room: room}
 }
 
+exports.fetchUserRooms = async function (socket) {
+	const userId = socket.request.user._id
+	const rooms = await Room.find({ 'users._id': userId })
+
+	return rooms
+}

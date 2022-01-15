@@ -3,7 +3,7 @@
 		<div v-if="getLoginStatus" class="join-create-room">
 			<h2>Welcome {{ getUsername }}!</h2>
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
-			<input v-model="roomName" type="text" placeholder="Name your new room or enter join code"><br/>
+			<input v-model="roomName" type="text" placeholder="Name your new room or enter room code"><br/>
 			<button @click="createRoom">Create Room</button>
 			<button @click="joinRoom">Join Room</button>
 		</div>
@@ -15,7 +15,7 @@ import { socketConnection } from '@/services/socketio.service.js'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeMenu',
+  name: 'CreateJoinRoom',
 	components: {
 	},
   props: {
@@ -44,4 +44,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 </style>

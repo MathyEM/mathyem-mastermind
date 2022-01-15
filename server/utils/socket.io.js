@@ -94,7 +94,12 @@ class SocketConnection {
 					socket.emit('room-joined', room)
 					return room
 				})
-				
+			})
+
+			socket.on('fetch-user-rooms', async (data) => {
+				console.log('fetch-user-rooms: ')
+				const rooms = await roomController.fetchUserRooms(socket)
+				socket.emit('user-rooms-fetched', rooms)
 			})
 			
 			// GET GAME DATA

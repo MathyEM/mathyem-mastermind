@@ -1,16 +1,17 @@
 <template>
   <div class="login-register">
-    <input v-model="username" type="text" placeholder="Username"><br/>
-    <input v-model="email" type="email" placeholder="Email"><br/>
-    <input v-model="password" type="password" placeholder="Password"><br/>
-    <button @click="login">Login</button>
-    <button @click="register">Register</button>
+    <input v-model="username" type="text" placeholder="Username">
+    <input v-if="getRegisteringState" v-model="email" type="email" placeholder="Email">
+    <input v-model="password" type="password" placeholder="Password">
+    <button v-if="!getRegisteringState" @click="login">Login</button>
+    <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
+    <button v-if="getRegisteringState" @click="register">Register</button>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'LoginRegister',
@@ -24,10 +25,11 @@ export default {
 		}
 	},
 	computed: {
-    ...mapGetters(['getSocketId'])
+    ...mapGetters(['getSocketId', 'getRegisteringState'])
   },
   methods: {
     ...mapActions(['socketLogin']),
+    ...mapMutations(['TOGGLE_REGISTERING_STATE']),
 		login() {
 			console.log('login clicked')
       axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {socketId: this.getSocketId, username: this.username, email: this.email, password: this.password}, { withCredentials: true })

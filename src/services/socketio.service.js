@@ -47,12 +47,20 @@ class SocketioService {
     // ON LOGIN
     this.socket.on('login', (response) => {
       console.log(`logging in socket user: ${response.username}`)
-      console.log(response);
+      console.log(response)
+
+      this.fetchUserRooms()
+
       store.commit('SET_USER', {
         username: response.username,
         email: response.email,
       })
       store.commit('SET_LOGIN_STATUS', true)
+    })
+
+    this.socket.on('user-rooms-fetched', async (rooms) => {
+      console.log('room fetched: ')
+      console.log(rooms)
     })
 
     // ON ROOM CREATED
@@ -104,6 +112,13 @@ class SocketioService {
   joinRoom(roomId) {
     if (this.socket) {
       this.socket.emit('join-room', { roomId: roomId })
+    }
+  }
+
+  fetchUserRooms() {
+    if (this.socket) {
+      console.log('fetching rooms...')
+      this.socket.emit('fetch-user-rooms')
     }
   }
 

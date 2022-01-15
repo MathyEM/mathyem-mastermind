@@ -10,6 +10,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    registeringState: false,
     user: {
       username: '',
       email: '',
@@ -38,6 +39,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getRegisteringState: state => state.registeringState,
     getUsername: state => state.user.username,
     getSocketId: state => state.socketId,
     getLoginStatus: state => state.loginStatus,
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     getGameData: state => state.gameData,
   },
   mutations: {
+    TOGGLE_REGISTERING_STATE(state) {
+      state.registeringState = !state.registeringState
+    },
     SET_USER(state, payload) {
       state.user = {
         username: payload.username,

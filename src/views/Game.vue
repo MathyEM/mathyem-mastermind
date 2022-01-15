@@ -3,7 +3,7 @@
     <LoginRegister/>
   </div>
   <div v-else class="game">
-    <HomeMenu />
+    <CreateJoinRoom />
     <Options msg="⚙"/>
     <Solution msg="Solution"/>
     <Attempts msg="Attempts"/>
@@ -14,7 +14,7 @@
 <script>
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
-import HomeMenu from '@/components/HomeMenu.vue'
+import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
 import Options from '@/components/Options.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
@@ -26,7 +26,7 @@ export default {
   name: 'Game',
   components: {
     LoginRegister,
-    HomeMenu,
+    CreateJoinRoom,
     Options,
     Solution,
     Attempts,
@@ -38,9 +38,33 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .game {
   margin: auto;
-  width: 20%;
+  width: 300px;
+  
+  .join-create-room, .login-register {
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      font-size: 1rem;
+      height: 2rem;
+      text-align: center;
+    }
+
+    input {
+      height: 2.2rem;
+      vertical-align: middle;
+    }
+
+  }
 }
+
+@media only screen and (max-width: 500px) {
+  .game {
+    margin: auto;
+    width: 100%;
+  }
+}
+
 </style>
