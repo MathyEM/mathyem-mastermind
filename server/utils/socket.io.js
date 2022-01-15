@@ -6,20 +6,13 @@ const roomController = require('../controllers/roomController')
 class SocketConnection {
 	io
 	socket
-	namespace
-	authorization
-
-	constructor(namespace) {
-		this.namespace = namespace
+	
+	constructor() {
 	}
 
-	setupSocketConnection(io, session, authorization = false) {
+	setupSocketConnection(io, session) {
 		this.io = io
-		const namespace = io.of(this.namespace)
-		this.authorization = authorization
-		// namespace.use(sharedSession(session, {
-		// 	autoSave: true
-		// }))
+		const namespace = io.of('/user')
 
 		const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
@@ -27,35 +20,34 @@ class SocketConnection {
 		namespace.use(wrap(passport.initialize()))
 		namespace.use(wrap(passport.session()))
 
-		if (this.authorization) {
-			namespace.use((socket, next) => {
-				if (socket.request.user) {
-					console.log('authorized')
-					next()
-				} else {
-					console.log('unauthorized')
-					next(new Error('unauthorized'))
-				}
-			})
-		}
+		namespace.use((socket, next) => {
+			if (socket.request.user) {
+				console.log('authorized')
+				socket.authorization = true
+				next()
+			} else {
+				console.log('unauthorized')
+				socket.authorization = false
+				next()
+			}
+		})
 
 		namespace.on('connection', (socket) => {
-			var user;
+			var user
 			const uid = function(){
 				return Date.now().toString(36) + Math.random().toString(36).substr(2);
 			}
 
-			if (authorization) {
+			if (socket.request.user != null) {
 				user = socket.request.user
-				// login(socket, user)
 			}
 			
-			console.log(`connected to ${this.namespace}: ` + socket.id)
+			console.log(`connected to /user: ` + socket.id)
 			socket.emit('connected', {
-				message: `connection to ${this.namespace} successful`,
+				message: `connection to /user successful`,
 				socketId: socket.id,
-				user: socket.request.user || null,
-				authorization: this.authorization
+				user: user || null,
+				authorization: socket.authorization
 			})
 
 			// ON LOGIN
@@ -119,7 +111,7 @@ class SocketConnection {
 		
 			// ON DISCONNECT
 			socket.on('disconnect', () => {
-				console.log(`user disconnected from ${this.namespace}`)
+				console.log(`user disconnected from /user`)
 			})
 		})
 
@@ -138,8 +130,8 @@ class SocketConnection {
 
 }
 
-const guestSocket = new SocketConnection('/guest')
-const userSocket = new SocketConnection('/user')
+// const guestSocket = new SocketConnection('/guest')
+const socketConnection = new SocketConnection('/user')
 
 
-module.exports = { guestSocket, userSocket}
+module.exports = { socketConnection }

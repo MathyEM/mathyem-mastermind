@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { guestSocket, userSocket } from './services/socketio.service.js'
+import { socketConnection } from './services/socketio.service.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -21,12 +21,12 @@ export default {
     ...mapGetters(['getLoginStatus']),
   },
   async created() {
-    guestSocket.setupSocketConnection()
-    userSocket.setupSocketConnection()
+    // guestSocket.setupSocketConnection()
+    socketConnection.setupSocketConnection()
   },
   beforeUnmount() {
-    userSocket.disconnect()
-    guestSocket.disconnect()
+    // guestSocket.disconnect()
+    socketConnection.disconnect()
   }
 }
 </script>

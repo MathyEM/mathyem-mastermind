@@ -21,7 +21,6 @@ router.post('/login', (req, res, next) => {
       if (err) {
         return next(err);
       }
-      // userSocket.login(user)
       return res.redirect('/')
     });
 

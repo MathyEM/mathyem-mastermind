@@ -4,7 +4,7 @@ import attempts from './modules/attempts'
 import codeButtons from './modules/codeButtons'
 import options from './modules/options'
 import solution from './modules/solution'
-import { guestSocket, userSocket } from '@/services/socketio.service.js'
+import { socketConnection } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
 
@@ -72,8 +72,8 @@ export default new Vuex.Store({
   },
   actions: {
     socketLogin({dispatch}) {
-      userSocket.setupSocketConnection()
-      guestSocket.disconnect()
+      socketConnection.disconnect()
+      socketConnection.setupSocketConnection()
       dispatch('updateLoginStatus', true)
     },
     updateLoginStatus({commit}, payload) {
@@ -88,7 +88,8 @@ export default new Vuex.Store({
           username: getters.getUsername,
           roomId: getters.getCurrentRoom.id
         }
-        guestSocket.getGameData(userData)
+        userData
+        // guestSocket.getGameData(userData)
         return
       }
       console.log('Game data could not be set')

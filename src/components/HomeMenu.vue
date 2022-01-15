@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { guestSocket, userSocket } from '@/services/socketio.service.js'
+import { socketConnection } from '@/services/socketio.service.js'
 import LoginRegister from './LoginRegister.vue'
 import { mapGetters } from 'vuex'
 
@@ -34,15 +34,11 @@ export default {
   methods: {
 		createRoom() {
 			console.log()
-			if (!this.getLoginStatus) {
-				guestSocket.createRoom(this.roomName)
-				return
-			}
-			userSocket.createRoom(this.roomName)
+			socketConnection.createRoom(this.roomName)
     },
     joinRoom() {
 			console.log()
-			guestSocket.joinRoom(this.roomName)
+			socketConnection.joinRoom(this.roomName)
     }
   },
 	created() {

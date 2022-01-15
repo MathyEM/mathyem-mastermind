@@ -4,12 +4,12 @@ import store from '../store';
 class SocketioService {
   socket
   namespace
-  constructor(namespace) {
-    this.namespace = namespace
+  constructor() {
+
   }
 
   async setupSocketConnection() {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+this.namespace, {
+    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+'/user', {
       withCredentials: true,
     })
 
@@ -25,18 +25,12 @@ class SocketioService {
     // ON CONNECTED
     this.socket.on('connected', async response => {
       console.log(response.message)
-      console.log(this.namespace, this.socket.id)
+      console.log('authorization:', response.authorization);
 
       store.commit('SET_SOCKET_ID', this.socket.id)
 
-      if (response.user && !response.authorization) {
-        console.log('user is not anonymous')
-        this.disconnect()
-        return
-      }
-
       if (response.authorization) {
-        this.socket.emit('req-login', {message: 'attempting login'})
+        this.socket.emit('req-login', { message: 'attempting login' })
       }
 
       // if (response.user && !store.getters.getLoginStatus) {
@@ -71,7 +65,7 @@ class SocketioService {
 
     // ON DISCONNECT
     this.socket.on('disconnect', () => {
-      console.log(`disconnected from ${this.namespace}`)
+      console.log(`disconnected from /user`)
     })
   }
   
@@ -89,7 +83,7 @@ class SocketioService {
 
   disconnect() {
     if (this.socket) {
-      this.socket.disconnect();
+      this.socket.disconnect()
     }
   }
 
@@ -117,7 +111,7 @@ class SocketioService {
 
 }
 
-const guestSocket = new SocketioService('/guest')
-const userSocket = new SocketioService('/user')
+// const guestSocket = new SocketioService('/guest')
+const socketConnection = new SocketioService()
 
-export {guestSocket, userSocket}
+export { socketConnection}
