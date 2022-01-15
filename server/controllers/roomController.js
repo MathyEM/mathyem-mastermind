@@ -1,4 +1,4 @@
-const Room = require('../models/room')
+const { Room } = require('../models/room')
 const User = require('../models/user')
 
 exports.createRoom = async function (socket, data) {
