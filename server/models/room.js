@@ -59,6 +59,6 @@ anonymousRoom.index({
 
 
 
-const Room = mongoose.model("Room", roomSchema)
+const Room = mongoose.model('Room', roomSchema)
 const AnonymousRoom = mongoose.model('AnonymousRoom', anonymousRoom)
 module.exports = { Room, AnonymousRoom }
