@@ -95,9 +95,7 @@ class SocketioService {
 
   joinRoom(roomId) {
     if (this.socket) {
-      this.socket.emit('join-room', { roomId: roomId }, (response) => {
-        console.log(response)
-      })
+      this.socket.emit('join-room', { roomId: roomId })
     }
   }
 

@@ -9,7 +9,6 @@ exports.createRoom = async function (socket, data) {
 	room.owner = ownerId
 	room.currentCodemaker = ownerId // set th
 	room.users.push(ownerId)
-	console.log(room)
 
 	await room.save()
 	room.solution = [] //hide solution just in case
@@ -31,7 +30,7 @@ exports.joinRoom = async function (socket, id) {
 	})
 
 	if (userAlreadyJoined === undefined) { //  if the user is already in the room
-		return { status: false, message: 'this user is already in the room, how did you do this?'}
+		return { status: false, message: 'this user is already in the room'}
 	}
 
 	room.users.push(userId)

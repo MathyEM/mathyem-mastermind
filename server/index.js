@@ -10,6 +10,7 @@ const config = require('./config/db')
 const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
+const { Room } = require('./models/room')
 const LocalStrategy = require('passport-local').Strategy
 const { socketConnection } = require('./utils/socket.io')
 
@@ -65,6 +66,11 @@ mongoose
 
 //Added routes
 const loginRouter = require('./routes/login')
+
+// Room.find({owner: '61d8917a7274e857bdb81bac'}).exec((err, rooms) => {
+//   if (err) console.log(err)
+//   console.log(rooms)
+// })
 
 app.use('/', loginRouter)
 

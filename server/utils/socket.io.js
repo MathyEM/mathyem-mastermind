@@ -1,7 +1,6 @@
-const sharedSession = require('express-socket.io-session')
 const passport = require('passport')
-const { io } = require('socket.io-client')
 const roomController = require('../controllers/roomController')
+const { Room } = require('../models/room')
 
 class SocketConnection {
 	io
@@ -58,25 +57,42 @@ class SocketConnection {
 					
 			// CREATE ROOM
 			socket.on('create-room', async (data) => {
-				const id = uid()
-				console.log('Room created: ', data.roomName, id)
-				socket.join(id)
-				
+				if (!socket.request.user) {
+					console.error('No user, cannot create room')
+					socket.emit('error', { message: 'Please login to create a room' })
+					return
+				}
 				const newRoom = await roomController.createRoom(socket, data)
+				socket.join(newRoom._id)
+				console.log('Room created: ')
+				console.log(newRoom)
 				socket.emit('room-created', newRoom)
 			})
 		
 			// JOIN ROOM
-			socket.on('join-room', (data, callback) => {
+			socket.on('join-room', async (data) => {
+				const { status, room, message } = await roomController.joinRoom(socket, data.roomId)
+
+				if (!status) {
+					socket.emit('error', { message: message })
+					return
+				}
+
 				console.log('Room joined: ', data.roomId)
 				socket.join(data.roomId)
+
+
+				// room
+				// .populate([
+				// 	'owner', 
+				// 	{ path: 'users._id', model: 'User' }
+				// ], function(err, room) {
+				// 	console.log(room)
+				// 	io.in(data.roomId).emit('room-status', 'A new user joined the room')
+				// 	socket.emit('room-joined', room)
+				// 	return room
+				// })
 				
-				io.in(data.roomId).emit('room-status', 'A new user joined the room')
-		
-				callback({
-					status: 'ok',
-					roomId: data.roomId,
-				})
 			})
 			
 			// GET GAME DATA
