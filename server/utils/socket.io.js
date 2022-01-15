@@ -130,7 +130,6 @@ class SocketConnection {
 
 }
 
-// const guestSocket = new SocketConnection('/guest')
 const socketConnection = new SocketConnection('/user')
 
 

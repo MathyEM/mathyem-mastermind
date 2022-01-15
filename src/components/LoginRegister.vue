@@ -10,7 +10,6 @@
 
 <script>
 import axios from 'axios'
-// import { guestSocket, userSocket } from '../services/socketio.service'
 import { mapActions, mapGetters } from 'vuex'
 
 

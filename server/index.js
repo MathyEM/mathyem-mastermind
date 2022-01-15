@@ -39,7 +39,6 @@ io = require('socket.io')(http, {
 })
 
 app.use(sessionMiddleware)
-// guestSocket.setupSocketConnection(io, sessionMiddleware)
 socketConnection.setupSocketConnection(io, sessionMiddleware, true)
 
 

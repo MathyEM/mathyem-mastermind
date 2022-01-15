@@ -21,11 +21,9 @@ export default {
     ...mapGetters(['getLoginStatus']),
   },
   async created() {
-    // guestSocket.setupSocketConnection()
     socketConnection.setupSocketConnection()
   },
   beforeUnmount() {
-    // guestSocket.disconnect()
     socketConnection.disconnect()
   }
 }

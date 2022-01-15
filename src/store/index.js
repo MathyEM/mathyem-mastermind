@@ -88,8 +88,7 @@ export default new Vuex.Store({
           username: getters.getUsername,
           roomId: getters.getCurrentRoom.id
         }
-        userData
-        // guestSocket.getGameData(userData)
+        socketConnection.getGameData(userData)
         return
       }
       console.log('Game data could not be set')

@@ -37,6 +37,10 @@ const roomSchema = new Schema({
 		type: [usersSchema],
 		validate: [usersLimit, '{PATH} exceeds the limit of 2 users']
 	},
+	currentCodebreaker: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
 	codeSet: {
 		type: Array,
 		default: [1, 2, 3, 4]
