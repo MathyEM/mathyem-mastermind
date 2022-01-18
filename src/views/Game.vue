@@ -2,12 +2,21 @@
   <div v-if="!getLoginStatus" class="game">
     <LoginRegister/>
   </div>
-  <div v-else class="game">
+  <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="game">
+    <div class="menus-container">
+      <RoomList />
+      <Options msg="⚙"/>
+    </div>
     <CreateJoinRoom />
-    <Options msg="⚙"/>
-    <Solution msg="Solution"/>
-    <Attempts msg="Attempts"/>
-    <CodeButtons msg="CodeButtons"/>
+  </div>
+  <div v-else class="game">
+    <div class="menus-container">
+      <RoomList />
+      <Options msg="⚙"/>
+    </div>
+    <Solution />
+    <Attempts />
+    <CodeButtons />
   </div>
 </template>
 
@@ -19,6 +28,7 @@ import Options from '@/components/Options.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
+import RoomList from '@/components/RoomList.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -30,10 +40,11 @@ export default {
     Options,
     Solution,
     Attempts,
-    CodeButtons
+    CodeButtons,
+    RoomList
   },
   computed: {
-    ...mapGetters(['getLoginStatus']),
+    ...mapGetters(['getLoginStatus', 'getCurrentRoom']),
   }
 }
 </script>
@@ -58,6 +69,13 @@ export default {
     }
 
   }
+}
+
+.menus-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
 }
 
 @media only screen and (max-width: 500px) {

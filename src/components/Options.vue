@@ -1,6 +1,6 @@
 <template>
   <div class="options">
-    <h1>{{ msg }}</h1>
+    <div class="options-icon">{{ msg }}</div>
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.options-icon {
+  font-size: 2rem;
+  font-weight: bold;
 }
 </style>

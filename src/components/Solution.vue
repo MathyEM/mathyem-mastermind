@@ -1,6 +1,5 @@
 <template>
   <div class="solution">
-    <h1>{{ msg }}</h1>
     <CodeRow :code="gameData.solution" :onClick="onClick" />
   </div>
 </template>
@@ -15,7 +14,6 @@ export default {
     CodeRow
   },
   props: {
-    msg: String
   },
   data() {
     return {

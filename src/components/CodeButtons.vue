@@ -1,6 +1,5 @@
 <template>
   <div class="code-buttons">
-    <h1>{{ msg }}</h1>
     <CodeRow ref="code-buttons" :code="gameData.codeSet" :onClick="onClick" />
   </div>
 </template>
@@ -15,7 +14,6 @@ export default {
     CodeRow,
   },
   props: {
-    msg: String
   },
   computed: {
     ...mapGetters({
