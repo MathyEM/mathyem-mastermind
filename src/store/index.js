@@ -15,8 +15,9 @@ export default new Vuex.Store({
       username: '',
       email: '',
     },
-    socketId: '',
     loginStatus: false,
+    showRoomList: false,
+    usersRooms: [],
     currentRoom: {
       id: '',
       name: '',
@@ -41,9 +42,10 @@ export default new Vuex.Store({
   getters: {
     getRegisteringState: state => state.registeringState,
     getUsername: state => state.user.username,
-    getSocketId: state => state.socketId,
     getLoginStatus: state => state.loginStatus,
+    getShowRoomList: state => state.showRoomList,
     getEmail: state => state.user.email,
+    getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
     getGameData: state => state.gameData,
   },
@@ -57,11 +59,14 @@ export default new Vuex.Store({
         email: payload.email,
       }
     },
-    SET_SOCKET_ID(state, payload) {
-      state.socketId = payload
-    },
     SET_LOGIN_STATUS(state, payload) {
       state.loginStatus = payload
+    },
+    SET_SHOW_ROOM_LIST(state, payload) {
+      state.showRoomList = payload
+    },
+    SET_USERS_ROOMS(state, payload) {
+      state.usersRooms = payload
     },
     SET_CURRENT_ROOM(state, payload) {
       state.currentRoom = {

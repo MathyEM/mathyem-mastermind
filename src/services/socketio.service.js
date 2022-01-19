@@ -27,8 +27,6 @@ class SocketioService {
       console.log(response.message)
       console.log('authorization:', response.authorization);
 
-      store.commit('SET_SOCKET_ID', this.socket.id)
-
       if (response.authorization) {
         this.socket.emit('req-login', { message: 'attempting login' })
       }
@@ -59,8 +57,7 @@ class SocketioService {
     })
 
     this.socket.on('user-rooms-fetched', async (rooms) => {
-      console.log('room fetched: ')
-      console.log(rooms)
+      store.commit('SET_USERS_ROOMS', rooms)
     })
 
     // ON ROOM CREATED

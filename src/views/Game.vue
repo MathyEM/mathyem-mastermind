@@ -4,6 +4,7 @@
   </div>
   <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="game">
     <div class="menus-container">
+      <RoomListButton title="Rooms" />
       <RoomList />
       <Options msg="⚙"/>
     </div>
@@ -11,6 +12,7 @@
   </div>
   <div v-else class="game">
     <div class="menus-container">
+      <RoomListButton title="Rooms" />
       <RoomList />
       <Options msg="⚙"/>
     </div>
@@ -28,6 +30,7 @@ import Options from '@/components/Options.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
+import RoomListButton from '@/components/RoomListButton.vue'
 import RoomList from '@/components/RoomList.vue'
 
 import { mapGetters } from 'vuex'
@@ -41,6 +44,7 @@ export default {
     Solution,
     Attempts,
     CodeButtons,
+    RoomListButton,
     RoomList
   },
   computed: {
@@ -72,6 +76,7 @@ export default {
 }
 
 .menus-container {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
