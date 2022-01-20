@@ -25,14 +25,14 @@ export default {
 		}
 	},
 	computed: {
-    ...mapGetters(['getSocketId', 'getRegisteringState'])
+    ...mapGetters(['getRegisteringState'])
   },
   methods: {
     ...mapActions(['socketLogin']),
     ...mapMutations(['TOGGLE_REGISTERING_STATE']),
 		login() {
 			console.log('login clicked')
-      axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {socketId: this.getSocketId, username: this.username, email: this.email, password: this.password}, { withCredentials: true })
+      axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {username: this.username, email: this.email, password: this.password}, { withCredentials: true })
         .then((response) => {
           if (response.status !== 200) {
             console.log('status: ', response.status);
