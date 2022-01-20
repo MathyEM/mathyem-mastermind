@@ -2,6 +2,7 @@
   <transition name="slide-fade">
     <div v-if="getShowRoomList" class="room-list">
       <div class="room" v-for="room in getUsersRooms" :key="room._id">
+        <p></p>
         <p>{{ room.name }}</p>
       </div>
     </div>
@@ -34,6 +35,7 @@ export default {
 
 <style scoped lang="scss">
 $margin-top: 2.4rem;
+$dark-gray: #505050;
 
 .room-list {
   position: absolute;
@@ -41,14 +43,30 @@ $margin-top: 2.4rem;
   top: 0;
   width: 100%;
   overflow-y: scroll;
-  max-height: calc(100vh - $margin-top);
+  max-height: calc(100vh - $margin-top - 1rem);
   margin-top: $margin-top;
-  background: #505050cc;
   color: whitesmoke;
+
+  .room {
+    display: flex;
+    padding: 0.5rem;
+    background: $dark-gray;
+    border-bottom: 1px solid darken($dark-gray, 7);
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($dark-gray, 5);
+    }
+
+    p {
+      margin: 0;
+    }
+  }
 
   &::-webkit-scrollbar{
     width: 13px;
     height: 13px;
+    background: $dark-gray;
   }
   &::-webkit-scrollbar-thumb{
     background: #B3AFB3;
