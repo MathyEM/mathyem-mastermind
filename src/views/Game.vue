@@ -57,6 +57,10 @@ export default {
 .game {
   margin: auto;
   width: 300px;
+
+  .login-register {
+    margin-top: 4rem;
+  }
   
   .join-create-room, .login-register {
     input, button {
