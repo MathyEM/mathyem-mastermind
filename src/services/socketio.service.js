@@ -50,6 +50,7 @@ class SocketioService {
       this.fetchUserRooms()
 
       store.commit('SET_USER', {
+        id: response._id,
         username: response.username,
         email: response.email,
       })
@@ -65,7 +66,7 @@ class SocketioService {
       console.log('room created:')
       console.log(response)
 
-      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
+      await store.dispatch('setCurrentRoom', response)
       // await store.dispatch('fetchGameData')
     })
 
@@ -73,7 +74,7 @@ class SocketioService {
       console.log('room joined:')
       console.log(response)
 
-      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
+      await store.dispatch('setCurrentRoom', response)
     })
 
     // ON DISCONNECT

@@ -46,7 +46,11 @@ exports.joinRoom = async function (socket, id) {
 
 exports.fetchUserRooms = async function (socket) {
 	const userId = socket.request.user._id
-	const rooms = await Room.find({ 'users._id': userId })
+	const rooms = await Room.find({ 'users._id': userId }).
+	populate([
+		'owner', 
+		{ path: 'users._id', model: 'User' }
+	])
 
 	return rooms
 }

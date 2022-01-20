@@ -12,6 +12,7 @@ export default new Vuex.Store({
   state: {
     registeringState: false,
     user: {
+      id: '',
       username: '',
       email: '',
     },
@@ -42,6 +43,7 @@ export default new Vuex.Store({
   getters: {
     getRegisteringState: state => state.registeringState,
     getUsername: state => state.user.username,
+    getUserId: state => state.user.id,
     getLoginStatus: state => state.loginStatus,
     getShowRoomList: state => state.showRoomList,
     getEmail: state => state.user.email,
@@ -55,6 +57,7 @@ export default new Vuex.Store({
     },
     SET_USER(state, payload) {
       state.user = {
+        id: payload.id,
         username: payload.username,
         email: payload.email,
       }
@@ -69,11 +72,8 @@ export default new Vuex.Store({
       state.usersRooms = payload
     },
     SET_CURRENT_ROOM(state, payload) {
-      state.currentRoom = {
-        id: payload.id,
-        name: payload.name,
-      }
-      console.log('Current room set', payload)
+      state.currentRoom = payload
+      console.log('Current room set', payload.name)
     },
     SET_GAME_DATA(state, payload) {
       state.gameData = payload
@@ -81,18 +81,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    socketLogin({dispatch}) {
+    socketLogin({ dispatch }) {
       socketConnection.disconnect()
       socketConnection.setupSocketConnection()
       dispatch('updateLoginStatus', true)
     },
-    updateLoginStatus({commit}, payload) {
+    updateLoginStatus({ commit }, payload) {
       commit('SET_LOGIN_STATUS', payload)
     },
-    async setCurrentRoom({commit}, payload) {
+    async setCurrentRoom({ commit }, payload) {
       commit('SET_CURRENT_ROOM', payload)
     },
-    fetchGameData({getters}) {
+    fetchGameData({ getters }) {
       if (getters.getUsername && getters.getCurrentRoom.id ) {
         const userData = {
           username: getters.getUsername,
@@ -104,7 +104,10 @@ export default new Vuex.Store({
       console.log('Game data could not be set')
       return
     },
-    setGameData({commit}, payload) {
+    changeCurrentRoom({ commit }, payload) {
+      commit('SET_CURRENT_ROOM', payload)
+    },
+    setGameData({ commit }, payload) {
       commit('SET_GAME_DATA', payload)
     }
   },
