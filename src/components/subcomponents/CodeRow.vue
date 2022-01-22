@@ -1,7 +1,7 @@
 <template>
   <div class="code-row">
     <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
-      <p>{{ piece }}</p>
+      <div>{{ piece }}</div>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 $code-piece-margin: 0.4rem;
 .code-row {
   display: flex;
@@ -40,11 +40,12 @@ $code-piece-margin: 0.4rem;
     cursor: pointer;
     width: 100%;
 
-
-    p {
-      text-align: center;
+    > div {
       display: flex;
+      text-align: center;
       align-items: center;
+      justify-content: center;
+      width: 100%;
     }
   }
 }

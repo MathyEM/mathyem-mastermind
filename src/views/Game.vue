@@ -1,8 +1,8 @@
 <template>
-  <div v-if="!getLoginStatus" class="game">
+  <div v-if="!getLoginStatus" class="main">
     <LoginRegister/>
   </div>
-  <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="game">
+  <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="main">
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
@@ -10,7 +10,7 @@
     </div>
     <CreateJoinRoom />
   </div>
-  <div v-else class="game">
+  <div v-else class="main game">
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-.game {
+.main {
   margin: auto;
   width: 300px;
 
@@ -79,6 +79,12 @@ export default {
   }
 }
 
+.game {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100vh;
+}
+
 .menus-container {
   position: relative;
   display: flex;
@@ -88,7 +94,7 @@ export default {
 }
 
 @media only screen and (max-width: 500px) {
-  .game {
+  .main {
     margin: auto;
     width: 100%;
   }
