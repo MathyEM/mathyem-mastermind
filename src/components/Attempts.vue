@@ -36,6 +36,8 @@ export default {
 </script>
 
 <style lang="scss">
+$code-piece-size: calc(100vh / 12 - 2rem);
+
 .attempts {
   display: grid;
   // grid-template-rows: repeat(10, 1fr);
@@ -48,20 +50,17 @@ export default {
     display: grid;
     grid-auto-flow: column;
     justify-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     gap: 0.5rem;
 
     .code-piece {
-      display: block;
       border-color: red;
-      height: 100%;
-      position: relative;
       justify-content: unset;
       width: unset;
 
       > div {
-        display: block;
         margin: 0;
+        width: $code-piece-size;
         aspect-ratio: 1 / 1;
       }
     }
