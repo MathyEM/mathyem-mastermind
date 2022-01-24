@@ -36,22 +36,22 @@ export default {
 </script>
 
 <style lang="scss">
-$code-piece-size: calc(100vh / 12 - 2rem);
+$code-piece-size: calc(100vh / 12 - 1.5rem);
 
 .attempts {
   display: grid;
-  // grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: 100%;
+  justify-items: center;
+  justify-content: space-between;
   padding: 2rem 0;
   width: 100%;
-  // height: 100%;
-  gap: 0.4rem;
 
   .attempts-code-row {
     display: grid;
     grid-auto-flow: column;
     justify-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: unset;
 
     .code-piece {
       border-color: red;
