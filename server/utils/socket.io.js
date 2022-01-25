@@ -63,8 +63,7 @@ class SocketConnection {
 				}
 				const newRoom = await roomController.createRoom(socket, data)
 				socket.join(newRoom._id)
-				console.log('Room created: ')
-				console.log(newRoom)
+				console.log('Room created')
 				socket.emit('room-created', newRoom)
 			})
 		

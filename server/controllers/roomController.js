@@ -15,33 +15,43 @@ exports.createRoom = async function (socket, data) {
 	return room
 }
 
-exports.joinRoom = async function (socket, id) {
-	const userId = socket.request.user._id
-	const room = await Room.findById(id)
-	console.log(userId)
-	console.log(room)
-
-	const userAlreadyJoined = room.users.find((user) => {
-		console.log(user._id, userId)
-		if (user._id === userId) {
-			return true
+exports.joinRoom = async function (socket, id) {	
+	try {
+		const userId = socket.request.user.id
+		const room = await Room.findById(id)
+		// console.log(userId)
+		// console.log(room)
+	
+		const userAlreadyJoined = await room.users.find((user) => {
+			console.log(user.id)
+			console.log(userId)
+			console.log(user.id === userId)
+			if (user.id === userId) {
+				return true
+			}
+			return false
+		})
+	
+		console.log(userAlreadyJoined)
+	
+		if (userAlreadyJoined) { //  if the user is already in the room
+			return { status: false, message: 'You are already in this room'}
 		}
-		return false
-	})
-
-	if (userAlreadyJoined) { //  if the user is already in the room
-		return { status: false, message: 'this user is already in the room'}
+	
+		if (room.users.length >= 2) {
+			return { status: false, message: 'This room is full'}
+		}
+	
+		room.users.push(userId)
+		await room.save()
+	
+		room.solution = [] //hide solution just in case
+		return { status: true, room: room}
+	} catch (error) {
+		console.log("here's error")
+		console.log(error)
+		return { status: false, message: 'Invalid join code' }
 	}
-
-	if (room.users.length >= 2) {
-		return { status: false, message: 'this room is full'}
-	}
-
-	room.users.push(userId)
-	await room.save()
-
-	room.solution = [] //hide solution just in case
-	return { status: true, room: room}
 }
 
 exports.fetchUserRooms = async function (socket) {
