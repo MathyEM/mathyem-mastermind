@@ -30,16 +30,6 @@ class SocketioService {
       if (response.authorization) {
         this.socket.emit('req-login', { message: 'attempting login' })
       }
-
-      // if (response.user && !store.getters.getLoginStatus) {
-      //   const user = response.user
-      //   console.log(`logging in socket user: ${user.username}`)
-      //   store.commit('SET_USER', {
-      //     username: user.username,
-      //     email: user.email,
-      //   })
-      //   return
-      // }
     })
     
     // ON ERROR
