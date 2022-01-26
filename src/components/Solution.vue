@@ -1,6 +1,6 @@
 <template>
   <div class="solution">
-    <CodeRow :code="gameData.solution" :onClick="onClick" />
+    <CodeRow :code="['','','','']" :onClick="onClick" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      gameData: 'getGameData'
+      gameData: 'getCurrentRoom'
     })
   },
   methods: {

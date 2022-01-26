@@ -54,7 +54,6 @@ $code-piece-size: calc(100vh / 12 - 1.5rem);
     gap: unset;
 
     .code-piece {
-      border-color: red;
       justify-content: unset;
       width: unset;
 

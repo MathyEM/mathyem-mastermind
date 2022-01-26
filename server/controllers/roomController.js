@@ -18,7 +18,7 @@ exports.createRoom = async function (socket, data) {
 exports.joinRoom = async function (socket, id) {	
 	try {
 		const userId = socket.request.user.id
-		const room = await Room.findById(id)
+		const room = await Room.findById(id).select(['-solution'])
 		// console.log(userId)
 		// console.log(room)
 	
@@ -45,7 +45,7 @@ exports.joinRoom = async function (socket, id) {
 		room.users.push(userId)
 		await room.save()
 	
-		room.solution = [] //hide solution just in case
+		// room.solution = [] //hide solution just in case
 		return { status: true, room: room}
 	} catch (error) {
 		console.log("here's error")
@@ -56,7 +56,7 @@ exports.joinRoom = async function (socket, id) {
 
 exports.fetchUserRooms = async function (socket) {
 	const userId = socket.request.user._id
-	const rooms = await Room.find({ 'users._id': userId }).
+	const rooms = await Room.find({ 'users._id': userId }, { solution: 0 }).
 	populate([
 		'owner', 
 		{ path: 'users._id', model: 'User' }

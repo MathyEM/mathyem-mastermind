@@ -48,5 +48,9 @@ $code-piece-margin: 0.4rem;
       width: 100%;
     }
   }
+
+  &.active .code-piece {
+    border-style: dashed;
+  }
 }
 </style>
