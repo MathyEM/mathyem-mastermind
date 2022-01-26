@@ -64,3 +64,8 @@ exports.fetchUserRooms = async function (socket) {
 
 	return rooms
 }
+
+exports.deleteRooms = async function () {
+	const count = await Room.deleteMany({})
+	console.log(count);
+}

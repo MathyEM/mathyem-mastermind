@@ -11,6 +11,7 @@ const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
 const { Room } = require('./models/room')
+const roomController = require('./controllers/roomController')
 const LocalStrategy = require('passport-local').Strategy
 const { socketConnection } = require('./utils/socket.io')
 
@@ -77,6 +78,8 @@ app.use('/', loginRouter)
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>')
 })
+
+// roomController.deleteRooms();
 
 //Start server
 http.listen(3001, () => {
