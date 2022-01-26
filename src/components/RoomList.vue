@@ -58,15 +58,17 @@ $dark-gray: #505050;
   left: 0;
   top: 0;
   width: 100%;
+  min-height: 20vh;
   overflow-y: scroll;
   max-height: calc(100vh - $margin-top - 1rem);
   margin-top: $margin-top;
+  background: $dark-gray;
+
   color: whitesmoke;
 
   .room {
     display: flex;
     padding: 0.5rem;
-    background: $dark-gray;
     border-bottom: 1px solid darken($dark-gray, 7);
     cursor: pointer;
 
