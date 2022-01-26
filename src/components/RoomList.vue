@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade">
     <div v-if="getShowRoomList" class="room-list">
-      <div class="room" v-for="room in getUsersRooms" :key="room._id" @click="changeCurrentRoom(room)">
+      <div class="room" v-for="room in getUsersRooms" :key="room._id" @click="changeRoom(room)">
         <p class="second-player">{{ getSecondPlayer(room)}}</p>
         <p class="room-name">{{ room.name }}</p>
       </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'RoomList',
@@ -27,7 +27,12 @@ export default {
     ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId'])
 	},
   methods: {
+    ...mapMutations(['SET_SHOW_ROOM_LIST']),
     ...mapActions(['changeCurrentRoom']),
+    changeRoom(room) {
+      this.changeCurrentRoom(room)
+      this.SET_SHOW_ROOM_LIST(!this.getShowRoomList)
+    },
     getSecondPlayer(room) {
       const userId = this.getUserId
 
@@ -59,7 +64,7 @@ $dark-gray: #505050;
   top: 0;
   width: 100%;
   min-height: 20vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: calc(100vh - $margin-top - 1rem);
   margin-top: $margin-top;
   background: $dark-gray;
