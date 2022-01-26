@@ -1,12 +1,18 @@
 <template>
-  <div class="code-row">
+  <div v-if="!attemptIndex" class="code-row">
     <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
+      <div>{{ piece }}</div>
+    </div>
+  </div>
+  <div v-else class="code-row">
+    <div v-for="(piece, index) in getCurrentRoom.attempts[attemptIndex]" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'CodeRow',
   props: {
@@ -16,6 +22,9 @@ export default {
       type: Function
     },
     attemptIndex: Number,
+  },
+  computed: {
+    ...mapGetters(['getCurrentRoom'])
   }
 }
 </script>

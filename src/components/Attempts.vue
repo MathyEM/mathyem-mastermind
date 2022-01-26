@@ -12,7 +12,8 @@
 
 <script>
 import CodeRow from '@/components/subcomponents/CodeRow.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import { socketConnection } from '../services/socketio.service.js'
 
 export default {
   name: 'Attempts',
@@ -23,12 +24,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      gameData: 'getGameData'
-    })
+      gameData: 'getCurrentRoom'
+    }),
+    ...mapActions(['updateAttempt'])
   },
   methods: {
     onClick(pieceIndex, attemptIndex) {
       console.log(pieceIndex, attemptIndex)
+      console.log(this.gameData.attempts[attemptIndex])
+      this.updateAttempt
+      socketConnection
     }
   }
 

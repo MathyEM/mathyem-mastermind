@@ -35,7 +35,7 @@ export default new Vuex.Store({
         ['','','',''],
         ['','','',''],
         ['','','',''],
-        ['','','','']
+        [1,'','','']
       ],
       codeSet: [1, 2, 3, 4]
     }
@@ -50,6 +50,14 @@ export default new Vuex.Store({
     getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
     getGameData: state => state.gameData,
+    getCodeSet: state => state.currentRoom.codeSet,
+    getCurrentAttempt: state => {
+      const attempts = state.currentRoom.attempts
+      const index = attempts.filter(attempt => {
+        return attempt.includes('')
+      })
+      return index.length-1
+    }
   },
   mutations: {
     TOGGLE_REGISTERING_STATE(state) {
@@ -78,6 +86,12 @@ export default new Vuex.Store({
     SET_GAME_DATA(state, payload) {
       state.gameData = payload
       console.log('Game Data set')
+    },
+    UPDATE_ATTEMPT(state, payload) {
+      const index = state.currentRoom.attempts[payload.attemptIndex].indexOf('')
+      const attemptsCopy = state.currentRoom.attempts.slice()
+      attemptsCopy[payload.attemptIndex][index] = payload.code
+      state.currentRoom.attempts = attemptsCopy
     }
   },
   actions: {
@@ -109,6 +123,14 @@ export default new Vuex.Store({
     },
     setGameData({ commit }, payload) {
       commit('SET_GAME_DATA', payload)
+    },
+    updateAttempt({ commit, getters }, payload) {
+      const code = getters.getCodeSet[payload]
+      const attemptIndex = getters.getCurrentAttempt
+      commit('UPDATE_ATTEMPT', {code, attemptIndex})
+    },
+    sendAttempt(payload) {
+      socketConnection.sendAttempt(payload.attempt) //send attempt (Array)
     }
   },
   modules: {

@@ -1,12 +1,12 @@
 <template>
   <div class="code-buttons">
-    <CodeRow ref="code-buttons" :code="gameData.codeSet" :onClick="onClick" />
+    <CodeRow ref="code-buttons" :code="getCodeSet" :onClick="onClick" />
   </div>
 </template>
 
 <script>
 import CodeRow from '@/components/subcomponents/CodeRow.vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'CodeButtons',
@@ -16,13 +16,13 @@ export default {
   props: {
   },
   computed: {
-    ...mapGetters({
-      gameData: 'getCurrentRoom'
-    })
+    ...mapGetters(['getCodeSet']),
   },
   methods: {
+    ...mapActions(['updateAttempt']),
     onClick(index) {
       console.log(index)
+      this.updateAttempt(index)
     }
   }
 }
