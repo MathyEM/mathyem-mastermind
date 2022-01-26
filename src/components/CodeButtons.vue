@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      gameData: 'getGameData'
+      gameData: 'getCurrentRoom'
     })
   },
   methods: {
