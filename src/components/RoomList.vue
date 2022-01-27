@@ -1,7 +1,12 @@
 <template>
   <transition name="slide-fade">
     <div v-if="getShowRoomList" class="room-list">
-      <div class="room" v-for="room in getUsersRooms" :key="room._id" @click="changeRoom(room._id)">
+      <div
+        class="room"
+        v-for="room in getUsersRooms"
+        :key="room._id"
+        @click="changeRoom(room._id)"
+        :class="{ active: (room._id === getCurrentRoom._id) }">
         <p class="second-player">{{ getSecondPlayer(room)}}</p>
         <p class="room-name">{{ room.name }}</p>
       </div>
@@ -24,7 +29,7 @@ export default {
 		}
 	},
 	computed: {
-    ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId'])
+    ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId', 'getCurrentRoom'])
 	},
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST']),
@@ -77,8 +82,16 @@ $dark-gray: #505050;
     border-bottom: 1px solid darken($dark-gray, 7);
     cursor: pointer;
 
+    &:nth-child(even) {
+      background: lighten($dark-gray, 2);
+    }
+
+    &.active {
+      background: lighten($dark-gray, 8);
+    }
+
     &:hover {
-      background: lighten($dark-gray, 5);
+      background: lighten($dark-gray, 12);
     }
 
     p {
@@ -88,6 +101,7 @@ $dark-gray: #505050;
     .room-name {
       margin-left: 0.25rem;
     }
+
   }
 
   &::-webkit-scrollbar{
