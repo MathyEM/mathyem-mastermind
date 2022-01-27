@@ -62,7 +62,7 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
-      // await store.dispatch('fetchGameData')
+      this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-joined', async (response) => {
