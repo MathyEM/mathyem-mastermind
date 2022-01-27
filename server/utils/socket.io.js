@@ -100,6 +100,13 @@ class SocketConnection {
 				const rooms = await roomController.fetchUserRooms(socket)
 				socket.emit('user-rooms-fetched', rooms)
 			})
+
+			socket.on('enter-room', async (data) => {
+				const room = await roomController.fetchRoom(socket, data.roomId)
+				socket.join(data.roomId)
+				socket.emit('room-entered', room)
+				io.in(data.roomId).emit('room-status', 'A new user joined the room')
+			})
 			
 			// GET GAME DATA
 			socket.on('get-game-data', async (data, callback) => {

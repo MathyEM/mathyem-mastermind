@@ -52,11 +52,13 @@ export default new Vuex.Store({
     getGameData: state => state.gameData,
     getCodeSet: state => state.currentRoom.codeSet,
     getCurrentAttempt: state => {
-      const attempts = state.currentRoom.attempts
-      const index = attempts.filter(attempt => {
-        return attempt.includes('')
-      })
-      return index.length-1
+      if(state.currentRoom.attempts) {
+        const attempts = state.currentRoom.attempts
+        const index = attempts.filter(attempt => {
+          return attempt.includes('')
+        })
+        return index.length-1
+      }
     }
   },
   mutations: {
@@ -120,6 +122,11 @@ export default new Vuex.Store({
     },
     changeCurrentRoom({ commit }, payload) {
       commit('SET_CURRENT_ROOM', payload)
+    },
+    async enterRoom({ state }, payload) {
+      state
+      await socketConnection.enterRoom(payload)
+      console.log('entering room')
     },
     setGameData({ commit }, payload) {
       commit('SET_GAME_DATA', payload)

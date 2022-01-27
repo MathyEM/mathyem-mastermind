@@ -62,13 +62,30 @@ exports.joinRoom = async function (socket, id) {
 
 exports.fetchUserRooms = async function (socket) {
 	const userId = socket.request.user._id
-	const rooms = await Room.find({ 'users._id': userId }, { solution: 0 }).
+	const rooms = await Room.find({ 'users._id': userId }, { solution: 0, attempts: 0, codeSet: 0 }).
 	populate([
 		'owner', 
 		{ path: 'users._id', model: 'User' }
 	])
 
 	return rooms
+}
+
+exports.fetchRoom = async function (socket, roomId) {
+	const userId = socket.request.user._id
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }, { solution: 0 }).
+	populate([
+		'owner', 
+		{ path: 'users._id', model: 'User' }
+	])
+
+	if (JSON.stringify(room.solution) === JSON.stringify(['','','',''])) {	// if the solution is not set
+		room.solution = false																									// set room.solution to false to indicate this
+		return room
+	}
+
+	room.solution = true
+	return room
 }
 
 exports.deleteRooms = async function () {

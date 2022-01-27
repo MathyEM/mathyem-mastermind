@@ -72,6 +72,13 @@ class SocketioService {
       await store.dispatch('setCurrentRoom', response)
     })
 
+    this.socket.on('room-entered', async (response) => {
+      const room = response
+      console.log(room)
+
+      await store.dispatch('setCurrentRoom', room)
+    })
+
     // ON DISCONNECT
     this.socket.on('disconnect', () => {
       console.log(`disconnected from /user`)
@@ -105,6 +112,12 @@ class SocketioService {
   joinRoom(roomId) {
     if (this.socket) {
       this.socket.emit('join-room', { roomId: roomId })
+    }
+  }
+
+  async enterRoom(roomId) {
+    if (this.socket) {
+      await this.socket.emit('enter-room', { roomId: roomId })
     }
   }
 
