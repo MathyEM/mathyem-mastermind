@@ -58,7 +58,7 @@ $code-piece-size: calc(100vh / 12 - 1.5rem);
     grid-auto-flow: column;
     justify-items: center;
     justify-content: space-between;
-    gap: unset;
+    gap: 1.5rem;
 
     .code-piece {
       justify-content: unset;
