@@ -11,14 +11,14 @@ exports.createRoom = async function (socket, data) {
 	room.users.push(ownerId)
 
 	await room.save()
-	room.solution = [] //hide solution just in case
+	room.solution = false //set to false for client - false = no solution set | true = solution is set
 	return room
 }
 
 exports.joinRoom = async function (socket, id) {	
 	try {
 		const userId = socket.request.user.id
-		const room = await Room.findById(id).select(['-solution'])
+		const room = await Room.findById(id)
 		// console.log(userId)
 		// console.log(room)
 	
@@ -45,8 +45,14 @@ exports.joinRoom = async function (socket, id) {
 		room.users.push(userId)
 		await room.save()
 	
-		// room.solution = [] //hide solution just in case
+		if (JSON.stringify(room.solution) === JSON.stringify(['','','',''])) {	// if the solution is not set
+			room.solution = false																									// set room.solution to false to indicate this
+			return { status: true, room: room}
+		}
+
+		room.solution = true
 		return { status: true, room: room}
+
 	} catch (error) {
 		console.log("here's error")
 		console.log(error)
