@@ -16,7 +16,11 @@ const roomSchema = new Schema({
 		required: true
 	},
 	name: String,
-	solution: Array,
+	solution: {
+		type: Array,
+		required: true,
+		default: ['','','','']
+	},
 	attempts: {	// USe this to update Array in mongoose Schema: Room.attempts.set(0, [1, 2, 2, 3]) to set index 0 in the array.
 		type: [Array],
 		required: true,

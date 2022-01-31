@@ -73,13 +73,12 @@ exports.fetchUserRooms = async function (socket) {
 
 exports.fetchRoom = async function (socket, roomId) {
 	const userId = socket.request.user._id
-	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }, { solution: 0 }).
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
 	populate([
 		'owner', 
 		{ path: 'users._id', model: 'User' }
 	])
-
-	if (JSON.stringify(room.solution) === JSON.stringify(['','','',''])) {	// if the solution is not set
+	if (JSON.stringify(room.solution) === JSON.stringify(['','','','']) || JSON.stringify(room.solution) === '[]') {	// if the solution is not set
 		room.solution = false																									// set room.solution to false to indicate this
 		return room
 	}
