@@ -87,6 +87,26 @@ exports.fetchRoom = async function (socket, roomId) {
 	return room
 }
 
+exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
+	const userId = socket.request.user._id
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
+	populate([
+		'owner', 
+		{ path: 'users._id', model: 'User' }
+	])
+
+	// validate the new attempt
+	const validator = (codePiece) => {
+    return room.codeSet.includes(codePiece)
+	}
+
+	if (room.solution.every(validator)) {
+		room.attempts[attemptIndex] = attempt
+		await room.save()
+	}
+
+}
+
 exports.deleteRooms = async function () {
 	const count = await Room.deleteMany({})
 	console.log(count);

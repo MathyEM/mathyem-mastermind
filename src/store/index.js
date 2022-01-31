@@ -132,7 +132,7 @@ export default new Vuex.Store({
       commit('SET_GAME_DATA', payload)
     },
     updateAttempt({ commit, getters }, payload) {
-      const code = getters.getCodeSet[payload]
+      const code = getters.getCodeSet[payload].toString()
       const attemptIndex = getters.getCurrentAttempt
       commit('UPDATE_ATTEMPT', {code, attemptIndex})
     },

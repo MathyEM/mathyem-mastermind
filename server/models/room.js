@@ -47,7 +47,7 @@ const roomSchema = new Schema({
 	},
 	codeSet: {
 		type: Array,
-		default: [1, 2, 3, 4]
+		default: ['1', '2', '3', '4']
 	}
 }, {
 	timestamps: true
