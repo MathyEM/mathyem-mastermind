@@ -16,13 +16,17 @@ export default {
   props: {
   },
   computed: {
-    ...mapGetters(['getCodeSet']),
+    ...mapGetters(['getCodeSet', 'getSolutionState']),
   },
   methods: {
-    ...mapActions(['updateAttempt']),
+    ...mapActions(['updateAttempt', 'updateLocalSolution']),
     onClick(index) {
       console.log(index)
-      this.updateAttempt(index)
+      if (this.getSolutionState) {
+        this.updateAttempt(index)
+        return
+      }
+      this.updateLocalSolution(index)
     }
   }
 }

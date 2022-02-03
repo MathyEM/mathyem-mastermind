@@ -23,22 +23,7 @@ export default new Vuex.Store({
       id: '',
       name: '',
     },
-    gameData: {
-      solution: ['','','',''],
-      attempts: [
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        ['','','',''],
-        [1,'','','']
-      ],
-      codeSet: [1, 2, 3, 4]
-    }
+    localSolution: ['','','',''],
   },
   getters: {
     getRegisteringState: state => state.registeringState,
@@ -49,9 +34,10 @@ export default new Vuex.Store({
     getEmail: state => state.user.email,
     getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
-    getGameData: state => state.gameData,
     getCodeSet: state => state.currentRoom.codeSet,
-    getCurrentAttempt: state => {
+    getSolutionState: state => state.currentRoom.solution[0],
+    getLocalSolution: state => state.localSolution,
+    getCurrentAttempt: state => { //
       if(state.currentRoom.attempts) {
         const attempts = state.currentRoom.attempts
         const index = attempts.filter(attempt => {
@@ -94,7 +80,13 @@ export default new Vuex.Store({
       const attemptsCopy = state.currentRoom.attempts.slice()
       attemptsCopy[payload.attemptIndex][index] = payload.code
       state.currentRoom.attempts = attemptsCopy
-    }
+    },
+    UPDATE_LOCAL_SOLUTION(state, payload) {
+      const index = state.localSolution.indexOf('')
+      const solutionCopy = state.localSolution.slice()
+      solutionCopy[index] = payload
+      state.localSolution = solutionCopy
+    },
   },
   actions: {
     socketLogin({ dispatch }) {
@@ -107,18 +99,6 @@ export default new Vuex.Store({
     },
     async setCurrentRoom({ commit }, payload) {
       commit('SET_CURRENT_ROOM', payload)
-    },
-    fetchGameData({ getters }) {
-      if (getters.getUsername && getters.getCurrentRoom.id ) {
-        const userData = {
-          username: getters.getUsername,
-          roomId: getters.getCurrentRoom.id
-        }
-        socketConnection.getGameData(userData)
-        return
-      }
-      console.log('Game data could not be set')
-      return
     },
     changeCurrentRoom({ commit }, payload) {
       commit('SET_CURRENT_ROOM', payload)
@@ -136,8 +116,16 @@ export default new Vuex.Store({
       const attemptIndex = getters.getCurrentAttempt
       commit('UPDATE_ATTEMPT', {code, attemptIndex})
     },
+    updateLocalSolution({ commit, getters }, payload) {
+      const code = getters.getCodeSet[payload].toString()
+      console.log('code:', code)
+      commit('UPDATE_LOCAL_SOLUTION', code)
+    },
     sendAttempt(payload) {
-      socketConnection.sendAttempt(payload.attempt) //send attempt (Array)
+      socketConnection.sendAttempt(payload.attempt) // send attempt (Array)
+    },
+    sendSolution(payload) {
+      socketConnection.sendSolution(payload) // send solution (Array)
     }
   },
   modules: {

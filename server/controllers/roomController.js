@@ -19,21 +19,14 @@ exports.joinRoom = async function (socket, id) {
 	try {
 		const userId = socket.request.user.id
 		const room = await Room.findById(id)
-		// console.log(userId)
-		// console.log(room)
 	
 		const userAlreadyJoined = await room.users.find((user) => {
-			console.log(user.id)
-			console.log(userId)
-			console.log(user.id === userId)
 			if (user.id === userId) {
 				return true
 			}
 			return false
 		})
-	
-		console.log(userAlreadyJoined)
-	
+		
 		if (userAlreadyJoined) { //  if the user is already in the room
 			return { status: false, message: 'You are already in this room'}
 		}
@@ -87,6 +80,18 @@ exports.fetchRoom = async function (socket, roomId) {
 	return room
 }
 
+exports.setSolution = async function (socket, roomId, solution) {
+	const userId = socket.request.user.id
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId })
+
+	if (!solution.every(codeSetValidator, room)) {
+		return { status: false, message: 'solution does not match code set' }
+	}
+
+	room.solution = solution
+	await room.save()
+}
+
 exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 	const userId = socket.request.user._id
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
@@ -95,10 +100,13 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 		{ path: 'users._id', model: 'User' }
 	])
 
-	// validate the new attempt
-	const codeSetValidator = (codePiece) => {
-    return room.codeSet.includes(codePiece)
+	// check validity of the attempt according to the codeSet
+	if (!room.attempt.every(codeSetValidator, room)) {
+		return { status: false, message: 'attempt does not match code set' }
 	}
+	
+	room.attempts[attemptIndex] = attempt
+	await room.save()
 
 	// give hints according to attempt accuracy
 	const getAccuracyHints = (solution, attempt) => {
@@ -132,14 +140,15 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 		})
 	}
 
-	if (room.solution.every(codeSetValidator)) {
-		room.attempts[attemptIndex] = attempt
-		await room.save()
-	}
-
 }
 
 exports.deleteRooms = async function () {
 	const count = await Room.deleteMany({})
 	console.log(count);
+}
+
+// HELPERS
+// validate the new attempt
+function codeSetValidator(codePiece) {
+	return this.codeSet.includes(codePiece)
 }

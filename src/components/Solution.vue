@@ -1,6 +1,9 @@
 <template>
   <div class="solution">
-    <CodeRow :code="['','','','']" :onClick="onClick" />
+    <CodeRow
+      :code="getLocalSolution"
+      :onClick="onClick"
+      :class="{ active: !getSolutionState }" />
   </div>
 </template>
 
@@ -21,9 +24,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      gameData: 'getCurrentRoom'
-    })
+    ...mapGetters(['getLocalSolution', 'getSolutionState'])
   },
   methods: {
     onClick(index) {

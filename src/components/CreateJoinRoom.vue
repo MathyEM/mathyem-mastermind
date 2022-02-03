@@ -26,7 +26,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUsername', 'getCurrentRoom', 'getGameData', 'getLoginStatus'])
+		...mapGetters(['getUsername', 'getCurrentRoom', 'getLoginStatus'])
 	},
   methods: {
 		createRoom() {

@@ -127,15 +127,6 @@ class SocketioService {
       this.socket.emit('fetch-user-rooms')
     }
   }
-
-  getGameData(userData) {
-    if (this.socket) {
-      this.socket.emit('get-game-data', userData, (response) => {
-        console.log(response);
-      })
-    }
-  }
-
 }
 
 // const guestSocket = new SocketioService('/guest')

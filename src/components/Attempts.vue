@@ -7,7 +7,7 @@
       :onClick="onClick"
       :attemptIndex="attemptIndex" 
       class="attempts-code-row"
-      :class="{ active: (getCurrentAttempt == attemptIndex) }" />
+      :class="{ active: (getCurrentAttempt == attemptIndex && getSolutionState) }" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
     ...mapGetters({
       gameData: 'getCurrentRoom',
     }),
-    ...mapGetters(['getCurrentAttempt']),
+    ...mapGetters(['getCurrentAttempt', 'getSolutionState']),
   },
   methods: {
     onClick(pieceIndex, attemptIndex) {
