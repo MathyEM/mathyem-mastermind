@@ -96,11 +96,43 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 	])
 
 	// validate the new attempt
-	const validator = (codePiece) => {
+	const codeSetValidator = (codePiece) => {
     return room.codeSet.includes(codePiece)
 	}
 
-	if (room.solution.every(validator)) {
+	// give hints according to attempt accuracy
+	const getAccuracyHints = (solution, attempt) => {
+		let correctPositionCount = 0
+		let correctPieceCount = 0
+		let foundPieces = [] // each solutionPieceIndex that has already been discovered will be pushed to this array
+
+		attempt.forEach((attemptPiece, index) => {
+			const solutionPieceIndex = solution.indexOf(attemptPiece)
+
+			if (solutionPieceIndex === -1) {	// if this code piece does not exist in the solution
+				return
+			}
+
+			if (solutionPieceIndex === index) {
+				correctPositionCount++
+				correctPieceCount++
+				foundPieces.push(solutionPieceIndex)
+				return
+			}
+			// IF solutionPieceIndex is not -1 (i.e. code piece does not exists)
+			// AND the piece is not the same index on both side (i.e. correct position)
+			// AND the specific piece index has not already been discovered
+			// THEN the piece is correct
+			if (solutionPieceIndex !== -1 && solutionPieceIndex !== index && !foundPieces.includes(solutionPieceIndex)) {
+				correctPieceCount++
+				foundPieces.push(solutionPieceIndex)
+				return
+			}
+			
+		})
+	}
+
+	if (room.solution.every(codeSetValidator)) {
 		room.attempts[attemptIndex] = attempt
 		await room.save()
 	}
