@@ -21,7 +21,6 @@ export default {
   methods: {
     ...mapActions(['updateAttempt', 'updateLocalSolution']),
     onClick(index) {
-      console.log(index)
       if (this.getSolutionState) {
         this.updateAttempt(index)
         return

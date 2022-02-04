@@ -127,6 +127,16 @@ class SocketioService {
       this.socket.emit('fetch-user-rooms')
     }
   }
+
+  sendSolution(solution) {
+    console.log("sending solution...")
+    console.log(solution)
+  }
+
+  sendAttempt(attempt) {
+    console.log('sending attempt...')
+    console.log(attempt)
+  }
 }
 
 // const guestSocket = new SocketioService('/guest')

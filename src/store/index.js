@@ -87,6 +87,14 @@ export default new Vuex.Store({
       solutionCopy[index] = payload
       state.localSolution = solutionCopy
     },
+    HIDE_LOCAL_SOLUTION(state) {
+      state.localSolution = ['x', 'x', 'x', 'x']
+    },
+    TOGGLE_SOLUTION_STATE(state) {
+      const solutionCopy = state.currentRoom.solution.slice()
+      solutionCopy[0] = !solutionCopy[0]
+      state.currentRoom.solution = solutionCopy
+    },
   },
   actions: {
     socketLogin({ dispatch }) {
@@ -111,21 +119,31 @@ export default new Vuex.Store({
     setGameData({ commit }, payload) {
       commit('SET_GAME_DATA', payload)
     },
-    updateAttempt({ commit, getters }, payload) {
+    updateAttempt({ commit, getters, dispatch }, payload) {
       const code = getters.getCodeSet[payload].toString()
       const attemptIndex = getters.getCurrentAttempt
       commit('UPDATE_ATTEMPT', {code, attemptIndex})
+      const attempt = getters.getCurrentRoom.attempts[attemptIndex].slice()
+      if (checkEntryCompletion(attempt)) {
+        dispatch('sendAttempt', attemptIndex)
+      }
     },
-    updateLocalSolution({ commit, getters }, payload) {
+    updateLocalSolution({ commit, getters, dispatch }, payload) {
       const code = getters.getCodeSet[payload].toString()
-      console.log('code:', code)
       commit('UPDATE_LOCAL_SOLUTION', code)
+      if (checkEntryCompletion(getters.getLocalSolution)) {
+        commit('TOGGLE_SOLUTION_STATE')
+        dispatch('sendSolution')
+        commit('HIDE_LOCAL_SOLUTION', code)
+      }
     },
-    sendAttempt(payload) {
-      socketConnection.sendAttempt(payload.attempt) // send attempt (Array)
+    sendAttempt({ getters }, payload) {
+      const attempt = getters.getCurrentRoom.attempts[payload].slice()
+      socketConnection.sendAttempt(attempt) // send attempt (Array)
     },
-    sendSolution(payload) {
-      socketConnection.sendSolution(payload) // send solution (Array)
+    sendSolution({ getters }) {
+      const solution = getters.getLocalSolution
+      socketConnection.sendSolution(solution) // send solution (Array)
     }
   },
   modules: {
@@ -135,3 +153,11 @@ export default new Vuex.Store({
     solution
   }
 })
+
+function checkEntryCompletion(entry) {  // check if an attempt or solution entry is complete (i.e. does not require more code pieces)
+  if (!entry.includes('')) {
+    console.log('done')
+    return true
+  }
+  return false
+}
