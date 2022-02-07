@@ -89,7 +89,10 @@ exports.setSolution = async function (socket, roomId, solution) {
 	}
 
 	room.solution = solution
+	console.log('setting solution to: ')
+	console.log(room.solution)
 	await room.save()
+	return { status: true }
 }
 
 exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
@@ -138,7 +141,11 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 			}
 			
 		})
+
+		return { correctPieceCount, correctPositionCount }
 	}
+
+	return getAccuracyHints(room.solution, attempt)
 
 }
 

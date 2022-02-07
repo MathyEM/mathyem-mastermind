@@ -105,11 +105,11 @@ export default new Vuex.Store({
     updateLoginStatus({ commit }, payload) {
       commit('SET_LOGIN_STATUS', payload)
     },
-    async setCurrentRoom({ commit }, payload) {
+    async setCurrentRoom({ commit, getters }, payload) {
       commit('SET_CURRENT_ROOM', payload)
-    },
-    changeCurrentRoom({ commit }, payload) {
-      commit('SET_CURRENT_ROOM', payload)
+      if (getters.getSolutionState) {
+        commit('HIDE_LOCAL_SOLUTION')
+      }
     },
     async enterRoom({ state }, payload) {
       state
@@ -134,7 +134,7 @@ export default new Vuex.Store({
       if (checkEntryCompletion(getters.getLocalSolution)) {
         commit('TOGGLE_SOLUTION_STATE')
         dispatch('sendSolution')
-        commit('HIDE_LOCAL_SOLUTION', code)
+        commit('HIDE_LOCAL_SOLUTION')
       }
     },
     sendAttempt({ getters }, payload) {

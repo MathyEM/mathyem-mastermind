@@ -128,14 +128,21 @@ class SocketioService {
     }
   }
 
-  sendSolution(solution) {
-    console.log("sending solution...")
-    console.log(solution)
+  async sendSolution(solution) {
+    if (this.socket) {
+      console.log("sending solution...")
+      console.log(solution)
+      const roomId = store.getters.getCurrentRoom._id
+      this.socket.emit('set-solution', { roomId, solution })
+    }
   }
 
-  sendAttempt(attempt) {
-    console.log('sending attempt...')
-    console.log(attempt)
+  async sendAttempt(attempt) {
+    if (this.socket) {
+      console.log('sending attempt...')
+      console.log(attempt)
+      this.socket.emit('set-attempt')
+    }
   }
 }
 

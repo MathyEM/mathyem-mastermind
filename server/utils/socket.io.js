@@ -132,6 +132,11 @@ class SocketConnection {
 				})
 			})
 
+			socket.on('set-solution', (data) => {
+				console.log(data)
+				roomController.setSolution(socket, data.roomId, data.solution)
+			})
+
 			//TEST CALL
 			socket.on('function-call', () => {
 				console.log('function called')
