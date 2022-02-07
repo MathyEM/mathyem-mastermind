@@ -48,7 +48,7 @@ export default {
     RoomList
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getCurrentRoom']),
+    ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername']),
   }
 }
 </script>

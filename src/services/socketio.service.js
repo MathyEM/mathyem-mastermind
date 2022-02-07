@@ -70,6 +70,7 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
+      this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-entered', async (response) => {
