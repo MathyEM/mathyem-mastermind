@@ -142,6 +142,9 @@ export default new Vuex.Store({
       socketConnection.sendAttempt(attempt) // send attempt (Array)
     },
     sendSolution({ getters }) {
+      // TODO:
+      // CHECK FOR CURRENTCODEBREAKER BEFORE SETTING SOLUTION
+      // IF CURRENTCODEBREAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
     }
