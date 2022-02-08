@@ -37,6 +37,7 @@ export default new Vuex.Store({
     getCodeSet: state => state.currentRoom.codeSet,
     getSolutionState: state => state.currentRoom.solution[0],
     getLocalSolution: state => state.localSolution,
+    getCodemaker: state => state.currentRoom.currentCodemaker._id,
     getCurrentAttempt: state => { //
       if(state.currentRoom.attempts) {
         const attempts = state.currentRoom.attempts
@@ -129,11 +130,14 @@ export default new Vuex.Store({
       }
     },
     updateLocalSolution({ commit, getters, dispatch }, payload) {
+      if (!hasCodemakerAuthority(getters)) {
+        return
+      }
       const code = getters.getCodeSet[payload].toString()
       commit('UPDATE_LOCAL_SOLUTION', code)
       if (checkEntryCompletion(getters.getLocalSolution)) {
-        commit('TOGGLE_SOLUTION_STATE')
         dispatch('sendSolution')
+        commit('TOGGLE_SOLUTION_STATE')
         commit('HIDE_LOCAL_SOLUTION')
       }
     },
@@ -143,8 +147,11 @@ export default new Vuex.Store({
     },
     sendSolution({ getters }) {
       // TODO:
-      // CHECK FOR CURRENTCODEBREAKER BEFORE SETTING SOLUTION
-      // IF CURRENTCODEBREAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
+      // CHECK FOR CURRENTCODEMAKER BEFORE SETTING SOLUTION
+      // IF CURRENTCODEMAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
+      if (!hasCodemakerAuthority(getters)) {
+        return
+      }
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
     }
@@ -163,4 +170,16 @@ function checkEntryCompletion(entry) {  // check if an attempt or solution entry
     return true
   }
   return false
+}
+
+function hasCodemakerAuthority(getters) {
+  if (getters.getSolutionState === true) {
+    console.log('solution already set')
+    return false
+  }
+  if (getters.getUserId !== getters.getCodemaker) {
+    console.log('you are not the codemaker')
+    return false
+  }
+  return true
 }
