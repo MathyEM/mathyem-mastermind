@@ -88,8 +88,13 @@ export default new Vuex.Store({
       solutionCopy[index] = payload
       state.localSolution = solutionCopy
     },
-    HIDE_LOCAL_SOLUTION(state) {
-      state.localSolution = ['x', 'x', 'x', 'x']
+    TOGGLE_LOCAL_SOLUTION(state, payload) {
+      if (payload) {
+        state.localSolution = ['x', 'x', 'x', 'x']
+        return
+      }
+      state.localSolution = ['', '', '', '']
+      return
     },
     TOGGLE_SOLUTION_STATE(state) {
       const solutionCopy = state.currentRoom.solution.slice()
@@ -108,9 +113,8 @@ export default new Vuex.Store({
     },
     async setCurrentRoom({ commit, getters }, payload) {
       commit('SET_CURRENT_ROOM', payload)
-      if (getters.getSolutionState) {
-        commit('HIDE_LOCAL_SOLUTION')
-      }
+      console.log(getters.getSolutionState)
+      commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
     },
     async enterRoom({ state }, payload) {
       state
@@ -138,7 +142,7 @@ export default new Vuex.Store({
       if (checkEntryCompletion(getters.getLocalSolution)) {
         dispatch('sendSolution')
         commit('TOGGLE_SOLUTION_STATE')
-        commit('HIDE_LOCAL_SOLUTION')
+        commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
       }
     },
     sendAttempt({ getters }, payload) {
