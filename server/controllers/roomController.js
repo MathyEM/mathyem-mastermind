@@ -95,7 +95,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 		return { status: false, message: 'solution already set' }
 	}
 
-	if (userId !== room.currentCodemaker) {
+	if (userId !== room.currentCodemaker.id) {
 		return { status: false, message: 'you are not the codemaker' }
 	}
 
@@ -117,6 +117,10 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 		'owner', 
 		{ path: 'users._id', model: 'User' }
 	])
+
+	if (userId === room.currentCodemaker.id) {
+		return { status: false, message: 'you are not the codebreaker' }
+	}
 
 	// check validity of the attempt according to the codeSet
 	if (!room.attempt.every(codeSetValidator, room)) {
@@ -176,5 +180,5 @@ function codeSetValidator(codePiece) {
 }
 
 function isSolutionSet(solution) {
-		return JSON.stringify(room.solution) !== JSON.stringify(['','','','']) || JSON.stringify(room.solution) !== '[]'
+		return JSON.stringify(solution) !== JSON.stringify(['','','','']) || JSON.stringify(solution) !== '[]'
 }
