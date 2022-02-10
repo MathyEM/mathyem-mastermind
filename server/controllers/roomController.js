@@ -40,7 +40,7 @@ exports.joinRoom = async function (socket, id) {
 		
 		// if the solution is not set
 		// set room.solution to false to indicate this
-		if (JSON.stringify(room.solution) === JSON.stringify(['','','','']) || JSON.stringify(room.solution) === '[]') {
+		if (!isSolutionSet(room.solution)) {
 			room.solution = false
 			return { status: true, room: room}
 		}
@@ -74,7 +74,7 @@ exports.fetchRoom = async function (socket, roomId) {
 		'currentCodemaker',
 		{ path: 'users._id', model: 'User' }
 	])
-	if (JSON.stringify(room.solution) === JSON.stringify(['','','','']) || JSON.stringify(room.solution) === '[]') {
+	if (!isSolutionSet(room.solution)) {
 		room.solution = false
 		return room
 	}
@@ -91,7 +91,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 		{ path: 'users._id', model: 'User' }
 	])
 
-	if (JSON.stringify(room.solution) !== JSON.stringify(['','','','']) || JSON.stringify(room.solution) !== '[]') {
+	if (isSolutionSet(room.solution)) {
 		return { status: false, message: 'solution already set' }
 	}
 
@@ -173,4 +173,8 @@ exports.deleteRooms = async function () {
 // validate the new attempt
 function codeSetValidator(codePiece) {
 	return this.codeSet.includes(codePiece)
+}
+
+function isSolutionSet(solution) {
+		return JSON.stringify(room.solution) !== JSON.stringify(['','','','']) || JSON.stringify(room.solution) !== '[]'
 }
