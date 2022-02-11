@@ -7,8 +7,13 @@ exports.createRoom = async function (socket, data) {
 
 	room.name = data.roomName
 	room.owner = ownerId
-	room.currentCodemaker = ownerId // set th
+	room.currentCodemaker = ownerId
 	room.users.push(ownerId)
+
+	room.populate([
+		'currentCodemaker',
+		{ path: 'users._id', model: 'User' }
+	])
 
 	await room.save()
 	room.solution = false //set to false for client - false = no solution set | true = solution is set
@@ -107,7 +112,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 	console.log('setting solution to: ')
 	console.log(room.solution)
 	await room.save()
-	return { status: true }
+	return { status: true, solution }
 }
 
 exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
@@ -180,5 +185,5 @@ function codeSetValidator(codePiece) {
 }
 
 function isSolutionSet(solution) {
-		return JSON.stringify(solution) !== JSON.stringify(['','','','']) || JSON.stringify(solution) !== '[]'
+		return JSON.stringify(solution) !== JSON.stringify(['','','',''])
 }

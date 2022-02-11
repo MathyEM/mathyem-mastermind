@@ -105,7 +105,7 @@ class SocketConnection {
 				const room = await roomController.fetchRoom(socket, data.roomId)
 				socket.join(data.roomId)
 				socket.emit('room-entered', room)
-				namespace.to(data.roomId).emit('room-status', `${user.username} joined the room`)
+				socket.to(data.roomId).emit('room-status', `${user.username} joined the room`)
 			})
 			
 			// GET GAME DATA
@@ -125,16 +125,21 @@ class SocketConnection {
 				// 		[1, 2, 3, 4]
 				// 	]
 				// }
-				io.to(data.roomId).emit('game-data-retrieved', gameData)
+				namespace.to(data.roomId).emit('game-data-retrieved', gameData)
 	
 				await callback({
 					status: 'ok'
 				})
 			})
-
-			socket.on('set-solution', (data) => {
+			// SET THE SOLUTION AND INFORM OTHER PLAYERS IN THE ROOM
+			socket.on('set-solution', async (data) => {
 				console.log(data)
-				roomController.setSolution(socket, data.roomId, data.solution)
+				const { status } = await roomController.setSolution(socket, data.roomId, data.solution)
+
+				if (!status) {
+					console.log('set-solution:')
+					socket.to(data.roomId).emit('solution-set', solution)
+				}
 			})
 
 			//TEST CALL

@@ -80,6 +80,11 @@ class SocketioService {
       await store.dispatch('setCurrentRoom', room)
     })
 
+    this.socket.on('solution-set', () => {
+      store.commit('TOGGLE_LOCAL_SOLUTION', true)
+      store.commit('TOGGLE_SOLUTION_STATE')
+    })
+
     // ON DISCONNECT
     this.socket.on('disconnect', () => {
       console.log(`disconnected from /user`)
