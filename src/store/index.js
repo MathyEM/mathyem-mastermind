@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import attempts from './modules/attempts'
-import codeButtons from './modules/codeButtons'
 import options from './modules/options'
-import solution from './modules/solution'
+import statusMessages from './modules/statusMessages'
 import { socketConnection } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
@@ -38,7 +36,8 @@ export default new Vuex.Store({
     getSolutionState: state => state.currentRoom.solution[0],
     getLocalSolution: state => state.localSolution,
     getCodemaker: state => state.currentRoom.currentCodemaker._id,
-    getCurrentAttempt: state => { //
+    getRoomUsers: state => state.currentRoom.users,
+    getCurrentAttempt: state => {
       if(state.currentRoom.attempts) {
         const attempts = state.currentRoom.attempts
         const index = attempts.filter(attempt => {
@@ -161,10 +160,8 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    attempts,
-    codeButtons,
+    statusMessages,
     options,
-    solution
   }
 })
 

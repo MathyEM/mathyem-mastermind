@@ -138,7 +138,7 @@ class SocketConnection {
 
 				if (!status) {
 					console.log('set-solution:')
-					socket.to(data.roomId).emit('solution-set', solution)
+					socket.to(data.roomId).emit('solution-set')
 				}
 			})
 
