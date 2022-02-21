@@ -1,10 +1,10 @@
 <template>
-  <div v-if="!attemptIndex" class="code-row">
+  <div v-if="!attemptIndex" class="code-row" :class="{ disabled: disabled }">
     <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
   </div>
-  <div v-else class="code-row">
+  <div v-else class="code-row" :class="{ disabled: disabled }">
     <div v-for="(piece, index) in getCurrentRoom.attempts[attemptIndex]" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
@@ -22,6 +22,10 @@ export default {
       type: Function
     },
     attemptIndex: Number,
+    disabled: {
+      default: false,
+      type: Boolean,
+    }
   },
   computed: {
     ...mapGetters(['getCurrentRoom'])
@@ -31,7 +35,10 @@ export default {
 
 <style lang="scss">
 $code-piece-margin: 0.4rem;
+$color: #000;
+
 .code-row {
+  user-select: none;
   display: flex;
   flex-wrap: nowrap;
   gap: $code-piece-margin;
@@ -43,7 +50,7 @@ $code-piece-margin: 0.4rem;
   .code-piece {
     display: flex;
     justify-content: center;
-    border: 1px solid black;
+    border: 1px solid $color;
     border-radius: 0.5rem;
     aspect-ratio: 1/1;
     cursor: pointer;
@@ -60,6 +67,17 @@ $code-piece-margin: 0.4rem;
 
   &.active .code-piece {
     border-style: dashed;
+  }
+
+  &.disabled {
+    pointer-events: none;
+
+    .code-piece {
+      $amount: 0.5;
+      color: transparentize($color, $amount);
+      border-color: transparentize($color, $amount);
+      background: lighten($color, $amount*100);
+    }
   }
 }
 </style>

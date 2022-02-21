@@ -45,6 +45,30 @@ export default new Vuex.Store({
         })
         return index.length-1
       }
+    },
+    hasCodeMakerAuthority: (state, getters) => {
+      state;
+      if (getters.getSolutionState === true) {
+        console.log('solution already set')
+        return false
+      }
+      if (getters.getUserId !== getters.getCodemaker) {
+        console.log('you are not the codemaker')
+        return false
+      }
+      return true
+    },
+    hasCodeBreakerAuthority: (state, getters) => {
+      state;
+      if (getters.getSolutionState === false) {
+        console.log('solution not yet set')
+        return false
+      }
+      if (getters.getUserId === getters.getCodemaker) {
+        console.log('you are not the codebreaker')
+        return false
+      }
+      return true
     }
   },
   mutations: {
@@ -124,6 +148,9 @@ export default new Vuex.Store({
       commit('SET_GAME_DATA', payload)
     },
     updateAttempt({ commit, getters, dispatch }, payload) {
+      if (!getters.hasCodeBreakerAuthority) {
+        return
+      }
       const code = getters.getCodeSet[payload].toString()
       const attemptIndex = getters.getCurrentAttempt
       commit('UPDATE_ATTEMPT', {code, attemptIndex})
@@ -133,7 +160,7 @@ export default new Vuex.Store({
       }
     },
     updateLocalSolution({ commit, getters, dispatch }, payload) {
-      if (!hasCodemakerAuthority(getters)) {
+      if (!getters.hasCodeMakerAuthority) {
         return
       }
       const code = getters.getCodeSet[payload].toString()
@@ -152,7 +179,7 @@ export default new Vuex.Store({
       // TODO:
       // CHECK FOR CURRENTCODEMAKER BEFORE SETTING SOLUTION
       // IF CURRENTCODEMAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
-      if (!hasCodemakerAuthority(getters)) {
+      if (!getters.hasCodeMakerAuthority) {
         return
       }
       const solution = getters.getLocalSolution
@@ -171,16 +198,4 @@ function checkEntryCompletion(entry) {  // check if an attempt or solution entry
     return true
   }
   return false
-}
-
-function hasCodemakerAuthority(getters) {
-  if (getters.getSolutionState === true) {
-    console.log('solution already set')
-    return false
-  }
-  if (getters.getUserId !== getters.getCodemaker) {
-    console.log('you are not the codemaker')
-    return false
-  }
-  return true
 }
