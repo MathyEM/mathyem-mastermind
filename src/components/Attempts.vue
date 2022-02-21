@@ -46,7 +46,8 @@ $code-piece-size: calc(100vh / 12 - 1.5rem);
   grid-template-columns: 100%;
   justify-items: center;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 0;
+  padding-bottom: 2rem;
   width: 100%;
 
   .attempts-code-row {

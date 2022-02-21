@@ -21,29 +21,32 @@ const state = {
 }
 
 const getters = {
-    getGameStatus: (state, getters, rootState, rootGetters) => {
-        state; getters; rootState; rootGetters;
-        console.log(rootState.loginStatus)
+    getGameStatus: (state, rootGetters) => {
 
-        // USE TO CALC IF CURRENT USER IS CODEBREAKER/MAKER OR NOT
-        const getUsername = (id, exclusion) => {
-            const users = rootGetters.getRoomUsers
-            var user
-
-            if (exclusion) {
-                user = users.find(function(user) {
-                return user._id._id !== id
-                })
-                return user
-            }
-
-            user = users.find(function(user) {
-                return user._id._id === id
-            })
-
-            return user
+        // default
+        if (rootGetters.getCurrentRoom.id === '') {
+            return false
         }
-        getUsername
+
+        // if the solution is NOT set and you are not the codemaker:    awaitingCodeMaker
+        if (!rootGetters.getSolutionState && rootGetters.getCodemaker !== rootGetters.getUserId) {
+            return state.gameplayStatus.awaitingCodeMaker
+        }
+
+        // if the solution IS set and you are the codemaker:            awaitingCodeBreaker
+        if (rootGetters.getSolutionState && rootGetters.getCodemaker === rootGetters.getUserId) {
+            return state.gameplayStatus.awaitingCodeBreaker
+        }
+
+        // if the solution is NOT set and you are the codemaker:        isCodeMaker
+        if (!rootGetters.getSolutionState && rootGetters.getCodemaker === rootGetters.getUserId) {
+            return state.gameplayStatus.isCodeMaker
+        }
+
+        // if the solution IS set and you are not the codemaker:        isCodeBreaker
+        if (rootGetters.getSolutionState && rootGetters.getCodemaker !== rootGetters.getUserId) {
+            return state.gameplayStatus.isCodeBreaker
+        }
     }
 }
 

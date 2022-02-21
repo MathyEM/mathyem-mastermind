@@ -1,6 +1,6 @@
 <template>
   <div class="game-status">
-    <p>{{ getGameStatus }}</p>
+    <p>{{ getGameStatus['EN'] }}</p>
   </div>
 </template>
 

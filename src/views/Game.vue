@@ -17,6 +17,7 @@
       <Options msg="⚙"/>
     </div>
     <Solution />
+    <GameStatus />
     <Attempts />
     <CodeButtons />
   </div>
@@ -32,6 +33,7 @@ import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
 import RoomListButton from '@/components/RoomListButton.vue'
 import RoomList from '@/components/RoomList.vue'
+import GameStatus from '@/components/GameStatus.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -45,10 +47,11 @@ export default {
     Attempts,
     CodeButtons,
     RoomListButton,
-    RoomList
+    RoomList,
+    GameStatus
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername']),
+    ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
   }
 }
 </script>
@@ -81,7 +84,7 @@ export default {
 
 .game {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto auto 1fr auto;
   height: 100vh;
 }
 
