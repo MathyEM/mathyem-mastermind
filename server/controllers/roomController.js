@@ -171,8 +171,9 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 
 	const accuracyHints = getAccuracyHints(room.solution, attempt)
 
+	const attempts = room.attempts
 
-	return { room, accuracyHints }
+	return { attempts, accuracyHints }
 
 }
 

@@ -145,12 +145,11 @@ class SocketConnection {
 
 			// SET AN ATTEMPT AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-attempt', async (data) => {
-				console.log(data)
-				const { status, message } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
+				const { status, message, attempts } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
 
 				if (status !== false) {
 					console.log('set-attempt:')
-					socket.to(data.roomId).emit('attempt-set')
+					socket.to(data.roomId).emit('attempt-set', { attempts })
 				}
 				if (message) {
 					console.log(message)

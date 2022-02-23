@@ -81,15 +81,14 @@ class SocketioService {
     })
 
     this.socket.on('solution-set', () => {
+      console.log('called solution-set')
       store.commit('TOGGLE_LOCAL_SOLUTION', true)
       store.commit('TOGGLE_SOLUTION_STATE')
     })
 
     this.socket.on('attempt-set', (response) => {
-      response
-      // response.attempts
-      // update attempts of currentRoom to be that of the server's or possible just refetch the room info from the server
       console.log('called attempt-set')
+      store.commit('UPDATE_ALL_ATTEMPTS', response.attempts)
     })
 
     // ON DISCONNECT

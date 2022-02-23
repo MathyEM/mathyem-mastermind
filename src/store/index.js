@@ -105,6 +105,9 @@ export default new Vuex.Store({
       attemptsCopy[payload.attemptIndex][index] = payload.code
       state.currentRoom.attempts = attemptsCopy
     },
+    UPDATE_ALL_ATTEMPTS(state, payload) {
+      state.currentRoom.attempts = payload
+    },
     UPDATE_LOCAL_SOLUTION(state, payload) {
       const index = state.localSolution.indexOf('')
       const solutionCopy = state.localSolution.slice()
