@@ -172,8 +172,9 @@ export default new Vuex.Store({
       }
     },
     sendAttempt({ getters }, payload) {
-      const attempt = getters.getCurrentRoom.attempts[payload].slice()
-      socketConnection.sendAttempt(attempt) // send attempt (Array)
+      const attemptIndex = payload
+      const attempt = getters.getCurrentRoom.attempts[attemptIndex].slice()
+      socketConnection.sendAttempt(attempt, attemptIndex) // send attempt (Array)
     },
     sendSolution({ getters }) {
       // TODO:

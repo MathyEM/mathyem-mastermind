@@ -115,7 +115,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 	return { status: true, solution }
 }
 
-exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
+exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 	const userId = socket.request.user._id
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
 	populate([
@@ -128,7 +128,7 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 	}
 
 	// check validity of the attempt according to the codeSet
-	if (!room.attempt.every(codeSetValidator, room)) {
+	if (!attempt.every(codeSetValidator, room)) {
 		return { status: false, message: 'attempt does not match code set' }
 	}
 	
@@ -169,7 +169,10 @@ exports.updateAttempt = async function (socket, roomId, attemptIndex, attempt) {
 		return { correctPieceCount, correctPositionCount }
 	}
 
-	return getAccuracyHints(room.solution, attempt)
+	const accuracyHints = getAccuracyHints(room.solution, attempt)
+
+
+	return { room, accuracyHints }
 
 }
 

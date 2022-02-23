@@ -131,6 +131,7 @@ class SocketConnection {
 					status: 'ok'
 				})
 			})
+
 			// SET THE SOLUTION AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-solution', async (data) => {
 				console.log(data)
@@ -139,6 +140,20 @@ class SocketConnection {
 				if (!status) {
 					console.log('set-solution:')
 					socket.to(data.roomId).emit('solution-set')
+				}
+			})
+
+			// SET AN ATTEMPT AND INFORM OTHER PLAYERS IN THE ROOM
+			socket.on('set-attempt', async (data) => {
+				console.log(data)
+				const { status, message } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
+
+				if (status !== false) {
+					console.log('set-attempt:')
+					socket.to(data.roomId).emit('attempt-set')
+				}
+				if (message) {
+					console.log(message)
 				}
 			})
 

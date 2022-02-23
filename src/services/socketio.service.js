@@ -85,6 +85,13 @@ class SocketioService {
       store.commit('TOGGLE_SOLUTION_STATE')
     })
 
+    this.socket.on('attempt-set', (response) => {
+      response
+      // response.attempts
+      // update attempts of currentRoom to be that of the server's or possible just refetch the room info from the server
+      console.log('called attempt-set')
+    })
+
     // ON DISCONNECT
     this.socket.on('disconnect', () => {
       console.log(`disconnected from /user`)
@@ -143,11 +150,12 @@ class SocketioService {
     }
   }
 
-  async sendAttempt(attempt) {
+  async sendAttempt(attempt, attemptIndex) {
     if (this.socket) {
       console.log('sending attempt...')
       console.log(attempt)
-      this.socket.emit('set-attempt')
+      const roomId = store.getters.getCurrentRoom._id
+      this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
     }
   }
 }
