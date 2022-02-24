@@ -137,7 +137,7 @@ class SocketConnection {
 				console.log(data)
 				const { status } = await roomController.setSolution(socket, data.roomId, data.solution)
 
-				if (!status) {
+				if (status !== false) {
 					console.log('set-solution:')
 					socket.to(data.roomId).emit('solution-set')
 				}

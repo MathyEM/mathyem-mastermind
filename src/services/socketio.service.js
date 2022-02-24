@@ -123,6 +123,13 @@ class SocketioService {
 
   joinRoom(roomId) {
     if (this.socket) {
+
+      // if the user is already in the room
+      if (store.getters.getUsersRooms.some(checkId, { roomId })) {
+        console.log('You are already in this room')
+        return
+      }
+
       this.socket.emit('join-room', { roomId: roomId })
     }
   }
@@ -157,6 +164,10 @@ class SocketioService {
       this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
     }
   }
+}
+
+function checkId(element) {
+  element._id === this.roomId
 }
 
 // const guestSocket = new SocketioService('/guest')
