@@ -3,9 +3,11 @@
 		<div v-if="getLoginStatus" class="join-create-room">
 			<h2>Welcome {{ getUsername }}!</h2>
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
-			<input v-model="roomName" type="text" placeholder="Name your new room or enter room code"><br/>
-			<button @click="createRoom">Create Room</button>
-			<button @click="joinRoom">Join Room</button>
+			<form v-on:submit.prevent="onSubmit">
+				<input v-model="roomName" type="text" placeholder="Name your new room or enter room code" minlength="3"><br/>
+				<button @click="createRoom" type="submit">Create Room</button>
+				<button @click="joinRoom" type="submit">Join Room</button>
+			</form>
 		</div>
   </div>
 </template>
@@ -29,12 +31,19 @@ export default {
 		...mapGetters(['getUsername', 'getCurrentRoom', 'getLoginStatus'])
 	},
   methods: {
+		onSubmit() {
+			return false
+		},
 		createRoom() {
-			console.log()
+			if (this.roomName.length < 3) {
+				return
+			}
 			socketConnection.createRoom(this.roomName)
     },
     joinRoom() {
-			console.log()
+			if (this.roomName.length < 3) {
+				return
+			}
 			socketConnection.joinRoom(this.roomName)
     }
   },

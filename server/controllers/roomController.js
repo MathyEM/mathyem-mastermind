@@ -5,6 +5,10 @@ exports.createRoom = async function (socket, data) {
 	const room = new Room()
 	const ownerId = socket.request.user._id
 
+	if (data.roomName.length < 3) {
+		return { status: false, message: 'room name must be at least 3 characters long' }
+	}
+
 	room.name = data.roomName
 	room.owner = ownerId
 	room.currentCodemaker = ownerId
