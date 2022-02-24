@@ -148,7 +148,6 @@ class SocketConnection {
 				const { status, message, attempts, accuracyHints } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
 
 				if (status !== false) {
-					console.log('set-attempt:')
 					socket.to(data.roomId).emit('attempt-set', { attempts, accuracyHints })
 					socket.emit('accuracy-hints', { accuracyHints })
 				}

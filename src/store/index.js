@@ -101,6 +101,8 @@ export default new Vuex.Store({
     },
     UPDATE_ATTEMPT(state, payload) {
       const index = state.currentRoom.attempts[payload.attemptIndex].indexOf('')
+      console.log('attempt index', payload.attemptIndex)
+      console.log('piece index', index)
       const attemptsCopy = state.currentRoom.attempts.slice()
       attemptsCopy[payload.attemptIndex][index] = payload.code
       state.currentRoom.attempts = attemptsCopy

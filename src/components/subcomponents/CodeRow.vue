@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!attemptIndex" class="code-row" :class="{ disabled: disabled }">
+  <div v-if="!attemptIndex && attemptIndex !== 0" class="code-row" :class="{ disabled: disabled }">
     <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
