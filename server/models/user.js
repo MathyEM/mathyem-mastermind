@@ -4,7 +4,8 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = mongoose.Schema({
   email: {
     type: String,
-    required: [true, "Please Include your email"]
+    required: [true, "Please Include your email"],
+    index: {unique: true, dropDups: true},
   }
 })
 

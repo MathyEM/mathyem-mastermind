@@ -10,6 +10,7 @@ const config = require('./config/db')
 const session = require('express-session')
 const passport = require('passport')
 const User = require('./models/user')
+User.syncIndexes()
 const { Room } = require('./models/room')
 const roomController = require('./controllers/roomController')
 const LocalStrategy = require('passport-local').Strategy
@@ -57,27 +58,44 @@ passport.deserializeUser(User.deserializeUser())
 
 //configure database and mongoose
 mongoose
-  .connect(config.database)
-  .then(() => {
-    console.log("Database is connected");
-  })
-  .catch(err => {
-    console.log({ database_error: err });
-  })
+.connect(config.database)
+.then(() => {
+  console.log("Database is connected");
+})
+.catch(err => {
+  console.log({ database_error: err });
+})
 
 //Added routes
 const loginRouter = require('./routes/login')
 
 // Room.find({owner: '61d8917a7274e857bdb81bac'}).exec((err, rooms) => {
-//   if (err) console.log(err)
-//   console.log(rooms)
-// })
-
+  //   if (err) console.log(err)
+  //   console.log(rooms)
+  // })
+  
 app.use('/', loginRouter)
 
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>')
 })
+
+async function deleteUsers() {
+  const needsDeleted = await User.find({ username: { $nin: ['Mathyvids', 'Mathy'] } }).exec()
+
+  console.log(needsDeleted)
+}
+
+async function updateUser() {
+  const needsUpdated = await User.find({ username: 'Mathyvids' }).exec()
+  // needsUpdated[0].email = 'test2@test.com'
+  // needsUpdated[0].save()
+  console.log(needsUpdated)
+}
+
+// DELETE ALL USERS EXCEPT TEST USERS
+// deleteUsers()
+// updateUser()
 
 // roomController.deleteRooms();
 
@@ -85,3 +103,4 @@ app.get('/', (req, res) => {
 http.listen(3001, () => {
   console.log(`listening on *${PORT}`)
 })
+  
