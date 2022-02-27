@@ -194,6 +194,17 @@ exports.completeRound = async (socket, roomId) => {
 	])
 }
 
+exports.resetRoom = async (roomId) => {
+	const room = await Room.findOne({ '_id': roomId })
+	const attemptsDefault = Room.schema.paths.attempts.options.default
+	const solutionDefault = Room.schema.paths.solution.options.default
+
+	room.attempts = attemptsDefault
+	room.solution = solutionDefault
+
+	await room.save()
+}
+
 exports.deleteRooms = async function () {
 	const count = await Room.deleteMany({})
 	console.log(count);

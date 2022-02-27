@@ -97,7 +97,9 @@ async function updateUser() {
 // deleteUsers()
 // updateUser()
 
-// roomController.deleteRooms();
+// roomController.deleteRooms()
+
+// roomController.resetRoom('62191e17e1c78be54edb0c43')
 
 //Start server
 http.listen(3001, () => {
