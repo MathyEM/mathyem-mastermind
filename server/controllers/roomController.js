@@ -178,7 +178,16 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 	const attempts = room.attempts
 
 	return { attempts, accuracyHints }
+}
 
+exports.completeRound = async (socket, roomId) => {
+	const userId = socket.request.user._id
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
+	populate([
+		'owner',
+		'currentCodemaker',
+		{ path: 'users._id', model: 'User' }
+	])
 }
 
 exports.deleteRooms = async function () {

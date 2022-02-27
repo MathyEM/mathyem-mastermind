@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const usersSchema = new Schema({
 	user: {type: Schema.Types.ObjectId, ref: 'User'},
-	wins: {
+	points: {
 		type: Number,
 		default: 0,
 	}
