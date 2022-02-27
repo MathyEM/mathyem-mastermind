@@ -35,7 +35,7 @@ export default new Vuex.Store({
     getCodeSet: state => state.currentRoom.codeSet,
     getSolutionState: state => state.currentRoom.solution[0],
     getLocalSolution: state => state.localSolution,
-    getCodemaker: state => state.currentRoom.currentCodemaker._id,
+    getCodeMaker: state => state.currentRoom.currentCodeMaker._id,
     getRoomUsers: state => state.currentRoom.users,
     getCurrentAttempt: state => {
       if(state.currentRoom.attempts) {
@@ -52,7 +52,7 @@ export default new Vuex.Store({
         console.log('solution already set')
         return false
       }
-      if (getters.getUserId !== getters.getCodemaker) {
+      if (getters.getUserId !== getters.getCodeMaker) {
         console.log('you are not the codemaker')
         return false
       }
@@ -64,7 +64,7 @@ export default new Vuex.Store({
         console.log('solution not yet set')
         return false
       }
-      if (getters.getUserId === getters.getCodemaker) {
+      if (getters.getUserId === getters.getCodeMaker) {
         console.log('you are not the codebreaker')
         return false
       }

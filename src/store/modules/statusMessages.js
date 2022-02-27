@@ -29,22 +29,22 @@ const getters = {
         }
 
         // if the solution is NOT set and you are not the codemaker:    awaitingCodeMaker
-        if (!rootGetters.getSolutionState && rootGetters.getCodemaker !== rootGetters.getUserId) {
+        if (!rootGetters.getSolutionState && rootGetters.getCodeMaker !== rootGetters.getUserId) {
             return state.gameplayStatus.awaitingCodeMaker
         }
 
         // if the solution IS set and you are the codemaker:            awaitingCodeBreaker
-        if (rootGetters.getSolutionState && rootGetters.getCodemaker === rootGetters.getUserId) {
+        if (rootGetters.getSolutionState && rootGetters.getCodeMaker === rootGetters.getUserId) {
             return state.gameplayStatus.awaitingCodeBreaker
         }
 
         // if the solution is NOT set and you are the codemaker:        isCodeMaker
-        if (!rootGetters.getSolutionState && rootGetters.getCodemaker === rootGetters.getUserId) {
+        if (!rootGetters.getSolutionState && rootGetters.getCodeMaker === rootGetters.getUserId) {
             return state.gameplayStatus.isCodeMaker
         }
 
         // if the solution IS set and you are not the codemaker:        isCodeBreaker
-        if (rootGetters.getSolutionState && rootGetters.getCodemaker !== rootGetters.getUserId) {
+        if (rootGetters.getSolutionState && rootGetters.getCodeMaker !== rootGetters.getUserId) {
             return state.gameplayStatus.isCodeBreaker
         }
     }

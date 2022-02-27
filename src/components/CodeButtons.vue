@@ -1,6 +1,6 @@
 <template>
   <div class="code-buttons">
-    <!-- if the solution is set and the then check if they have codebreaker authority -->
+    <!-- if the solution is set and then check if they have codebreaker authority -->
     <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority" />
     <!-- if the solution is set do you have codemaker authority? -->
     <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority" />

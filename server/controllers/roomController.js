@@ -11,11 +11,11 @@ exports.createRoom = async function (socket, data) {
 
 	room.name = data.roomName
 	room.owner = ownerId
-	room.currentCodemaker = ownerId
+	room.currentCodeMaker = ownerId
 	room.users.push(ownerId)
 
 	room.populate([
-		'currentCodemaker',
+		'currentCodeMaker',
 		{ path: 'users._id', model: 'User' }
 	])
 
@@ -80,7 +80,7 @@ exports.fetchRoom = async function (socket, roomId) {
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
 	populate([
 		'owner',
-		'currentCodemaker',
+		'currentCodeMaker',
 		{ path: 'users._id', model: 'User' }
 	])
 	if (!isSolutionSet(room.solution)) {
@@ -96,7 +96,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 	const userId = socket.request.user.id
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
 	populate([
-		'currentCodemaker',
+		'currentCodeMaker',
 		{ path: 'users._id', model: 'User' }
 	])
 
@@ -104,7 +104,7 @@ exports.setSolution = async function (socket, roomId, solution) {
 		return { status: false, message: 'solution already set' }
 	}
 
-	if (userId !== room.currentCodemaker.id) {
+	if (userId !== room.currentCodeMaker.id) {
 		return { status: false, message: 'you are not the codemaker' }
 	}
 
@@ -127,7 +127,7 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 		{ path: 'users._id', model: 'User' }
 	])
 
-	if (userId === room.currentCodemaker.id) {
+	if (userId === room.currentCodeMaker.id) {
 		return { status: false, message: 'you are not the codebreaker' }
 	}
 
@@ -189,9 +189,15 @@ exports.completeRound = async (socket, roomId) => {
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
 	populate([
 		'owner',
-		'currentCodemaker',
+		'currentCodeMaker',
 		{ path: 'users._id', model: 'User' }
 	])
+
+	//exports.resetRoom(roomId)
+
+	//const newCodeMaker = room.users.filter(user => user._id._id !== room.currentCodeMaker._id)
+
+	//calculate points - see nextcloud for scoring details
 }
 
 exports.resetRoom = async (roomId) => {

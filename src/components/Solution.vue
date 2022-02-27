@@ -24,7 +24,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLocalSolution', 'getSolutionState', 'getCodemaker'])
+    ...mapGetters(['getLocalSolution', 'getSolutionState', 'getCodeMaker'])
   },
   methods: {
     onClick(index) {

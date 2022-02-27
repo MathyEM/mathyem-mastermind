@@ -14,7 +14,7 @@ export default {
     
   },
   computed: {
-    ...mapGetters(['getSolutionState', 'getCodemaker', 'getRoomUsers', 'getGameStatus']),
+    ...mapGetters(['getSolutionState', 'getCodeMaker', 'getRoomUsers', 'getGameStatus']),
   }
 }
 </script>
