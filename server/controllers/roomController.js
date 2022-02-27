@@ -131,6 +131,10 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 		return { status: false, message: 'you are not the codebreaker' }
 	}
 
+	if (calculateAttemptIndex(room.attempts) !== attemptIndex) {
+		return { status: false, message: "your current attempt does not match the server's" }
+	}
+
 	// check validity of the attempt according to the codeSet
 	if (!attempt.every(codeSetValidator, room)) {
 		return { status: false, message: 'attempt does not match code set' }
@@ -202,5 +206,15 @@ function codeSetValidator(codePiece) {
 }
 
 function isSolutionSet(solution) {
-		return JSON.stringify(solution) !== JSON.stringify(['','','',''])
+	return JSON.stringify(solution) !== JSON.stringify(['','','',''])
+}
+
+function calculateAttemptIndex(attempts) {
+	if(attempts) {
+		const index = attempts.filter(attempt => {
+			return attempt.includes('')
+		})
+		return index.length-1
+	}
+	return null
 }
