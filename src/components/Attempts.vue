@@ -30,8 +30,7 @@ export default {
   },
   methods: {
     onClick(pieceIndex, attemptIndex) {
-      console.log(pieceIndex, attemptIndex)
-      console.log(this.gameData.attempts[attemptIndex])
+      console.log(pieceIndex, attemptIndex, attemptIndex+1)
     }
   }
 

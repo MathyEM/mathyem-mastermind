@@ -181,7 +181,13 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 
 	const attempts = room.attempts
 
-	return { attempts, accuracyHints }
+	var gameOver = false
+
+	if (attemptIndex === 0) {
+		gameOver = true
+	}
+
+	return { attempts, accuracyHints, gameOver }
 }
 
 exports.completeRound = async (socket, roomId) => {
@@ -193,11 +199,15 @@ exports.completeRound = async (socket, roomId) => {
 		{ path: 'users._id', model: 'User' }
 	])
 
+	// win condition flow:
+	// updateAttempt > check if accuracyHints.correctPosition == 4 > completeRound
+
 	//exports.resetRoom(roomId)
 
 	//const newCodeMaker = room.users.filter(user => user._id._id !== room.currentCodeMaker._id)
 
-	//calculate points - see nextcloud for scoring details
+	//calculate points = attemptIndex+1
+	//
 }
 
 exports.resetRoom = async (roomId) => {
