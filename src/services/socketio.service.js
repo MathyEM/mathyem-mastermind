@@ -89,11 +89,14 @@ class SocketioService {
     this.socket.on('attempt-set', (response) => {
       console.log('called attempt-set')
       console.log(response.accuracyHints)
+      console.log(response.gameOver)
       store.commit('UPDATE_ALL_ATTEMPTS', response.attempts)
     })
 
     this.socket.on('accuracy-hints', (response) => {
       console.log('accuracy-hints', response.accuracyHints)
+      console.log('gameOver: ', response.gameOver)
+
     })
 
     // ON DISCONNECT

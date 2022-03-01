@@ -101,6 +101,8 @@ async function updateUser() {
 
 // roomController.resetRoom('62191e17e1c78be54edb0c43')
 
+// roomController.completeRound('61d8917a7274e857bdb81bac','621ba322c8ab8cf3ce58c65c', 0)
+
 //Start server
 http.listen(3001, () => {
   console.log(`listening on *${PORT}`)

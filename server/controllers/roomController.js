@@ -113,8 +113,6 @@ exports.setSolution = async function (socket, roomId, solution) {
 	}
 
 	room.solution = solution
-	console.log('setting solution to: ')
-	console.log(room.solution)
 	await room.save()
 	return { status: true, solution }
 }
@@ -147,32 +145,41 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 	const getAccuracyHints = (solution, attempt) => {
 		let correctPositionCount = 0
 		let correctPieceCount = 0
-		let foundPieces = [] // each solutionPieceIndex that has already been discovered will be pushed to this array
+		let matchedAttemptPieces = [] // each attemptPieceIndex that has already been discovered will be pushed to this array
 
-		attempt.forEach((attemptPiece, index) => {
-			const solutionPieceIndex = solution.indexOf(attemptPiece)
+		for (let solutionIndex = 0; solutionIndex < solution.length; solutionIndex++) {
+			const solutionPiece = solution [solutionIndex]
 
-			if (solutionPieceIndex === -1) {	// if this code piece does not exist in the solution
-				return
+			if (matchedAttemptPieces.length === 4) { // check if all attemptPieces have been matched before continuing
+				break
 			}
 
-			if (solutionPieceIndex === index) {
-				correctPositionCount++
-				correctPieceCount++
-				foundPieces.push(solutionPieceIndex)
-				return
+			for (let attemptIndex = 0; attemptIndex < attempt.length; attemptIndex++) {
+				const attemptPiece = attempt[attemptIndex]
+
+				if (!solution.includes(attemptPiece)) { // if the attemptPiece is not anywhere in the solution
+					continue
+				}
+
+				if (matchedAttemptPieces.includes(attemptIndex)) { // first check if this attemptPiece has already been matched
+					continue
+				}
+
+				if (solution[attemptIndex] === attemptPiece) { // check if the attemptPiece is in the correct position
+					correctPieceCount++
+					correctPositionCount++
+					matchedAttemptPieces.push(attemptIndex)
+					break
+				}
+
+				if (solutionPiece === attemptPiece) { // if all other checks don't match, then this must
+					correctPieceCount++
+					matchedAttemptPieces.push(attemptIndex)
+					break
+				}
 			}
-			// IF solutionPieceIndex is not -1 (i.e. code piece does not exists)
-			// AND the piece is not the same index on both side (i.e. correct position)
-			// AND the specific piece index has not already been discovered
-			// THEN the piece is correct
-			if (solutionPieceIndex !== -1 && solutionPieceIndex !== index && !foundPieces.includes(solutionPieceIndex)) {
-				correctPieceCount++
-				foundPieces.push(solutionPieceIndex)
-				return
-			}
-			
-		})
+		
+		}
 
 		return { correctPieceCount, correctPositionCount }
 	}
@@ -183,31 +190,26 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 
 	var gameOver = false
 
-	if (attemptIndex === 0) {
+	if (attemptIndex === 0 || accuracyHints.correctPositionCount === 4) {
 		gameOver = true
 	}
 
-	return { attempts, accuracyHints, gameOver }
+	return { attempts, attemptIndex, accuracyHints, gameOver }
 }
 
-exports.completeRound = async (socket, roomId) => {
+exports.completeRound = async (socket, roomId, attemptIndex) => {
 	const userId = socket.request.user._id
-	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
-	populate([
-		'owner',
-		'currentCodeMaker',
-		{ path: 'users._id', model: 'User' }
-	])
+	const room = await Room.findOne({ 'users._id': userId, '_id': roomId })
 
-	// win condition flow:
-	// updateAttempt > check if accuracyHints.correctPosition == 4 > completeRound
-
-	//exports.resetRoom(roomId)
-
-	//const newCodeMaker = room.users.filter(user => user._id._id !== room.currentCodeMaker._id)
-
-	//calculate points = attemptIndex+1
-	//
+	
+	const newCodeMaker = room.users.find(user => !user._id.equals(room.currentCodeMaker._id))
+	const codeBreakerIndex = room.users.findIndex(user => user.id !== room.currentCodeMaker.id)
+	
+	room.users[codeBreakerIndex].points += attemptIndex+1
+	
+	room.currentCodeMaker = newCodeMaker._id
+	await room.save()
+	await exports.resetRoom(roomId)
 }
 
 exports.resetRoom = async (roomId) => {
@@ -245,3 +247,8 @@ function calculateAttemptIndex(attempts) {
 	}
 	return null
 }
+
+const indexesOf = (arr, item) => 
+  arr.reduce(
+    (acc, v, i) => (v === item && acc.push(i), acc),
+  []);

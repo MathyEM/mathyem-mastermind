@@ -96,7 +96,6 @@ class SocketConnection {
 			})
 
 			socket.on('fetch-user-rooms', async (data) => {
-				console.log('fetch-user-rooms')
 				const rooms = await roomController.fetchUserRooms(socket)
 				socket.emit('user-rooms-fetched', rooms)
 			})
@@ -108,48 +107,30 @@ class SocketConnection {
 				socket.to(data.roomId).emit('room-status', `${user.username} joined the room`)
 			})
 			
-			// GET GAME DATA
-			socket.on('get-game-data', async (data, callback) => {
-				console.log(data.username, 'is fetching game data for', data.roomId)
-	
-				//DB connection
-				//gameData = await fetchGameData(data.username, data.roomId)
-	
-				// const gameData = {
-				// 	solution: [1, 3, 3, 4],
-				// 	attempts: [
-				// 		[4, 3, 2, 1],
-				// 		[3, 2, 4 ,1],
-				// 		[2, 2, 1, 3],
-				// 		[4, 4, 1, 1],
-				// 		[1, 2, 3, 4]
-				// 	]
-				// }
-				namespace.to(data.roomId).emit('game-data-retrieved', gameData)
-	
-				await callback({
-					status: 'ok'
-				})
-			})
-
 			// SET THE SOLUTION AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-solution', async (data) => {
 				console.log(data)
 				const { status } = await roomController.setSolution(socket, data.roomId, data.solution)
 
 				if (status !== false) {
-					console.log('set-solution:')
 					socket.to(data.roomId).emit('solution-set')
 				}
 			})
 
 			// SET AN ATTEMPT AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-attempt', async (data) => {
-				const { status, message, attempts, accuracyHints } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
+				const { status, message, attempts, attemptIndex, accuracyHints, gameOver } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
 
 				if (status !== false) {
-					socket.to(data.roomId).emit('attempt-set', { attempts, accuracyHints })
-					socket.emit('accuracy-hints', { accuracyHints })
+					socket.to(data.roomId).emit('attempt-set', { attempts, accuracyHints, gameOver })
+					socket.emit('accuracy-hints', { accuracyHints, gameOver })
+					namespace.to(data.roomId).emit('game-over', gameOver)
+
+					if (gameOver) {
+						await roomController.completeRound(socket, data.roomId, attemptIndex)
+						const room = await roomController.fetchRoom(socket, data.roomId)
+						namespace.to(data.roomId).emit('room-entered', room)
+					}
 				}
 				if (message) {
 					console.log(message)
