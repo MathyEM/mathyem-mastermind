@@ -38,34 +38,20 @@ export default {
 </script>
 
 <style lang="scss">
-$code-piece-size: calc(100vh / 12 - 1.5rem);
-
 .attempts {
   display: grid;
   grid-template-columns: 100%;
-  justify-items: center;
-  justify-content: space-between;
   padding: 0;
   padding-bottom: 2rem;
   width: 100%;
+  row-gap: 0.8rem;
 
   .attempts-code-row {
     display: grid;
     grid-auto-flow: column;
     justify-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-
-    .code-piece {
-      justify-content: unset;
-      width: unset;
-
-      > div {
-        margin: 0;
-        width: $code-piece-size;
-        aspect-ratio: 1 / 1;
-      }
-    }
+    justify-content: center;
+    column-gap: 0.8rem;
   }
 }
 </style>

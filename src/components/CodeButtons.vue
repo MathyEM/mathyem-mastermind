@@ -1,9 +1,9 @@
 <template>
   <div class="code-buttons">
     <!-- if the solution is set and then check if they have codebreaker authority -->
-    <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority" />
+    <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority" class="code-buttons-code-row" />
     <!-- if the solution is set do you have codemaker authority? -->
-    <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority" />
+    <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority" class="code-buttons-code-row" />
   </div>
 </template>
 
@@ -34,8 +34,15 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+<style lang="scss">
+$code-piece-size: calc(90vh / 11 - 1.5rem);
+.code-buttons-code-row {
+  height: auto;
+  .code-piece {
+    > div {
+      width: $code-piece-size;
+      height: $code-piece-size;
+    }
+  }
 }
 </style>

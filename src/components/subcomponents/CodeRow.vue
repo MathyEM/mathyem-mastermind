@@ -35,6 +35,7 @@ export default {
 
 <style lang="scss">
 $code-piece-margin: 0.4rem;
+$code-piece-size: calc(90vh / 12 - 1.5rem);
 $color: #000;
 
 .code-row {
@@ -42,26 +43,27 @@ $color: #000;
   display: flex;
   flex-wrap: nowrap;
   gap: $code-piece-margin;
-  margin-bottom: $code-piece-margin;
   width: 100%;
+  height: $code-piece-size;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 
   .code-piece {
     display: flex;
     justify-content: center;
     border: 1px solid $color;
     border-radius: 0.5rem;
-    aspect-ratio: 1/1;
     cursor: pointer;
-    width: 100%;
 
     > div {
       display: flex;
       text-align: center;
       align-items: center;
       justify-content: center;
-      width: 100%;
+      font-size: 1.2em;
+      width: $code-piece-size;
+      height: $code-piece-size;
     }
   }
 

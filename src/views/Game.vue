@@ -85,7 +85,7 @@ export default {
 .game {
   display: grid;
   grid-template-rows: auto auto auto 1fr auto;
-  height: 100vh;
+  height: 100%;
 }
 
 .menus-container {
@@ -96,10 +96,11 @@ export default {
 
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 320px) {
   .main {
     margin: auto;
     width: 100%;
+    padding: 0 1rem;
   }
 }
 

@@ -3,7 +3,8 @@
     <CodeRow
       :code="getLocalSolution"
       :onClick="onClick"
-      :class="{ active: !getSolutionState }" />
+      :class="{ active: !getSolutionState }"
+      class="solution-code-row" />
   </div>
 </template>
 
@@ -34,8 +35,15 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
+<style lang="scss">
+// $code-piece-size: calc(90vh / 11 - 1.5rem);
+// .solution-code-row {
+//   height: auto;
+//   .code-piece {
+//     > div {
+//       width: $code-piece-size;
+//       height: $code-piece-size;
+//     }
+//   }
+// }
 </style>
