@@ -119,7 +119,15 @@ class SocketConnection {
 
 			// SET AN ATTEMPT AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-attempt', async (data) => {
-				const { status, message, attempts, attemptIndex, accuracyHints, gameOver } = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
+				const {
+					status,
+					message,
+					attempts,
+					attemptIndex,
+					accuracyHints,
+					gameOver,
+					codeBreakerWin
+				} = await roomController.updateAttempt(socket, data.roomId, data.attempt, data.attemptIndex)
 
 				if (status !== false) {
 					socket.to(data.roomId).emit('attempt-set', { attempts, accuracyHints, gameOver })
@@ -127,7 +135,7 @@ class SocketConnection {
 					namespace.to(data.roomId).emit('game-over', gameOver)
 
 					if (gameOver) {
-						await roomController.completeRound(socket, data.roomId, attemptIndex)
+						await roomController.completeRound(socket, data.roomId, attemptIndex, codeBreakerWin)
 						const room = await roomController.fetchRoom(socket, data.roomId)
 						namespace.to(data.roomId).emit('room-entered', room)
 					}

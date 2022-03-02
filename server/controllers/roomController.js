@@ -142,7 +142,7 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 	await room.save()
 
 	// give hints according to attempt accuracy
-	const getAccuracyHints = (solution, attempt) => {
+	const getAccuracyHints = async (solution, attempt) => {
 		let correctPositionCount = 0
 		let correctPieceCount = 0
 		let matchedAttemptPieces = [] // each attemptPieceIndex that has already been discovered will be pushed to this array
@@ -184,28 +184,36 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 		return { correctPieceCount, correctPositionCount }
 	}
 
-	const accuracyHints = getAccuracyHints(room.solution, attempt)
+	const accuracyHints = await getAccuracyHints(room.solution, attempt)
 
 	const attempts = room.attempts
 
-	var gameOver = false
+	let gameOver = false
+	let codeBreakerWin = false
 
 	if (attemptIndex === 0 || accuracyHints.correctPositionCount === 4) {
+		if (accuracyHints.correctPositionCount === 4) {
+			codeBreakerWin = true
+		}
 		gameOver = true
 	}
 
-	return { attempts, attemptIndex, accuracyHints, gameOver }
+	return { attempts, attemptIndex, accuracyHints, gameOver, codeBreakerWin }
 }
 
-exports.completeRound = async (socket, roomId, attemptIndex) => {
+exports.completeRound = async (socket, roomId, attemptIndex, codeBreakerWin) => {
 	const userId = socket.request.user._id
 	const room = await Room.findOne({ 'users._id': userId, '_id': roomId })
+	const newCodeMaker = await room.users.find(user => !user._id.equals(room.currentCodeMaker._id))
+	const codeBreakerIndex = await room.users.findIndex(user => !user._id.equals(room.currentCodeMaker._id))
+	
+	if (codeBreakerWin) {
+		room.users[codeBreakerIndex].points += (attemptIndex+1)*2
+	}
 
-	
-	const newCodeMaker = room.users.find(user => !user._id.equals(room.currentCodeMaker._id))
-	const codeBreakerIndex = room.users.findIndex(user => user.id !== room.currentCodeMaker.id)
-	
-	room.users[codeBreakerIndex].points += attemptIndex+1
+	if (!codeBreakerWin) {
+		room.users[codeBreakerIndex].points += -1
+	}
 	
 	room.currentCodeMaker = newCodeMaker._id
 	await room.save()
