@@ -6,7 +6,7 @@
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
-      <Options msg="⚙"/>
+      <Options title="Options"/>
     </div>
     <CreateJoinRoom />
   </div>
@@ -14,7 +14,7 @@
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
-      <Options msg="⚙"/>
+      <Options title="Options"/>
     </div>
     <Scores />
     <Solution />
@@ -96,7 +96,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  margin-bottom: 0.75rem;
+  padding: 0 0.25rem;
+  font-size: 1.5rem;
 }
 
 @media only screen and (max-width: 320px) {

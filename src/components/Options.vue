@@ -1,6 +1,6 @@
 <template>
   <div class="options">
-    <div class="options-icon">{{ msg }}</div>
+    <div class="options-icon">{{ title }} <span>⚙</span></div>
   </div>
 </template>
 
@@ -8,14 +8,17 @@
 export default {
   name: 'Options',
   props: {
-    msg: String
+    title: String
   }
 }
 </script>
 
 <style scoped lang="scss">
 .options-icon {
-  font-size: 2rem;
   font-weight: bold;
+
+  span {
+    font-size: 1.1em;
+  }
 }
 </style>
