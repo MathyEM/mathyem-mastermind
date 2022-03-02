@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Options',
+  name: 'OptionsButton',
   props: {
     title: String
   }

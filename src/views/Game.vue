@@ -6,7 +6,7 @@
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
-      <Options title="Options"/>
+      <OptionsButton title="Options"/>
     </div>
     <CreateJoinRoom />
   </div>
@@ -14,7 +14,7 @@
     <div class="menus-container">
       <RoomListButton title="Rooms" />
       <RoomList />
-      <Options title="Options"/>
+      <OptionsButton title="Options"/>
     </div>
     <Scores />
     <Solution />
@@ -28,7 +28,7 @@
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
-import Options from '@/components/Options.vue'
+import OptionsButton from '@/components/OptionsButton.vue'
 import Scores from '@/components/Scores.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
@@ -44,7 +44,7 @@ export default {
   components: {
     LoginRegister,
     CreateJoinRoom,
-    Options,
+    OptionsButton,
     Scores,
     Solution,
     Attempts,
