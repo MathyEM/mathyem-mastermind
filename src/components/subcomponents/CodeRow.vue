@@ -47,7 +47,7 @@ $color: #000;
   height: $code-piece-size;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.8rem;
 
   .code-piece {
     display: flex;

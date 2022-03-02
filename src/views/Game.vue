@@ -16,6 +16,7 @@
       <RoomList />
       <Options msg="⚙"/>
     </div>
+    <Scores />
     <Solution />
     <GameStatus />
     <Attempts />
@@ -28,6 +29,7 @@
 import LoginRegister from '@/components/LoginRegister.vue'
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
 import Options from '@/components/Options.vue'
+import Scores from '@/components/Scores.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
@@ -43,6 +45,7 @@ export default {
     LoginRegister,
     CreateJoinRoom,
     Options,
+    Scores,
     Solution,
     Attempts,
     CodeButtons,
@@ -84,7 +87,7 @@ export default {
 
 .game {
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto auto auto 1fr auto;
   height: 100%;
 }
 

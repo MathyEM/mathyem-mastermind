@@ -44,7 +44,7 @@ export default {
   padding: 0;
   padding-bottom: 2rem;
   width: 100%;
-  row-gap: 0.8rem;
+  row-gap: 0.6rem;
 
   .attempts-code-row {
     display: grid;
