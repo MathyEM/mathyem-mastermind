@@ -33,11 +33,11 @@ router.post('/register', (req, res, next) => {
   User.register(newUser, req.body.password, function (err, user) {
     if (err) {
       console.log(err)
-      res.status(409).json({ message: 'some error', error: err })
+      return res.status(400).json(err)
     }
 
     passport.authenticate('local')(req, res, function () {
-      res.status(201).json({ message: 'Success!' })
+      res.sendStatus(200)
     })
   })
 })

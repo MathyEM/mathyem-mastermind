@@ -76,6 +76,7 @@ export default new Vuex.Store({
   },
   mutations: {
     TOGGLE_REGISTERING_STATE(state) {
+      console.log('toggling register');
       state.registeringState = !state.registeringState
     },
     SET_USER(state, payload) {
