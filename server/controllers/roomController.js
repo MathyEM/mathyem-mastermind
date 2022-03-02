@@ -139,60 +139,18 @@ exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {
 	}
 	
 	room.attempts[attemptIndex] = attempt
+	const accuracyHint = await getAccuracyHint(room.solution, attempt)
+	room.accuracyHints[attemptIndex] = accuracyHint
+	const accuracyHints = room.accuracyHints
 	await room.save()
-
-	// give hints according to attempt accuracy
-	const getAccuracyHints = async (solution, attempt) => {
-		let correctPositionCount = 0
-		let correctPieceCount = 0
-		let matchedAttemptPieces = [] // each attemptPieceIndex that has already been discovered will be pushed to this array
-
-		for (let solutionIndex = 0; solutionIndex < solution.length; solutionIndex++) {
-			const solutionPiece = solution [solutionIndex]
-
-			if (matchedAttemptPieces.length === 4) { // check if all attemptPieces have been matched before continuing
-				break
-			}
-
-			for (let attemptIndex = 0; attemptIndex < attempt.length; attemptIndex++) {
-				const attemptPiece = attempt[attemptIndex]
-
-				if (!solution.includes(attemptPiece)) { // if the attemptPiece is not anywhere in the solution
-					continue
-				}
-
-				if (matchedAttemptPieces.includes(attemptIndex)) { // first check if this attemptPiece has already been matched
-					continue
-				}
-
-				if (solution[attemptIndex] === attemptPiece) { // check if the attemptPiece is in the correct position
-					correctPieceCount++
-					correctPositionCount++
-					matchedAttemptPieces.push(attemptIndex)
-					break
-				}
-
-				if (solutionPiece === attemptPiece) { // if all other checks don't match, then this must
-					correctPieceCount++
-					matchedAttemptPieces.push(attemptIndex)
-					break
-				}
-			}
-		
-		}
-
-		return { correctPieceCount, correctPositionCount }
-	}
-
-	const accuracyHints = await getAccuracyHints(room.solution, attempt)
 
 	const attempts = room.attempts
 
 	let gameOver = false
 	let codeBreakerWin = false
 
-	if (attemptIndex === 0 || accuracyHints.correctPositionCount === 4) {
-		if (accuracyHints.correctPositionCount === 4) {
+	if (attemptIndex === 0 || accuracyHint.correctPositionCount === 4) {
+		if (accuracyHint.correctPositionCount === 4) {
 			codeBreakerWin = true
 		}
 		gameOver = true
@@ -224,9 +182,11 @@ exports.resetRoom = async (roomId) => {
 	const room = await Room.findOne({ '_id': roomId })
 	const attemptsDefault = Room.schema.paths.attempts.options.default
 	const solutionDefault = Room.schema.paths.solution.options.default
+	const accuracyHintsDefault = Room.schema.paths.accuracyHints.options.default
 
 	room.attempts = attemptsDefault
 	room.solution = solutionDefault
+	room.accuracyHints = accuracyHintsDefault
 
 	await room.save()
 }
@@ -254,6 +214,49 @@ function calculateAttemptIndex(attempts) {
 		return index.length-1
 	}
 	return null
+}
+
+// give hints according to attempt accuracy
+const getAccuracyHint = async (solution, attempt) => {
+	let correctPositionCount = 0
+	let correctPieceCount = 0
+	let matchedAttemptPieces = [] // each attemptPieceIndex that has already been discovered will be pushed to this array
+
+	for (let solutionIndex = 0; solutionIndex < solution.length; solutionIndex++) {
+		const solutionPiece = solution [solutionIndex]
+
+		if (matchedAttemptPieces.length === 4) { // check if all attemptPieces have been matched before continuing
+			break
+		}
+
+		for (let attemptIndex = 0; attemptIndex < attempt.length; attemptIndex++) {
+			const attemptPiece = attempt[attemptIndex]
+
+			if (!solution.includes(attemptPiece)) { // if the attemptPiece is not anywhere in the solution
+				continue
+			}
+
+			if (matchedAttemptPieces.includes(attemptIndex)) { // first check if this attemptPiece has already been matched
+				continue
+			}
+
+			if (solution[attemptIndex] === attemptPiece) { // check if the attemptPiece is in the correct position
+				correctPieceCount++
+				correctPositionCount++
+				matchedAttemptPieces.push(attemptIndex)
+				break
+			}
+
+			if (solutionPiece === attemptPiece) { // if all other checks don't match, then this must
+				correctPieceCount++
+				matchedAttemptPieces.push(attemptIndex)
+				break
+			}
+		}
+	
+	}
+
+	return { correctPieceCount, correctPositionCount }
 }
 
 const indexesOf = (arr, item) => 

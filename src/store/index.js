@@ -46,6 +46,9 @@ export default new Vuex.Store({
         return index.length-1
       }
     },
+    getAccuracyHint: (state) => (index) => {
+      return state.currentRoom.accuracyHints[index]
+    },
     hasCodeMakerAuthority: (state, getters) => {
       state;
       if (getters.getSolutionState === true) {
@@ -107,6 +110,9 @@ export default new Vuex.Store({
     },
     UPDATE_ALL_ATTEMPTS(state, payload) {
       state.currentRoom.attempts = payload
+    },
+    UPDATE_ALL_ACCURACY_HINTS(state, payload) {
+      state.currentRoom.accuracyHints = payload
     },
     UPDATE_LOCAL_SOLUTION(state, payload) {
       const index = state.localSolution.indexOf('')

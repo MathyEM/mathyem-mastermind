@@ -37,6 +37,22 @@ const roomSchema = new Schema({
 			['','','','']
 		]
 	},
+	accuracyHints: {
+		type: Array,
+		required: true,
+		default: [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		]
+	},
 	users: {
 		type: [usersSchema],
 		validate: [usersLimit, '{PATH} exceeds the limit of 2 users']

@@ -1,12 +1,20 @@
 <template>
   <div v-if="!attemptIndex && attemptIndex !== 0" class="code-row" :class="{ disabled: disabled }">
-    <div v-for="(piece, index) in code" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
+    <div v-for="(piece, index1) in code" :key="index1" ref="code-piece" @click="onClick(index1, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
   </div>
   <div v-else class="code-row" :class="{ disabled: disabled }">
-    <div v-for="(piece, index) in getCurrentRoom.attempts[attemptIndex]" :key="index" ref="code-piece" @click="onClick(index, attemptIndex)" class="code-piece">
+    <div v-for="(piece, index2) in getCurrentRoom.attempts[attemptIndex]" :key="index2" ref="code-piece" @click="onClick(index2, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
+    </div>
+    <div
+      class="accuracy-hints"
+      :class="{ showAccuracyHint: (getAccuracyHint(attemptIndex).correctPieceCount !== undefined) }"
+      v-if="getCurrentRoom.accuracyHints !== undefined && getAccuracyHint(attemptIndex).correctPieceCount !== undefined"
+    >
+      <div class="hint correctPosition" v-for="correctPositionCount in (getAccuracyHint(attemptIndex).correctPositionCount)" :key="'position'+correctPositionCount"></div>
+      <div class="hint correctPiece" v-for="correctPieceCount in (Math.max((getAccuracyHint(attemptIndex).correctPieceCount-getAccuracyHint(attemptIndex).correctPositionCount), 0))" :key="'piece'+correctPieceCount"></div>
     </div>
   </div>
 </template>
@@ -28,7 +36,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCurrentRoom'])
+    ...mapGetters(['getCurrentRoom', 'getAccuracyHint'])
+  },
+  created() {
+      
   }
 }
 </script>
@@ -39,12 +50,12 @@ $code-piece-size: calc(90vh / 12 - 1.5rem);
 $color: #000;
 
 .code-row {
+  position: relative;
   user-select: none;
   display: flex;
   flex-wrap: nowrap;
   gap: $code-piece-margin;
   width: 100%;
-  height: $code-piece-size;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
@@ -64,6 +75,31 @@ $color: #000;
       font-size: 1.2em;
       width: $code-piece-size;
       height: $code-piece-size;
+    }
+  }
+
+  .accuracy-hints {
+    position: absolute;
+    width: $code-piece-size;
+    height: $code-piece-size;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: column;
+    gap: 0.2rem;
+    right: calc(0px - $code-piece-size / 3);
+    // border: 1px solid transparent;
+
+    .hint {
+      border: 1px solid black;
+      border-radius: 0.1rem;
+
+      &.correctPiece {
+        background: lightgray;
+      }
+      &.correctPosition {
+        background: lightgreen;
+      }
     }
   }
 
