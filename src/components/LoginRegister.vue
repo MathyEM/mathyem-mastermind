@@ -4,8 +4,8 @@
       <input v-model="username" type="text" placeholder="Username">
       <div v-if="getRegisteringState && $v.username.$error" class="register-errors username-errors">
         <div v-if="!$v.username.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.username.alphaNum" class="error">{{ getErrors.username.alphaNum['EN'] }}</div>
-        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.alphaNum" class="error">
+        <div v-if="!$v.username.regex" class="error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
+        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="error">
           {{ getErrors.username.minmaxLength['EN'] }}
         </div>
       </div>
@@ -20,6 +20,7 @@
         <div v-if="!$v.password.minLength || !$v.password.maxLength" class="error">
           {{ getErrors.password.minmaxLength['EN'] }}
         </div>
+        <div v-if="!$v.password.regex" class="error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
       <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
       <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
@@ -33,7 +34,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
-import { required, minLength, maxLength, alphaNum, email } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, email, helpers } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoginRegister',
@@ -47,18 +48,19 @@ export default {
     return {
       username: {
         required,
-        alphaNum,
         minLength: minLength(this.getUsernameMinLength),
         maxLength: maxLength(this.getUsernameMaxLength),
+        regex: helpers.regex('regex', this.getUsernameRegex),
       },
       email: {
         required,
-        email
+        email,
       },
       password: {
         required,
         minLength: minLength(this.getPasswordMinLength),
         maxLength: maxLength(this.getPasswordMaxLength),
+        regex: helpers.regex('regex', this.getPasswordRegex),
       }
     }
   },
@@ -70,8 +72,10 @@ export default {
       'getLocalPassword',
       'getUsernameMinLength',
       'getUsernameMaxLength',
+      'getUsernameRegex',
       'getPasswordMinLength',
       'getPasswordMaxLength',
+      'getPasswordRegex',
       'getErrors',
     ]),
     username: {

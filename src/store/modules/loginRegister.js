@@ -5,6 +5,7 @@ const state = {
     value: 'Mathy',
     minLength: 3,
     maxLength: 16,
+    regex: /^[a-zA-Z0-9._-]+$/i,
   },
   email: {
     value: 'test@test.com',
@@ -13,6 +14,7 @@ const state = {
     value: 'budding1337',
     minLength: 8,
     maxLength: 48,
+    regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z._-]+$/,
   },
   errors: {
     generic: {
@@ -26,9 +28,9 @@ const state = {
         DA: 'Dit brugernavn skal være 3-16 tegn langt',
         EN: 'Your username must be 3-16 characters long',
       },
-      alphaNum: {
-        DA: 'Dit brugernavn må kun indeholde alfanumeriske tegn (A-Z, a-z og 0-9)',
-        EN: 'Your username can only contain alphanumeric characters (A-Z, a-z and 0-9)',
+      regex: {
+        DA: 'Dit brugernavn må kun indeholde alfanumeriske tegn (A-Z, a-z og 0-9) og <strong>. - _</strong>',
+        EN: `Your username can only contain alphanumeric characters (A-Z, a-z and 0-9) and <strong>. - _</strong>`,
       }
     },
     email: {
@@ -41,6 +43,10 @@ const state = {
       minmaxLength: {
         DA: 'Dit kodeord skal være mellem 8-48 tegn langt',
         EN: 'Your password must be 8-48 characters long',
+      },
+      regex: {
+        DA: 'Dit kodeord <strong>skal</strong> indeholde mindst ét lille og ét stort bogstav, ét tal og ét specialtegn (</strong>. - _</strong>)',
+        EN: `Your username <strong>must</strong> contain at least one lowercase, one uppercase letter, one number and one special character (<strong>. - _</strong>)`,
       }
     }
   }
@@ -49,10 +55,12 @@ const getters = {
   getLocalUsername: state => state.username.value,
   getUsernameMinLength: state => state.username.minLength,
   getUsernameMaxLength: state => state.username.maxLength,
+  getUsernameRegex: state => state.username.regex,
   getLocalEmail: state => state.email.value,
   getLocalPassword: state => state.password.value,
   getPasswordMinLength: state => state.password.minLength,
   getPasswordMaxLength: state => state.password.maxLength,
+  getPasswordRegex: state => state.password.regex,
   getErrors: state => state.errors,
 }
 const mutations = {
