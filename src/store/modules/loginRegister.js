@@ -14,7 +14,7 @@ const state = {
     value: 'budding1337',
     minLength: 8,
     maxLength: 48,
-    regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z._-]+$/,
+    regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[._-])[0-9a-zA-Z._-]+$/,
   },
   errors: {
     generic: {
@@ -93,7 +93,7 @@ const actions = {
   registerUser({ getters }, payload) {
     if (payload.invalid) {
       console.log('form invalid')
-      return
+      // return
     }
     let currentUrl = window.location.pathname
     axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/register',
