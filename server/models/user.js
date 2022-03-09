@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   }
 })
 
-userSchema.plugin(passportLocalMongoose)
+userSchema.plugin(passportLocalMongoose, {usernameCaseInsensitive: true})
 
 const User = mongoose.model("User", userSchema)
 module.exports = User
