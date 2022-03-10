@@ -28,12 +28,12 @@
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
-import OptionsButton from '@/components/OptionsButton.vue'
+import OptionsButton from '@/components/subcomponents/OptionsButton.vue'
 import Scores from '@/components/Scores.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
-import RoomListButton from '@/components/RoomListButton.vue'
+import RoomListButton from '@/components/subcomponents/RoomListButton.vue'
 import RoomList from '@/components/RoomList.vue'
 import GameStatus from '@/components/GameStatus.vue'
 

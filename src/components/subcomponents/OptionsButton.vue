@@ -5,11 +5,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'OptionsButton',
   props: {
     title: String
-  }
+  },
+  computed: {
+    ...mapGetters(['getCurrentRoom'])
+	},
 }
 </script>
 
