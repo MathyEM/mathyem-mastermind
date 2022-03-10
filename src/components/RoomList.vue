@@ -64,6 +64,7 @@ $margin-top: 2.4rem;
 $dark-gray: #505050;
 
 .room-list {
+  z-index: 4;
   position: absolute;
   left: 0;
   top: 0;
@@ -73,7 +74,6 @@ $dark-gray: #505050;
   max-height: calc(100vh - $margin-top - 1rem);
   margin-top: $margin-top;
   background: $dark-gray;
-
   color: whitesmoke;
 
   .room {

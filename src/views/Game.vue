@@ -7,6 +7,7 @@
       <RoomListButton title="Rooms" />
       <RoomList />
       <OptionsButton title="Options"/>
+      <Options />
     </div>
     <CreateJoinRoom />
   </div>
@@ -15,6 +16,7 @@
       <RoomListButton title="Rooms" />
       <RoomList />
       <OptionsButton title="Options"/>
+      <Options />
     </div>
     <Scores />
     <Solution />
@@ -29,6 +31,7 @@
 import LoginRegister from '@/components/LoginRegister.vue'
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
 import OptionsButton from '@/components/subcomponents/OptionsButton.vue'
+import Options from '@/components/Options.vue'
 import Scores from '@/components/Scores.vue'
 import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
@@ -45,6 +48,7 @@ export default {
     LoginRegister,
     CreateJoinRoom,
     OptionsButton,
+    Options,
     Scores,
     Solution,
     Attempts,

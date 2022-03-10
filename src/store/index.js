@@ -17,6 +17,7 @@ export default new Vuex.Store({
     },
     loginStatus: false,
     showRoomList: false,
+    showOptions: false,
     usersRooms: [],
     currentRoom: {
       id: '',
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     getUserId: state => state.user.id,
     getLoginStatus: state => state.loginStatus,
     getShowRoomList: state => state.showRoomList,
+    getShowOptions: state => state.showOptions,
     getEmail: state => state.user.email,
     getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
@@ -92,6 +94,9 @@ export default new Vuex.Store({
     },
     SET_SHOW_ROOM_LIST(state, payload) {
       state.showRoomList = payload
+    },
+    SET_SHOW_OPTIONS(state, payload) {
+      state.showOptions = payload
     },
     SET_USERS_ROOMS(state, payload) {
       state.usersRooms = payload
