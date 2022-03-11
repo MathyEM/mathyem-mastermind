@@ -5,6 +5,11 @@
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
 			<form v-on:submit.prevent="onSubmit">
 				<input v-model="roomName" type="text" placeholder="Name your new room or enter room code" minlength="3"><br/>
+				<div v-if="getCreateJoinRoomError" class="create-join-errors">
+					<div class="create-join-error">
+
+					</div>
+				</div>
 				<button @click="createRoom" type="submit">Create Room</button>
 				<button @click="joinRoom" type="submit">Join Room</button>
 			</form>
@@ -28,7 +33,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUsername', 'getCurrentRoom', 'getLoginStatus'])
+		...mapGetters(['getUsername', 'getCurrentRoom', 'getLoginStatus', 'getCreateJoinRoomError'])
 	},
   methods: {
 		onSubmit() {

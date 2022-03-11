@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import options from './modules/options'
 import statusMessages from './modules/statusMessages'
 import loginRegister from './modules/loginRegister'
+import createJoinRoom from './modules/createJoinRoom'
 import { socketConnection } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
@@ -207,6 +208,7 @@ export default new Vuex.Store({
     statusMessages,
     options,
     loginRegister,
+    createJoinRoom,
   }
 })
 

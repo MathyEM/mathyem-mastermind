@@ -3,24 +3,24 @@
     <form v-on:submit.prevent="onSubmit">
       <input v-model="username" type="text" placeholder="Username">
       <div v-if="getRegisteringState && $v.username.$error" class="register-errors username-errors">
-        <div v-if="!$v.username.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.username.regex" class="error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
-        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="error">
+        <div v-if="!$v.username.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.username.regex" class="register-error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
+        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="register-error">
           {{ getErrors.username.minmaxLength['EN'] }}
         </div>
       </div>
       <input v-if="getRegisteringState" v-model="email" type="text" placeholder="Email">
       <div v-if="getRegisteringState && $v.email.$error" class="register-errors email-errors">
-        <div v-if="!$v.email.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.email.email" class="error">{{ getErrors.email.email['EN'] }}</div>
+        <div v-if="!$v.email.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.email.email" class="register-error">{{ getErrors.email.email['EN'] }}</div>
       </div>
       <input v-model="password" type="password" placeholder="Password" minlength="6">
       <div v-if="getRegisteringState && $v.password.$error" class="register-errors password-errors">
-        <div v-if="!$v.password.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.password.minLength || !$v.password.maxLength" class="error">
+        <div v-if="!$v.password.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.password.minLength || !$v.password.maxLength" class="register-error">
           {{ getErrors.password.minmaxLength['EN'] }}
         </div>
-        <div v-if="!$v.password.regex" class="error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
+        <div v-if="!$v.password.regex" class="register-error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
       <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
       <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
@@ -131,7 +131,7 @@ form input:not(:first-of-type), button:first-of-type {
   border-top: none;
   font-size: 0.9rem;
 
-  .error {
+  .register-error {
     padding: 0.25rem;
     
     &:first-child:not(:last-child) {

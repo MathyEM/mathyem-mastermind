@@ -55,7 +55,7 @@ const getters = {
         if (rootGetters.getSolutionState && rootGetters.getCodeMaker !== rootGetters.getUserId) {
             return state.gameplayStatus.isCodeBreaker
         }
-    }
+    },
 }
 
 const mutations = {

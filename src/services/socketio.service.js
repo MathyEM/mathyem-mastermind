@@ -37,6 +37,7 @@ class SocketioService {
     
     // ON ERROR
     this.socket.on('error', (response) => {
+      console.log(response)
       console.log(response.message)
     })
 
