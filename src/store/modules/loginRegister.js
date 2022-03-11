@@ -95,7 +95,7 @@ const actions = {
       console.log('form invalid')
       // return
     }
-    let currentUrl = window.location.pathname
+    const currentUrl = window.location.pathname
     axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/register',
     {
       username: getters.getLocalUsername,
@@ -125,6 +125,17 @@ const actions = {
           window.location = currentUrl
         }
       }
+    })
+  },
+  logoutUser() {
+    const currentUrl = window.location.pathname
+    axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/logout', {}, { withCredentials: true })
+    .then((response) => {
+      if (response.status !== 200) {
+        console.log('status: ', response.status);
+        return
+      }
+      window.location = currentUrl
     })
   }
 }

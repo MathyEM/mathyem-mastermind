@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="logout-btn">
-          <button>Log out</button>
+          <button @click="logoutUser">Log out</button>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Options',
@@ -32,6 +32,7 @@ export default {
 	},
   methods: {
     ...mapMutations(['SET_SHOW_OPTIONS']),
+    ...mapActions(['logoutUser']),
     copyRoomId() {
       const text = this.getCurrentRoom._id
       if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
@@ -133,8 +134,10 @@ $dark-gray: #505050;
     font-size: 1rem;
     display: flex;
     justify-content: space-around;
-    cursor: pointer;
+    align-items: center;
+    padding: 0.2rem 0;
     transition: background-color 100ms ease-in-out;
+    cursor: pointer;
 
     &:active {
       background-color: rgba($color: #fff, $alpha: 0.2);
@@ -147,6 +150,7 @@ $dark-gray: #505050;
       font-weight: bold;
     }
     .copy-img {
+      display: flex;
       img {
         height: 2em;
       }
