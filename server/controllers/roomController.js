@@ -218,44 +218,24 @@ function calculateAttemptIndex(attempts) {
 
 // give hints according to attempt accuracy
 const getAccuracyHint = async (solution, attempt) => {
-	let correctPositionCount = 0
+	let solutionCopy = solution.slice()
 	let correctPieceCount = 0
-	let matchedAttemptPieces = [] // each attemptPieceIndex that has already been discovered will be pushed to this array
+	let correctPositionCount = 0
 
-	for (let solutionIndex = 0; solutionIndex < solution.length; solutionIndex++) {
-		const solutionPiece = solution [solutionIndex]
+	for (let index = 0; index < attempt.length; index++) {
+		const piece = attempt[index]
+		const indexOfAttemptPiece = solutionCopy.indexOf(piece)
 
-		if (matchedAttemptPieces.length === 4) { // check if all attemptPieces have been matched before continuing
-			break
+		if (indexOfAttemptPiece > -1) {	// if the solutions includes the attemptPiece then count it as a correct piece and remove it from the copy
+			correctPieceCount++
+			solutionCopy.splice(indexOfAttemptPiece, 1)
 		}
 
-		for (let attemptIndex = 0; attemptIndex < attempt.length; attemptIndex++) {
-			const attemptPiece = attempt[attemptIndex]
-
-			if (!solution.includes(attemptPiece)) { // if the attemptPiece is not anywhere in the solution
-				continue
-			}
-
-			if (matchedAttemptPieces.includes(attemptIndex)) { // first check if this attemptPiece has already been matched
-				continue
-			}
-
-			if (solution[attemptIndex] === attemptPiece) { // check if the attemptPiece is in the correct position
-				correctPieceCount++
-				correctPositionCount++
-				matchedAttemptPieces.push(attemptIndex)
-				break
-			}
-
-			if (solutionPiece === attemptPiece) { // if all other checks don't match, then this must
-				correctPieceCount++
-				matchedAttemptPieces.push(attemptIndex)
-				break
-			}
+		if (piece === solution[index]) { // if the code piece is the same for both attempt and solution at the same index
+			correctPositionCount++
 		}
-	
 	}
-
+	
 	return { correctPieceCount, correctPositionCount }
 }
 
