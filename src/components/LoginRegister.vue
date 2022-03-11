@@ -3,24 +3,24 @@
     <form v-on:submit.prevent="onSubmit">
       <input v-model="username" type="text" placeholder="Username">
       <div v-if="getRegisteringState && $v.username.$error" class="register-errors username-errors">
-        <div v-if="!$v.username.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.username.regex" class="register-error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
-        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="register-error">
+        <div v-if="!$v.username.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.username.regex" class="error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
+        <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="error">
           {{ getErrors.username.minmaxLength['EN'] }}
         </div>
       </div>
       <input v-if="getRegisteringState" v-model="email" type="text" placeholder="Email">
       <div v-if="getRegisteringState && $v.email.$error" class="register-errors email-errors">
-        <div v-if="!$v.email.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.email.email" class="register-error">{{ getErrors.email.email['EN'] }}</div>
+        <div v-if="!$v.email.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.email.email" class="error">{{ getErrors.email.email['EN'] }}</div>
       </div>
       <input v-model="password" type="password" placeholder="Password" minlength="6">
       <div v-if="getRegisteringState && $v.password.$error" class="register-errors password-errors">
-        <div v-if="!$v.password.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
-        <div v-if="!$v.password.minLength || !$v.password.maxLength" class="register-error">
+        <div v-if="!$v.password.required" class="error">{{ getErrors.generic.required['EN'] }}</div>
+        <div v-if="!$v.password.minLength || !$v.password.maxLength" class="error">
           {{ getErrors.password.minmaxLength['EN'] }}
         </div>
-        <div v-if="!$v.password.regex" class="register-error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
+        <div v-if="!$v.password.regex" class="error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
       <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
       <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
@@ -30,8 +30,11 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+import { required, minLength, maxLength, email, helpers } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoginRegister',
@@ -39,31 +42,76 @@ export default {
   },
 	data() {
 		return {
-			username: 'Mathy',
-      email: 'test@test.com',
-      password: 'budding1337',
 		}
 	},
+  validations() {
+    return {
+      username: {
+        required,
+        minLength: minLength(this.getUsernameMinLength),
+        maxLength: maxLength(this.getUsernameMaxLength),
+        regex: helpers.regex('regex', this.getUsernameRegex),
+      },
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(this.getPasswordMinLength),
+        maxLength: maxLength(this.getPasswordMaxLength),
+        regex: helpers.regex('regex', this.getPasswordRegex),
+      }
+    }
+  },
 	computed: {
-    ...mapGetters(['getRegisteringState'])
+    ...mapGetters([
+      'getRegisteringState',
+      'getLocalUsername',
+      'getLocalEmail',
+      'getLocalPassword',
+      'getUsernameMinLength',
+      'getUsernameMaxLength',
+      'getUsernameRegex',
+      'getPasswordMinLength',
+      'getPasswordMaxLength',
+      'getPasswordRegex',
+      'getErrors',
+    ]),
+    username: {
+      get() { return this.getLocalUsername },
+      set(username) {
+        this.$v.username.$touch()
+        this.UPDATE_LOCAL_USERNAME(username)
+        this
+      }
+    },
+    email: {
+      get() { return this.getLocalEmail },
+      set(email) {
+        this.$v.email.$touch()
+        this.UPDATE_LOCAL_EMAIL(email)
+      }
+    },
+    password: {
+      get() { return this.getLocalPassword },
+      set(password) {
+        this.$v.password.$touch()
+        this.UPDATE_LOCAL_PASSWORD(password)
+      }
+    },
   },
   methods: {
-    ...mapActions(['socketLogin']),
-    ...mapMutations(['TOGGLE_REGISTERING_STATE']),
+    ...mapActions(['socketLogin', 'validateRegister', 'loginUser', 'registerUser']),
+    ...mapMutations(['TOGGLE_REGISTERING_STATE', 'UPDATE_LOCAL_USERNAME', 'UPDATE_LOCAL_EMAIL', 'UPDATE_LOCAL_PASSWORD']),
+    onSubmit() {
+      return false
+    },
 		login() {
-			console.log('login clicked')
-      axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login', {username: this.username, email: this.email, password: this.password}, { withCredentials: true })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log('status: ', response.status);
-            return
-          }
-          this.socketLogin()
-        })
+      this.loginUser()
     },
     register() {
-			console.log('register clicked')
-      axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/register', {username: this.username, email: this.email, password: this.password}, { withCredentials: true })
+      this.registerUser(this.$v.$invalid)
     }
   }
 }
@@ -83,7 +131,7 @@ form input:not(:first-of-type), button:first-of-type {
   border-top: none;
   font-size: 0.9rem;
 
-  .register-error {
+  .error {
     padding: 0.25rem;
     
     &:first-child:not(:last-child) {

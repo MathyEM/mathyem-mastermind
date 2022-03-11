@@ -79,7 +79,7 @@ const mutations = {
 }
 const actions = {
   loginUser({ getters, dispatch }) {
-    axios.post('http://' + socketEndpoint + '/login',
+    axios.post('https://' + socketEndpoint + '/login',
     {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
@@ -99,7 +99,7 @@ const actions = {
       // return
     }
     const currentUrl = window.location.pathname
-    axios.post('http://' + socketEndpoint + '/register',
+    axios.post('https://' + socketEndpoint + '/register',
     {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
@@ -132,7 +132,7 @@ const actions = {
   },
   logoutUser() {
     const currentUrl = window.location.pathname
-    axios.post('http://' + socketEndpoint + '/logout', {}, { withCredentials: true })
+    axios.post('https://' + socketEndpoint + '/logout', {}, { withCredentials: true })
     .then((response) => {
       if (response.status !== 200) {
         console.log('status: ', response.status);

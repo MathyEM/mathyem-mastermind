@@ -34,6 +34,10 @@ export default {
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
 }

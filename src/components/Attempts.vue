@@ -5,7 +5,9 @@
       :key="attemptIndex"
       :code="attempt"
       :onClick="onClick"
-      :attemptIndex="attemptIndex" />
+      :attemptIndex="attemptIndex" 
+      class="attempts-code-row"
+      :class="{ active: (getCurrentAttempt == attemptIndex && getSolutionState) }" />
   </div>
 </template>
 
@@ -22,20 +24,34 @@ export default {
   },
   computed: {
     ...mapGetters({
-      gameData: 'getGameData'
-    })
+      gameData: 'getCurrentRoom',
+    }),
+    ...mapGetters(['getCurrentAttempt', 'getSolutionState']),
   },
   methods: {
     onClick(pieceIndex, attemptIndex) {
-      console.log(pieceIndex, attemptIndex)
+      console.log(pieceIndex, attemptIndex, attemptIndex+1)
     }
   }
 
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .attempts {
-  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: 100%;
+  padding: 0;
+  padding-bottom: 2rem;
+  width: 100%;
+  row-gap: 0.6rem;
+
+  .attempts-code-row {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    justify-content: center;
+    column-gap: 0.8rem;
+  }
 }
 </style>

@@ -1,5 +1,8 @@
 import { io } from 'socket.io-client'
-import store from '../store';
+import store from '../store'
+import ConfigProvider from '@/ConfigProvider'
+
+const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
 class SocketioService {
   socket
@@ -9,7 +12,7 @@ class SocketioService {
   }
 
   async setupSocketConnection() {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+'/user', {
+    this.socket = io(socketEndpoint+'/user', {
       withCredentials: true,
     })
 
@@ -30,21 +33,10 @@ class SocketioService {
       if (response.authorization) {
         this.socket.emit('req-login', { message: 'attempting login' })
       }
-
-      // if (response.user && !store.getters.getLoginStatus) {
-      //   const user = response.user
-      //   console.log(`logging in socket user: ${user.username}`)
-      //   store.commit('SET_USER', {
-      //     username: user.username,
-      //     email: user.email,
-      //   })
-      //   return
-      // }
     })
     
     // ON ERROR
     this.socket.on('error', (response) => {
-      console.log(response)
       console.log(response.message)
     })
 
@@ -56,6 +48,7 @@ class SocketioService {
       this.fetchUserRooms()
 
       store.commit('SET_USER', {
+        id: response._id,
         username: response.username,
         email: response.email,
       })
@@ -71,15 +64,39 @@ class SocketioService {
       console.log('room created:')
       console.log(response)
 
-      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
-      // await store.dispatch('fetchGameData')
+      await store.dispatch('setCurrentRoom', response)
+      this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-joined', async (response) => {
       console.log('room joined:')
       console.log(response)
 
-      await store.dispatch('setCurrentRoom', {id: response._id, name: response.name})
+      await store.dispatch('setCurrentRoom', response)
+      this.fetchUserRooms(response._id)
+    })
+
+    this.socket.on('room-entered', async (response) => {
+      const room = response
+      console.log(room)
+
+      await store.dispatch('setCurrentRoom', room)
+    })
+
+    this.socket.on('solution-set', () => {
+      console.log('called solution-set')
+      store.commit('TOGGLE_LOCAL_SOLUTION', true)
+      store.commit('TOGGLE_SOLUTION_STATE')
+    })
+
+    this.socket.on('attempt-set', (response) => {
+      console.log('called attempt-set')
+      store.commit('UPDATE_ALL_ATTEMPTS', response.attempts)
+      store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
+    })
+
+    this.socket.on('accuracy-hints', (response) => {
+      store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
     })
 
     // ON DISCONNECT
@@ -114,7 +131,20 @@ class SocketioService {
 
   joinRoom(roomId) {
     if (this.socket) {
+
+      // if the user is already in the room
+      if (store.getters.getUsersRooms.some(checkId, { roomId })) {
+        console.log('You are already in this room')
+        return
+      }
+
       this.socket.emit('join-room', { roomId: roomId })
+    }
+  }
+
+  async enterRoom(roomId) {
+    if (this.socket) {
+      await this.socket.emit('enter-room', { roomId: roomId })
     }
   }
 
@@ -125,14 +155,27 @@ class SocketioService {
     }
   }
 
-  getGameData(userData) {
+  async sendSolution(solution) {
     if (this.socket) {
-      this.socket.emit('get-game-data', userData, (response) => {
-        console.log(response);
-      })
+      console.log("sending solution...")
+      console.log(solution)
+      const roomId = store.getters.getCurrentRoom._id
+      this.socket.emit('set-solution', { roomId, solution })
     }
   }
 
+  async sendAttempt(attempt, attemptIndex) {
+    if (this.socket) {
+      console.log('sending attempt...')
+      console.log(attempt)
+      const roomId = store.getters.getCurrentRoom._id
+      this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
+    }
+  }
+}
+
+function checkId(element) {
+  element._id === this.roomId
 }
 
 // const guestSocket = new SocketioService('/guest')

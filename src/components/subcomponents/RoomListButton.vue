@@ -1,5 +1,5 @@
 <template>
-  <div class="room-list-btn" @click="SET_SHOW_ROOM_LIST(!getShowRoomList)"><span>≡</span> {{ title }}</div>
+  <div class="room-list-btn" @click="toggleMenus"><span>≡</span> {{ title }}</div>
 </template>
 
 <script>
@@ -19,10 +19,14 @@ export default {
 		}
 	},
 	computed: {
-    ...mapGetters(['getShowRoomList'])
+    ...mapGetters(['getShowRoomList', 'getShowOptions'])
 	},
   methods: {
-    ...mapMutations(['SET_SHOW_ROOM_LIST'])
+    ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS']),
+    toggleMenus() {
+      this.SET_SHOW_ROOM_LIST(!this.getShowRoomList)
+      this.SET_SHOW_OPTIONS(false)
+    }
   },
 	created() {
 	}
@@ -32,10 +36,11 @@ export default {
 <style scoped lang="scss">
 .room-list-btn {
   font-weight: bold;
+  user-select: none;
   cursor: pointer;
 
   span {
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
 }
 </style>
