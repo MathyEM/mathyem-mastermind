@@ -42,6 +42,12 @@ class SocketioService {
       // }
     })
     
+    // ON ERROR
+    this.socket.on('error', (response) => {
+      console.log(response)
+      console.log(response.message)
+    })
+
     // ON LOGIN
     this.socket.on('login', (response) => {
       console.log(`logging in socket user: ${response.username}`)

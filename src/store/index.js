@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 import attempts from './modules/attempts'
 import codeButtons from './modules/codeButtons'
 import options from './modules/options'
-import solution from './modules/solution'
+import statusMessages from './modules/statusMessages'
+import loginRegister from './modules/loginRegister'
+import createJoinRoom from './modules/createJoinRoom'
 import { socketConnection } from '@/services/socketio.service.js'
 
 Vue.use(Vuex)
@@ -112,6 +114,7 @@ export default new Vuex.Store({
     attempts,
     codeButtons,
     options,
-    solution
+    loginRegister,
+    createJoinRoom,
   }
 })
