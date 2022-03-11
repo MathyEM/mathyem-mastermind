@@ -1,5 +1,5 @@
 #STEP 1 BUILD VUE PROJECT
-# docker buildx build --platform linux/arm/v7 -t kallakukku/home-app:latest --push .
+# docker buildx build --platform linux/arm/v7 -t kallakukku/mastermind:latest --push .
 FROM node:14-alpine AS build
 WORKDIR /app
 COPY package.json ./
