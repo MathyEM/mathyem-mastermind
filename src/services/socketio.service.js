@@ -12,7 +12,7 @@ class SocketioService {
   }
 
   async setupSocketConnection() {
-    this.socket = io('https://' + socketEndpoint+'/user', {
+    this.socket = io(socketEndpoint+'/user', {
       withCredentials: true,
     })
 

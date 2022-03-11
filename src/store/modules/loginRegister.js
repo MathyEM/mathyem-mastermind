@@ -5,16 +5,16 @@ const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
 const state = {
   username: {
-    value: 'Mathy',
+    value: '',
     minLength: 3,
     maxLength: 16,
     regex: /^[a-zA-Z0-9._-]+$/i,
   },
   email: {
-    value: 'test@test.com',
+    value: '',
   },
   password: {
-    value: 'budding1337',
+    value: '',
     minLength: 8,
     maxLength: 48,
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[._-])[0-9a-zA-Z._-]+$/,
