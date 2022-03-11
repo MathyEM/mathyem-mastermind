@@ -39,6 +39,9 @@ class SocketioService {
     this.socket.on('error', (response) => {
       console.log(response)
       console.log(response.message)
+      if (response.type === 'alreadyInRoom') {
+        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', true)
+      }
     })
 
     // ON LOGIN
@@ -74,6 +77,7 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
+      store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', false)
       this.fetchUserRooms(response._id)
     })
 
@@ -135,7 +139,7 @@ class SocketioService {
 
       // if the user is already in the room
       if (store.getters.getUsersRooms.some(checkId, { roomId })) {
-        console.log('You are already in this room')
+        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', true)
         return
       }
 

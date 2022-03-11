@@ -76,7 +76,7 @@ class SocketConnection {
 
 				if (!status) {
 					console.log(message)
-					socket.emit('error', { message: message })
+					socket.emit('error', { message: message, type: 'alreadyInRoom' })
 					return
 				}
 

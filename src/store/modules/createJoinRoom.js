@@ -1,23 +1,33 @@
 const state = {
-  createJoinRoomStatus: {
+  createJoinRoomErrors: {
       alreadyInRoom: {
           DA: 'Dette rum er fyldt, eller du allerede tilsluttet det',
           EN: "This room is full or you have already joined it"
       }
   },
-  createJoinRoomError: false,
+  alreadyInRoomError: false,
 }
 
 const getters = {
-  getCreateJoinRoomStatus: (state) => {
-    state
+  getCreateJoinRoomErrors: state => state.createJoinRoomErrors,
+  getAlreadyInRoomError: state => state.alreadyInRoomError,
+  getCreateJoinRoomAnyError: state => {
+    if (state.alreadyInRoomError) {
+      return true
+    }
   },
-  getCreateJoinRoomError: state => state.createJoinRoomError,
-
 }
 
 const mutations = {
-
+  TOGGLE_ALREADY_IN_ROOM_ERROR(state, payload) {
+    state.alreadyInRoomError = payload
+    if (payload) {
+      state.createJoinRoomAnyError = payload
+    }
+  },
+  TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR(state, payload) {
+    state.createJoinRoomAnyError = payload
+  }
 }
 
 const actions = {
