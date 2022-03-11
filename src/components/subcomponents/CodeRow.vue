@@ -95,10 +95,10 @@ $color: #000;
       border-radius: 0.1rem;
 
       &.correctPiece {
-        background: lightgray;
+        background: #e3b200;
       }
       &.correctPosition {
-        background: lightgreen;
+        background: #54c300;
       }
     }
   }
