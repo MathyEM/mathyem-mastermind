@@ -5,6 +5,7 @@ export default class ConfigProvider {
   static get CONFIG() {
     return {
       socketEndpoint: "$VUE_APP_SOCKET_ENDPOINT",
+      socketEndpointProtocol: "$VUE_APP_SOCKET_ENDPOINT_PROTOCOL",
     };
   }
 
