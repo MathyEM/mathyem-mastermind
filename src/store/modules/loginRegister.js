@@ -1,4 +1,7 @@
 import axios from 'axios'
+import ConfigProvider from '@/ConfigProvider'
+
+const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
 const state = {
   username: {
@@ -76,7 +79,7 @@ const mutations = {
 }
 const actions = {
   loginUser({ getters, dispatch }) {
-    axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/login',
+    axios.post(socketEndpoint + '/login',
     {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
@@ -96,7 +99,7 @@ const actions = {
       // return
     }
     const currentUrl = window.location.pathname
-    axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/register',
+    axios.post(socketEndpoint + '/register',
     {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
@@ -129,7 +132,7 @@ const actions = {
   },
   logoutUser() {
     const currentUrl = window.location.pathname
-    axios.post(process.env.VUE_APP_SOCKET_ENDPOINT + '/logout', {}, { withCredentials: true })
+    axios.post(socketEndpoint + '/logout', {}, { withCredentials: true })
     .then((response) => {
       if (response.status !== 200) {
         console.log('status: ', response.status);
