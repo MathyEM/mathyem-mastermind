@@ -6,6 +6,9 @@ module.exports = {
           }
       }
   },
+  pwa: {
+    manifestCrossorigin: 'use-credentials',
+  },
   devServer: {
       host: '0.0.0.0',
       disableHostCheck: true

@@ -1,5 +1,8 @@
 import { io } from 'socket.io-client'
-import store from '../store';
+import store from '../store'
+import ConfigProvider from '@/ConfigProvider'
+
+const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
 class SocketioService {
   socket
@@ -9,7 +12,7 @@ class SocketioService {
   }
 
   async setupSocketConnection() {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT+'/user', {
+    this.socket = io(socketEndpoint+'/user', {
       withCredentials: true,
     })
 
