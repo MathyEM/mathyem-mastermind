@@ -4,12 +4,16 @@
       <div class="footer">
         <div class="join-code">
           <p><span class="join-code-text">Join code:</span><br> {{ getCurrentRoom._id }}</p>
+          <div class="copy-img">
+            <img :src="copyImg" alt="copy-paste icon">
+          </div>
         </div>
         <div class="logout-btn">
-          <p>Log out</p>
+          <button>Log out</button>
         </div>
       </div>
     </div>
+    <!-- <div> undefined <a href="" title="Gregor Cresnar"> Gregor Cresnar </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
   </transition>
 </template>
 
@@ -18,6 +22,11 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Options',
+  data() {
+    return {
+      copyImg: require('@/assets/copy67x67.png')
+    }
+  },
   computed: {
     ...mapGetters(['getCurrentRoom', 'getShowOptions'])
 	},
@@ -60,6 +69,9 @@ $dark-gray: #505050;
 
   .join-code {
     font-size: 1rem;
+    display: flex;
+    justify-content: space-around;
+    cursor: pointer;
 
     p {
       margin: 0;
@@ -67,11 +79,23 @@ $dark-gray: #505050;
     .join-code-text {
       font-weight: bold;
     }
+    .copy-img {
+      img {
+        height: 2em;
+      }
+    }
   }
 
   .logout-btn {
-    p {
+    button {
       margin: 0;
+      padding: 0.6rem;
+      width: 100%;
+      height: 100%;
+      font-size: 1.4rem;
+      border: 0;
+      color: inherit;
+      background: rgba($color: #fff, $alpha: 0.2);
     }
   }
 
