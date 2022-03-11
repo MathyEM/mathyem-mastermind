@@ -1,5 +1,9 @@
 const state = {
     gameplayStatus: {
+        awaitingPlayers: {
+            DA: 'Find rum-koden i options-menuen og send den til en ven',
+            EN: 'Find the room code in the options menu and send it to a friend'
+        },
         awaitingCodeMaker: {
             DA: 'Din modstander laver en kode',
             EN: 'Your opponent is making a code',
@@ -22,10 +26,14 @@ const state = {
 
 const getters = {
     getGameStatus: (state, rootGetters) => {
-
         // default
         if (rootGetters.getCurrentRoom.id === '') {
             return false
+        }
+
+        // if there is only one player in the room
+        if (rootGetters.getRoomUsers.length < 2) {
+            return state.gameplayStatus.awaitingPlayers
         }
 
         // if the solution is NOT set and you are not the codemaker:    awaitingCodeMaker
