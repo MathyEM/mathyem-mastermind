@@ -4,9 +4,13 @@
       <h3 class="player-name">{{ getCurrentRoom.users[0]._id.username }}</h3>
       <span class="score">{{ getCurrentRoom.users[0].points }}</span>
     </div>
-    <div class="player-score">
+    <div v-if="getCurrentRoom.users[1] !== undefined" class="player-score">
       <span class="score">{{ getCurrentRoom.users[1].points }}</span>
       <h3 class="player-name">{{ getCurrentRoom.users[1]._id.username }}</h3>
+    </div>
+    <div v-else class="player-score">
+      <span class="score"></span>
+      <h3 class="player-name"></h3>
     </div>
   </div>
 </template>
