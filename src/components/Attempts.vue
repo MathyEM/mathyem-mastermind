@@ -45,14 +45,22 @@ export default {
   margin: auto;
   padding-bottom: 2rem;
   width: fit-content;
-  row-gap: 0.6rem;
+  row-gap: 0.4rem;
 
   .attempts-code-row {
     display: grid;
     grid-auto-flow: column;
     justify-items: center;
     justify-content: center;
-    column-gap: 0.8rem;
+    column-gap: 0.6rem;
+  }
+}
+@media screen and (max-width: 350px) {
+  .attempts {
+    row-gap: 0.4rem;
+    .attempts-code-row{
+      column-gap: 0.6rem;
+    }
   }
 }
 </style>

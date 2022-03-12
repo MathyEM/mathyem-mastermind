@@ -117,5 +117,25 @@ $color: #000;
       background: lighten($color, $amount*100);
     }
   }
+
+  @media screen and (max-width: 350px) {
+    .code-piece {
+      border-radius: 0.3rem;
+
+      > div {
+        font-size: 1em;
+      }
+    }
+    .accuracy-hints {
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.2rem;
+
+      .hint {
+        border-radius: 0.1rem;
+      }
+    }
+
+  }
 }
 </style>
