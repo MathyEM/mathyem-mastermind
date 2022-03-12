@@ -11,8 +11,8 @@
         :key="room._id"
         @click="changeRoom(room._id)"
         :class="{ active: (room._id === getCurrentRoom._id) }">
-        <p class="opponent">{{ getSecondPlayer(room) }}</p>
-        <p class="room-name">{{ room.name }}</p>
+        <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
+        <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
       </div>
     </div>
   </transition>
@@ -20,10 +20,12 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import MarqueeText from 'vue-marquee-text-component/src/components/MarqueeText.vue'
 
 export default {
   name: 'RoomList',
 	components: {
+    MarqueeText,
 	},
   props: {
     
@@ -33,11 +35,17 @@ export default {
 		}
 	},
 	computed: {
-    ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId', 'getCurrentRoom'])
+    ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId', 'getCurrentRoom']),
 	},
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST']),
     ...mapActions(['enterRoom']),
+    getDuration(text) {
+      if (text.length > 17) {
+        return 6
+      }
+      return 0
+    },
     changeRoom(roomId) {
       this.enterRoom(roomId)
       this.SET_SHOW_ROOM_LIST(!this.getShowRoomList) // Hide room list after selecting a room
@@ -99,13 +107,13 @@ $dark-gray: #505050;
     cursor: pointer;
 
     &:nth-child(even) {
-      p {
+      .marquee-text-text {
         background: lighten($dark-gray, 2);
       }
     }
 
     &.active {
-      p {
+      .marquee-text-text {
         background: lighten($dark-gray, 8);
       }
     }
@@ -114,7 +122,7 @@ $dark-gray: #505050;
       background: lighten($dark-gray, 12);
     }
 
-    p {
+    .opponent, .room-name {
       margin: 0;
       padding: 0.5rem;
       border-bottom: 1px solid darken($dark-gray, 7);
