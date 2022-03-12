@@ -8,6 +8,10 @@ module.exports = {
   },
   pwa: {
     manifestCrossorigin: 'use-credentials',
+    manifestOptions: {
+      name: "Mastermind",
+      short_name: "Mastermind"
+    }
   },
   devServer: {
       host: '0.0.0.0',
