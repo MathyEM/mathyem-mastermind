@@ -15,7 +15,11 @@ const roomSchema = new Schema({
 		ref: 'User',
 		required: true
 	},
-	name: String,
+	name: {
+		type: String,
+		minLength: 3,
+    maxLength: 24,
+	},
 	solution: {
 		type: Array,
 		required: true,
