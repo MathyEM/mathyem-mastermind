@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link>
     </div> -->
     <router-view/>
+    <div class="version">v1.1.9</div>
   </div>
 </template>
 
@@ -62,5 +63,10 @@ body {
       color: #42b983;
     }
   }
+}
+.version {
+  font-size: 0.7rem;
+  text-align: right;
+  padding-right: 0.2rem;
 }
 </style>
