@@ -50,7 +50,7 @@ const state = {
       },
       regex: {
         DA: 'Dit kodeord <strong>skal</strong> indeholde mindst ét lille og ét stort bogstav, ét tal og ét specialtegn (</strong>. - _</strong>)',
-        EN: `Your username <strong>must</strong> contain at least one lowercase, one uppercase letter, one number and one special character (<strong>. - _</strong>)`,
+        EN: `Your password <strong>must</strong> contain at least one lowercase, one uppercase letter, one number and one special character (<strong>. - _</strong>)`,
       }
     }
   }
