@@ -1,13 +1,17 @@
 <template>
   <transition name="slide-fade">
     <div v-if="getShowRoomList" class="room-list">
+      <div class="room-list-headers">
+        <p>Opponent</p>
+        <p>Room name</p>
+      </div>
       <div
         class="room"
         v-for="room in getUsersRooms"
         :key="room._id"
         @click="changeRoom(room._id)"
         :class="{ active: (room._id === getCurrentRoom._id) }">
-        <p class="second-player">{{ getSecondPlayer(room)}}</p>
+        <p class="opponent">{{ getSecondPlayer(room) }}</p>
         <p class="room-name">{{ room.name }}</p>
       </div>
     </div>
@@ -48,7 +52,7 @@ export default {
 
       if (secondUser) {
         const username = secondUser._id.username
-        return username + ' -'
+        return username
       }
 
       return ''
@@ -64,6 +68,7 @@ $margin-top: 2.4rem;
 $dark-gray: #505050;
 
 .room-list {
+  font-size: 1rem;
   z-index: 4;
   position: absolute;
   left: 0;
@@ -71,23 +76,38 @@ $dark-gray: #505050;
   width: 100%;
   min-height: 20vh;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: calc(100vh - $margin-top - 1rem);
   margin-top: $margin-top;
   background: $dark-gray;
   color: whitesmoke;
+  display: grid;
+
+  .room-list-headers, .room {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
+  .room-list-headers p {
+    font-size: 1.1em;
+    margin: 0.25rem;
+    text-decoration: underline;
+  }
 
   .room {
-    display: flex;
-    padding: 0.5rem;
-    border-bottom: 1px solid darken($dark-gray, 7);
+    margin: 0;
     cursor: pointer;
 
     &:nth-child(even) {
-      background: lighten($dark-gray, 2);
+      p {
+        background: lighten($dark-gray, 2);
+      }
     }
 
     &.active {
-      background: lighten($dark-gray, 8);
+      p {
+        background: lighten($dark-gray, 8);
+      }
     }
 
     &:hover {
@@ -96,10 +116,16 @@ $dark-gray: #505050;
 
     p {
       margin: 0;
+      padding: 0.5rem;
+      border-bottom: 1px solid darken($dark-gray, 7);
+    }
+
+    .opponent {
+      border-right: 1px solid gray;
     }
 
     .room-name {
-      margin-left: 0.25rem;
+      margin-left: 0;
     }
 
   }
