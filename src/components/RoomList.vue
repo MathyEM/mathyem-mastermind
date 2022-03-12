@@ -14,6 +14,13 @@
         <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
         <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
       </div>
+      <div class="room-list-footer">
+        <div class="back-btn" @click="backToHome">
+          <img :src="backBtn" alt="back-icon icon">
+          <p>Back to create/join room</p>
+        </div>
+      </div>
+      <!-- <div> Icons made by <a href="https://www.flaticon.com/authors/fuzzee" title="Fuzzee"> Fuzzee </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
     </div>
   </transition>
 </template>
@@ -32,6 +39,7 @@ export default {
   },
 	data() {
 		return {
+      backBtn: require('@/assets/left-arrow.png'),
 		}
 	},
 	computed: {
@@ -39,7 +47,7 @@ export default {
 	},
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST']),
-    ...mapActions(['enterRoom']),
+    ...mapActions(['enterRoom', 'backToHome']),
     getDuration(text) {
       if (text.length > 17) {
         return 6
@@ -102,7 +110,7 @@ $dark-gray: #505050;
     text-decoration: underline;
   }
 
-  .room {
+   .room {
     margin: 0;
     cursor: pointer;
 
@@ -118,10 +126,6 @@ $dark-gray: #505050;
       }
     }
 
-    &:hover {
-      background: lighten($dark-gray, 12);
-    }
-
     .opponent, .room-name {
       margin: 0;
       padding: 0.5rem;
@@ -135,7 +139,31 @@ $dark-gray: #505050;
     .room-name {
       margin-left: 0;
     }
+  }
 
+  .room:hover, .back-btn:hover {
+    background: lighten($dark-gray, 12);
+  }
+
+  .room-list-footer {
+    .back-btn {
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      flex-direction: row;
+      user-select: none;
+      cursor: pointer;
+
+      p {
+        margin: 0;
+        font-weight: bold;
+      }
+
+      img {
+        height: 1.8em;
+      }
+    }
   }
 
   &::-webkit-scrollbar{
