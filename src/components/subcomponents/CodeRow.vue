@@ -87,7 +87,7 @@ $color: #000;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
     gap: 0.2rem;
-    right: calc(0px - $code-piece-size / 3);
+    right: -25%;
     // border: 1px solid transparent;
 
     .hint {

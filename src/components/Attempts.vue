@@ -42,8 +42,9 @@ export default {
   display: grid;
   grid-template-columns: 100%;
   padding: 0;
+  margin: auto;
   padding-bottom: 2rem;
-  width: 100%;
+  width: fit-content;
   row-gap: 0.6rem;
 
   .attempts-code-row {
