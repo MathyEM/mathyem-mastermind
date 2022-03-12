@@ -2,7 +2,7 @@
   <div class="login-register">
     <form v-on:submit.prevent="onSubmit">
       <input v-model="username" type="text" placeholder="Username">
-      <div v-if="getRegisteringState && $v.username.$error" class="register-errors username-errors">
+      <div v-if="getRegisteringState && $v && $v.username.$error" class="register-errors username-errors">
         <div v-if="!$v.username.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.username.regex" class="register-error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
         <div v-if="(!$v.username.minLength || !$v.username.maxLength) && $v.username.regex" class="register-error">
@@ -83,7 +83,6 @@ export default {
       set(username) {
         this.$v.username.$touch()
         this.UPDATE_LOCAL_USERNAME(username)
-        this
       }
     },
     email: {
