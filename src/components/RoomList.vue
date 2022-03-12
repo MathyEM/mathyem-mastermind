@@ -10,7 +10,7 @@
         v-for="room in getUsersRooms"
         :key="room._id"
         @click="changeRoom(room._id)"
-        :class="{ active: (room._id === getCurrentRoom._id) }">
+        :class="{ active: (room._id === getCurrentRoom._id), 'your-turn': (isYourTurn(room) == true) }">
         <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
         <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
       </div>
@@ -48,6 +48,21 @@ export default {
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST']),
     ...mapActions(['enterRoom', 'backToHome']),
+    isYourTurn: function(room) {
+      // if you are the code MAKER and a solution is not set, it's your turn
+      if (this.getUserId === room.currentCodeMaker && !room.solution[0]) {
+        console.log(room.name, 'code maker')
+        return true
+      }
+      // if you are the code BREAKER and the solution is set, it's your turn
+      if (this.getUserId !== room.currentCodeMaker && room.solution[0]) {
+        console.log(room.name, 'code breaker')
+        return true
+      }
+      console.log(room.name, 'not you')
+
+      return false
+    },
     getDuration(text) {
       if (text.length > 17) {
         return 6
@@ -112,6 +127,7 @@ $dark-gray: #505050;
 
    .room {
     margin: 0;
+    position: relative;
     cursor: pointer;
 
     &:nth-child(even) {
@@ -138,6 +154,21 @@ $dark-gray: #505050;
 
     .room-name {
       margin-left: 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 0.2rem;
+      height: 80%;
+      background: $orange;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+    }
+
+    &.your-turn::before {
+      background: $green;
     }
   }
 

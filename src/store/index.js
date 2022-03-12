@@ -202,7 +202,7 @@ export default new Vuex.Store({
       }
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
-    }
+    },
   },
   modules: {
     statusMessages,

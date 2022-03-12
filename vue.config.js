@@ -2,7 +2,10 @@ module.exports = {
   css: {
       loaderOptions: {
           sass: {
-              sourceMap: false
+              sourceMap: false,
+              prependData: `
+              @import "@/assets/scss/_variables.scss";
+              `,
           }
       }
   },
