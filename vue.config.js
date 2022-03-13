@@ -12,7 +12,8 @@ module.exports = {
   pwa: {
     manifestCrossorigin: 'use-credentials',
     workboxOptions: {
-      skipWaiting: true
+      skipWaiting: true,
+      clientsClaim: true,
     },
     manifestOptions: {
       name: "Mastermind",
