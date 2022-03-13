@@ -11,6 +11,9 @@ module.exports = {
   },
   pwa: {
     manifestCrossorigin: 'use-credentials',
+    workboxOptions: {
+      skipWaiting: true
+    },
     manifestOptions: {
       name: "Mastermind",
       short_name: "Mastermind"
