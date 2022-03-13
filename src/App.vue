@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <div v-if="getLoginStatus" class="menus-container">
+      <RoomListButton title="Rooms" />
+      <RoomList />
+      <OptionsButton title="Options"/>
+      <Options />
+    </div>
     <router-view/>
     <div class="version">v{{ getAppVersion }}</div>
   </div>
 </template>
 
 <script>
+import RoomListButton from '@/components/subcomponents/RoomListButton.vue'
+import RoomList from '@/components/RoomList.vue'
+import OptionsButton from '@/components/subcomponents/OptionsButton.vue'
+import Options from '@/components/Options.vue'
 import { socketConnection } from './services/socketio.service.js'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+    RoomListButton,
+    RoomList,
+    OptionsButton,
+    Options,
+  },
   methods: {
   },
   computed: {
@@ -52,18 +63,19 @@ body {
   box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.menus-container {
+  max-width: 400px;
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.4rem;
+  padding-bottom: 0;
+  font-size: 1.5rem;
 }
+
 .version {
   font-size: 0.7rem;
   text-align: right;
