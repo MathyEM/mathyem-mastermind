@@ -8,12 +8,14 @@
             <img :src="copyImg" alt="copy-paste icon">
           </div>
         </div>
-        <div v-if="getCurrentRoom._id != undefined" class="leave-room">
-          <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
-          <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
-        </div>
-        <div class="logout-btn">
-          <button @click="logoutUser">Log out</button>
+        <div class="options-buttons">
+          <div v-if="getCurrentRoom._id != undefined" class="leave-room">
+            <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
+            <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
+          </div>
+          <div class="logout-btn">
+            <button @click="logoutUser">Log out</button>
+          </div>
         </div>
       </div>
     </div>
@@ -118,6 +120,7 @@ export default {
 
 <style scoped lang="scss">
 $margin-top: 2.7rem;
+$item-margin: 0.5rem;
 $dark-gray: #505050;
 
 .options {
@@ -144,7 +147,7 @@ $dark-gray: #505050;
     margin-top: auto;
 
     & > div {
-      margin-top: 1rem;
+      margin-top: $item-margin;
     }
   }
 
@@ -175,7 +178,13 @@ $dark-gray: #505050;
     }
   }
 
-  .logout-btn {
+  .options-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $item-margin;
+  }
+
+  .leave-room, .logout-btn {
     button {
       $btn-color: #fff;
       margin: 0;
@@ -190,8 +199,13 @@ $dark-gray: #505050;
       &:active {
         background: rgba($btn-color, $alpha: 0.1);
       }
+
+      &.leave-room-confirm-btn {
+        background: indianred;
+      }
     }
   }
+
 
   &::-webkit-scrollbar{
     width: 13px;
