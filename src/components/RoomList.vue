@@ -51,16 +51,12 @@ export default {
     isYourTurn: function(room) {
       // if you are the code MAKER and a solution is not set, it's your turn
       if (this.getUserId === room.currentCodeMaker && !room.solution[0]) {
-        console.log(room.name, 'code maker')
         return true
       }
       // if you are the code BREAKER and the solution is set, it's your turn
       if (this.getUserId !== room.currentCodeMaker && room.solution[0]) {
-        console.log(room.name, 'code breaker')
         return true
       }
-      console.log(room.name, 'not you')
-
       return false
     },
     getDuration(text) {
