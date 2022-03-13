@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.4rem;
+$margin-top: 2.7rem;
 $dark-gray: #505050;
 
 .options {
