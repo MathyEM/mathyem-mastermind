@@ -48,6 +48,7 @@ export default {
   margin: auto;
   margin-top: 0;
   width: 100%;
+  padding: 0 0.5rem 0;
 
   .login-register {
     margin-top: 4rem;
