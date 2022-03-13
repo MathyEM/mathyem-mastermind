@@ -26,6 +26,9 @@ exports.createRoom = async function (socket, data) {
 
 exports.joinRoom = async function (socket, id) {	
 	try {
+		if (id.length !== 24) {
+			return { status: false, message: 'Invalid join code length', type: 'invalidJoinCodeLength' }
+		}
 		const userId = socket.request.user.id
 		const room = await Room.findById(id)
 	
@@ -37,11 +40,11 @@ exports.joinRoom = async function (socket, id) {
 		})
 		
 		if (userAlreadyJoined) { //  if the user is already in the room
-			return { status: false, message: 'You are already in this room'}
+			return { status: false, message: 'You are already in this room', type: 'alreadyInRoom' }
 		}
 	
 		if (room.users.length >= 2) {
-			return { status: false, message: 'This room is full'}
+			return { status: false, message: 'This room is full', type: 'roomFull' }
 		}
 	
 		room.users.push(userId)
@@ -60,7 +63,7 @@ exports.joinRoom = async function (socket, id) {
 	} catch (error) {
 		console.log("here's error")
 		console.log(error)
-		return { status: false, message: 'Invalid join code' }
+		return { status: false, message: 'Invalid join code', type: 'invalidJoinCode' }
 	}
 }
 
