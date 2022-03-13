@@ -1,3 +1,8 @@
 // COLORS
 $green: #50b701;
 $orange: #ffb700;
+
+// CODE PIECE VARIABLES
+$code-piece-margin: 0.8rem;
+$code-piece-size: calc(90vh / 12 - 1.25rem);
+$code-button-size: calc($code-piece-size * 1.1);

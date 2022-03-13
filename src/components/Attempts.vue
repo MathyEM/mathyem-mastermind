@@ -43,7 +43,7 @@ export default {
   grid-template-columns: 100%;
   padding: 0;
   margin: auto;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
   width: fit-content;
   row-gap: 0.4rem;
 

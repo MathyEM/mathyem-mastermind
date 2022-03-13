@@ -45,8 +45,6 @@ export default {
 </script>
 
 <style lang="scss">
-$code-piece-margin: 0.4rem;
-$code-piece-size: calc(90vh / 12 - 1.5rem);
 $color: #000;
 
 .code-row {
@@ -58,7 +56,6 @@ $color: #000;
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
 
   .code-piece {
     display: flex;
@@ -118,7 +115,7 @@ $color: #000;
     }
   }
 
-  @media screen and (max-width: 350px) {
+  @media screen and (max-width: 375px) {
     .code-piece {
       border-radius: 0.3rem;
 
@@ -127,9 +124,10 @@ $color: #000;
       }
     }
     .accuracy-hints {
-      grid-template-rows: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.2rem;
+      grid-template-rows: 33% 33%;
+      grid-template-columns: 33% 33%;
+      gap: 0.1rem;
+      align-content: center;
 
       .hint {
         border-radius: 0.1rem;

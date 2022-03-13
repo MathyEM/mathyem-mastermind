@@ -46,8 +46,9 @@ export default {
   display: flex;
   width: 100%;
   margin: 0;
-  justify-content: space-between;
   padding-right: $mid-padding;
+  justify-content: space-between;
+  align-items: center;
 
   h3 {
     display: inline-block;

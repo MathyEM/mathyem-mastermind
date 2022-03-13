@@ -35,13 +35,12 @@ export default {
 </script>
 
 <style lang="scss">
-$code-piece-size: calc(90vh / 11 - 1.5rem);
 .code-buttons-code-row {
   height: auto;
   .code-piece {
     > div {
-      width: $code-piece-size;
-      height: $code-piece-size;
+      width: $code-button-size;
+      height: $code-button-size;
     }
   }
 }

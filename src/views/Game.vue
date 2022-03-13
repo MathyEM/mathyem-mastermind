@@ -46,6 +46,7 @@ export default {
 <style lang="scss">
 .main {
   margin: auto;
+  margin-top: 0;
   width: 300px;
 
   .login-register {
@@ -65,7 +66,6 @@ export default {
       height: 2.2rem;
       vertical-align: middle;
     }
-
   }
 }
 
@@ -82,5 +82,4 @@ export default {
     padding: 0 1rem;
   }
 }
-
 </style>

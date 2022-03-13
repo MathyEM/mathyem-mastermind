@@ -51,20 +51,26 @@ html {
 }
 
 body {
+  height: 100%;
   margin: 0;
 }
 
 #app {
+  height: 100%;
+  max-width: 400px;
+  margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   box-sizing: border-box;
+  display: grid;
+  grid-template-rows: min-content auto min-content;
 }
 
 .menus-container {
-  max-width: 400px;
+  width: 100%;
   margin: auto;
   position: relative;
   display: flex;

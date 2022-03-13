@@ -20,5 +20,10 @@ export default {
 </script>
 
 <style lang="scss">
+.game-status {
+  p {
+    margin: 0.8rem 0;
+  }
+}
 
 </style>
