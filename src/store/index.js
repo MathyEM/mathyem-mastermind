@@ -167,7 +167,6 @@ export default new Vuex.Store({
     async enterRoom({ state }, payload) {
       state
       await socketConnection.enterRoom(payload)
-      console.log('entering room')
     },
     setGameData({ commit }, payload) {
       commit('SET_GAME_DATA', payload)

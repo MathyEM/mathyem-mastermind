@@ -27,9 +27,6 @@ class SocketioService {
 
     // ON CONNECTED
     this.socket.on('connected', async response => {
-      console.log(response.message)
-      console.log('authorization:', response.authorization);
-
       if (response.authorization) {
         this.socket.emit('req-login', { message: 'attempting login' })
       }
@@ -38,7 +35,6 @@ class SocketioService {
     // ON ERROR
     this.socket.on('error', (response) => {
       console.log(response)
-      console.log(response.message)
       if (response.type === 'alreadyInRoom') {
         store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', true)
       }
@@ -46,10 +42,9 @@ class SocketioService {
 
     // ON LOGIN
     this.socket.on('login', (response) => {
-      console.log(`logging in socket user: ${response.username}`)
-      console.log(response)
+      console.log('user:', response)
 
-      this.fetchUserRooms()
+      // this.fetchUserRooms()
 
       store.commit('SET_USER', {
         id: response._id,
@@ -69,7 +64,7 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
-      this.fetchUserRooms(response._id)
+      // this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-joined', async (response) => {
@@ -78,12 +73,12 @@ class SocketioService {
 
       await store.dispatch('setCurrentRoom', response)
       store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', false)
-      this.fetchUserRooms(response._id)
+      // this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-entered', async (response) => {
       const room = response
-      console.log(room)
+      console.log('room:', room)
 
       await store.dispatch('setCurrentRoom', room)
     })
