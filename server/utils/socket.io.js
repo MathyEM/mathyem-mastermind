@@ -72,11 +72,12 @@ class SocketConnection {
 				const joinRoom = await roomController.joinRoom(socket, data.roomId)
 				const status = joinRoom.status || null
 				const message = joinRoom.message || null
+				const type = joinRoom.type || null
 				const room = joinRoom.room || null
 
 				if (!status) {
 					console.log(message)
-					socket.emit('error', { message: message, type: 'alreadyInRoom' })
+					socket.emit('error', { message: message, type: type })
 					return
 				}
 
