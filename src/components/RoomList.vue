@@ -114,6 +114,7 @@ $dark-gray: #505050;
   .room-list-headers, .room {
     display: grid;
     grid-template-columns: 50% 50%;
+    user-select: none;
   }
 
   .room-list-headers p {
