@@ -91,7 +91,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.4rem;
+$margin-top: 2.7rem;
 $dark-gray: #505050;
 
 .room-list {
@@ -102,7 +102,7 @@ $dark-gray: #505050;
   top: 0;
   transform: translateX(-50%);
   width: 100%;
-  min-height: 20vh;
+  min-height: 10vh;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: calc(100vh - $margin-top - 1rem);

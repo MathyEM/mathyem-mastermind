@@ -76,10 +76,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
   padding: 0.4rem;
-  padding-bottom: 0;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
+  // background: lightgray;
 }
 
 .version {
