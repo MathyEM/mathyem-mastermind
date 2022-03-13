@@ -106,8 +106,9 @@ $dark-gray: #505050;
 .options {
   z-index: 4;
   position: absolute;
-  right: 0;
+  left: 50%;
   top: 0;
+  transform: translateX(-50%);
   width: 100%;
   min-height: 20vh;
   overflow-y: auto;
