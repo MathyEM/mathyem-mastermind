@@ -83,8 +83,12 @@ body {
 }
 
 .version {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   font-size: 0.7rem;
   text-align: right;
   padding-right: 0.2rem;
+  padding-bottom: 0.1rem;
 }
 </style>
