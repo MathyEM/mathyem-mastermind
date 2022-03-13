@@ -153,6 +153,12 @@ export default new Vuex.Store({
     updateLoginStatus({ commit }, payload) {
       commit('SET_LOGIN_STATUS', payload)
     },
+    setShowRoomList({ commit, getters }) {
+      if (!getters.getShowRoomList) {
+        socketConnection.fetchUserRooms()
+      }
+      commit('SET_SHOW_ROOM_LIST', !getters.getShowRoomList)
+    },
     async setCurrentRoom({ commit, getters }, payload) {
       commit('SET_CURRENT_ROOM', payload)
       console.log(getters.getSolutionState)

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'RoomListButton',
 	components: {
@@ -23,8 +23,9 @@ export default {
 	},
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS']),
+    ...mapActions(['setShowRoomList']),
     toggleMenus() {
-      this.SET_SHOW_ROOM_LIST(!this.getShowRoomList)
+      this.setShowRoomList()
       this.SET_SHOW_OPTIONS(false)
     }
   },
