@@ -36,11 +36,18 @@ export default {
 
 <style lang="scss">
 .code-buttons-code-row {
-  height: auto;
   .code-piece {
     > div {
-      width: $code-button-size;
-      height: $code-button-size;
+      @include code-piece-scaling(1.1)
+    }
+  }
+}
+@media screen and (max-width: 375px) {
+  .code-buttons-code-row {
+    .code-piece {
+      > div {
+        @include code-piece-scaling(1.2)
+      }
     }
   }
 }

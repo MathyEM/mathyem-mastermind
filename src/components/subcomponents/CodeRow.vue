@@ -70,15 +70,13 @@ $color: #000;
       align-items: center;
       justify-content: center;
       font-size: 1.2em;
-      width: $code-piece-size;
-      height: $code-piece-size;
+      @include code-piece-scaling(1);
     }
   }
 
   .accuracy-hints {
     position: absolute;
-    width: $code-piece-size;
-    height: $code-piece-size;
+    @include code-piece-scaling(1);
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;

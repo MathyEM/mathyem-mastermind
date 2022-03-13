@@ -37,11 +37,10 @@ export default {
 
 <style lang="scss">
 .solution-code-row {
-  height: auto;
+  column-gap: $code-piece-column-gap;
   .code-piece {
     > div {
-      width: $code-piece-size;
-      height: $code-piece-size;
+      @include code-piece-scaling(1)
     }
   }
 }

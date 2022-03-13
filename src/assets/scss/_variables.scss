@@ -4,5 +4,12 @@ $orange: #ffb700;
 
 // CODE PIECE VARIABLES
 $code-piece-margin: 0.8rem;
+$code-piece-column-gap: 0.6rem;
 $code-piece-size: calc(90vh / 12 - 1.25rem);
 $code-button-size: calc($code-piece-size * 1.1);
+
+@mixin code-piece-scaling($scaling) {
+  // your SCSS here, e.g.
+  height: calc($code-piece-size * $scaling);
+  width: calc($code-piece-size * $scaling);
+}
