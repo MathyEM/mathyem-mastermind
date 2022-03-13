@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link>
     </div> -->
     <router-view/>
-    <div class="version">v1.1.9</div>
+    <div class="version">v{{ getAppVersion }}</div>
   </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   methods: {
   },
   computed: {
-    ...mapGetters(['getLoginStatus']),
+    ...mapGetters(['getLoginStatus', 'getAppVersion']),
   },
   async created() {
     socketConnection.setupSocketConnection()

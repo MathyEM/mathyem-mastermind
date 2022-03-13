@@ -10,6 +10,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    appVersion: '1.1.10',
     registeringState: false,
     user: {
       id: '',
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     localSolution: ['','','',''],
   },
   getters: {
+    getAppVersion: state => state.appVersion,
     getRegisteringState: state => state.registeringState,
     getUsername: state => state.user.username,
     getUserId: state => state.user.id,
