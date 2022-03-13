@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getLoginStatus" class="login-register">
+  <div v-if="!getLoginStatus" class="login-register">
     <form v-on:submit.prevent="onSubmit">
       <input v-model="username" type="text" placeholder="Username">
       <div v-if="getRegisteringState && $v && $v.username.$error" class="register-errors username-errors">
