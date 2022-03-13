@@ -36,16 +36,19 @@ class SocketioService {
     this.socket.on('error', (response) => {
       console.log(response)
       if (response.type === 'alreadyInRoom') {
-        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', true)
+        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR_STATUS', true)
+      }
+      if (response.type === 'invalidJoinCode') {
+        store.commit('TOGGLE_INVALID_JOIN_CODE_ERROR_STATUS', true)
+      }
+      if (response.type === 'invalidJoinCodeLength') {
+        store.commit('TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS', true)
       }
     })
 
     // ON LOGIN
     this.socket.on('login', (response) => {
       console.log('user:', response)
-
-      // this.fetchUserRooms()
-
       store.commit('SET_USER', {
         id: response._id,
         username: response.username,
@@ -64,7 +67,6 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
-      // this.fetchUserRooms(response._id)
     })
 
     this.socket.on('room-joined', async (response) => {
@@ -72,8 +74,7 @@ class SocketioService {
       console.log(response)
 
       await store.dispatch('setCurrentRoom', response)
-      store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', false)
-      // this.fetchUserRooms(response._id)
+      store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
     })
 
     this.socket.on('room-entered', async (response) => {
@@ -131,10 +132,9 @@ class SocketioService {
 
   joinRoom(roomId) {
     if (this.socket) {
-
       // if the user is already in the room
       if (store.getters.getUsersRooms.some(checkId, { roomId })) {
-        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR', true)
+        store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR_STATUS', true)
         return
       }
 
