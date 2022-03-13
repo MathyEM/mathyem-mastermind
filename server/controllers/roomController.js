@@ -67,6 +67,42 @@ exports.joinRoom = async function (socket, id) {
 	}
 }
 
+exports.deleteRoom = async function (socket, roomId) {
+	try {
+		if (roomId.length !== 24) {
+			return { status: false, message: 'Invalid room identifier', type: 'invalidRoomId' }
+		}
+		const deletedRoom = await Room.deleteOne({ _id: roomId })
+		return deletedRoom
+	} catch (error) {
+		
+	}
+	
+}
+
+exports.leaveRoom = async function (socket, roomId) {
+	try {
+		if (roomId.length !== 24) {
+			return { status: false, message: 'Invalid room identifier', type: 'invalidRoomId' }
+		}
+		const userId = socket.request.user._id
+		const room = await Room.findOne({ _id: roomId, 'users._id': userId })
+	
+		if (!room) {
+			return { status: false, message: 'Room not found', type: 'roomNotFound' }
+		}
+
+		var userIndex = room.users.findIndex(function(obj){return obj.id == userId})
+		room.users.splice(userIndex, 1)
+		
+		await room.save()
+		return room
+
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 exports.fetchUserRooms = async function (socket) {
 	const userId = socket.request.user._id
 	const rooms = await Room.find({ 'users._id': userId }, { attempts: 0, codeSet: 0 }).

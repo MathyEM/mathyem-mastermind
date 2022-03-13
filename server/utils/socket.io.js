@@ -96,6 +96,13 @@ class SocketConnection {
 				})
 			})
 
+			// LEAVE ROOM
+			socket.on('leave-room', async (data) => {
+				const room = await roomController.leaveRoom(socket, data)
+				socket.emit('room-left', room)
+			})
+
+			// FETCH USER ROOMS
 			socket.on('fetch-user-rooms', async (data) => {
 				const rooms = await roomController.fetchUserRooms(socket)
 				socket.emit('user-rooms-fetched', rooms)

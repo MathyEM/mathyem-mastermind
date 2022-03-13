@@ -77,6 +77,11 @@ class SocketioService {
       store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
     })
 
+    this.socket.on('room-left', async (response) => {
+      console.log(response)
+      window.location.reload(true)
+    })
+
     this.socket.on('room-entered', async (response) => {
       const room = response
       console.log('room:', room)
@@ -142,9 +147,16 @@ class SocketioService {
     }
   }
 
+  async leaveRoom(roomId) {
+    if (this.socket) {
+      await this.socket.emit('leave-room', roomId)
+      console.log('leave-room emitted')
+    }
+  }
+
   async enterRoom(roomId) {
     if (this.socket) {
-      await this.socket.emit('enter-room', { roomId: roomId })
+      await this.socket.emit('enter-room', { roomId })
     }
   }
 

@@ -8,6 +8,10 @@
             <img :src="copyImg" alt="copy-paste icon">
           </div>
         </div>
+        <div v-if="getCurrentRoom._id != undefined" class="leave-room">
+          <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
+          <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
+        </div>
         <div class="logout-btn">
           <button @click="logoutUser">Log out</button>
         </div>
@@ -18,21 +22,34 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Options',
   data() {
     return {
-      copyImg: require('@/assets/copy67x67.png')
+      copyImg: require('@/assets/copy67x67.png'),
+      leaveRoomClicked: false,
     }
   },
   computed: {
-    ...mapGetters(['getCurrentRoom', 'getShowOptions'])
+    ...mapState(['currentRoom']),
+    ...mapGetters(['getCurrentRoom', 'getShowOptions']),
 	},
   methods: {
     ...mapMutations(['SET_SHOW_OPTIONS']),
-    ...mapActions(['logoutUser']),
+    ...mapActions(['logoutUser', 'leaveRoom']),
+    getRoomId() {
+      const roomId = this.currentRoom._id
+      console.log(roomId)
+      return roomId
+    },
+    leaveRoomCheck() {
+      this.leaveRoomClicked = true
+      setTimeout(() => {
+        this.leaveRoomClicked = false
+      }, 5000);
+    },
     copyRoomId() {
       const text = this.getCurrentRoom._id
       if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
