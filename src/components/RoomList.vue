@@ -135,9 +135,7 @@ $dark-gray: #505050;
     }
 
     &.active {
-      .marquee-text-text {
-        background: lighten($dark-gray, 8);
-      }
+      background: lighten($dark-gray, 8);
     }
 
     .opponent, .room-name {
@@ -160,7 +158,7 @@ $dark-gray: #505050;
       width: 0.2rem;
       height: 80%;
       background: $orange;
-      top: 50%;
+      top: 49%;
       right: 0;
       transform: translateY(-50%);
     }
