@@ -23,7 +23,8 @@ app.use(bodyParser.json())
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  maxAge: 365 * 24 * 60 * 60 * 1000,
 })
 
 //Setup CORS
