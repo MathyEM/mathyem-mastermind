@@ -57,24 +57,24 @@ export default new Vuex.Store({
     },
     hasCodeMakerAuthority: (state, getters) => {
       state;
+      //solution already set
       if (getters.getSolutionState === true) {
-        console.log('solution already set')
         return false
       }
+      // not the code maker
       if (getters.getUserId !== getters.getCodeMaker) {
-        console.log('you are not the codemaker')
         return false
       }
       return true
     },
     hasCodeBreakerAuthority: (state, getters) => {
       state;
+      // no solution
       if (getters.getSolutionState === false) {
-        console.log('solution not yet set')
         return false
       }
+      // not the code breaker
       if (getters.getUserId === getters.getCodeMaker) {
-        console.log('you are not the codebreaker')
         return false
       }
       return true
@@ -82,7 +82,6 @@ export default new Vuex.Store({
   },
   mutations: {
     TOGGLE_REGISTERING_STATE(state) {
-      console.log('toggling register');
       state.registeringState = !state.registeringState
     },
     SET_USER(state, payload) {
