@@ -90,13 +90,14 @@ const actions = {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
       password: getters.getLocalPassword,
-      rememberMe: getters.getRememberMe,
+      remember_me: getters.getRememberMe,
     }, { withCredentials: true })
     .then((response) => {
       if (response.status !== 200) {
         console.log('status: ', response.status);
         return
       }
+      console.log(response)
       dispatch('socketLogin', null, { root: true })
     })
   },

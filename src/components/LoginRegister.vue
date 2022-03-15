@@ -22,7 +22,7 @@
         </div>
         <div v-if="!$v.password.regex" class="register-error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
-      <div v-if="!getRegisteringState" class="remember-me"><p>Remember me</p><input type="checkbox" name="remember-me" id="remember-me" value="yes" v-model="rememberMe"></div>
+      <div v-if="!getRegisteringState" class="remember-me"><p>Remember me</p><input type="checkbox" name="remember_me" id="remember_me" value="yes" v-model="rememberMe"></div>
       <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
       <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
       <button v-if="getRegisteringState" @click="register" type="submit">Register</button>
