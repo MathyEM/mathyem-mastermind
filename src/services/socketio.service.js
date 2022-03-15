@@ -164,8 +164,6 @@ class SocketioService {
 
   async sendSolution(solution) {
     if (this.socket) {
-      console.log("sending solution...")
-      console.log(solution)
       const roomId = store.getters.getCurrentRoom._id
       this.socket.emit('set-solution', { roomId, solution })
     }
@@ -173,8 +171,6 @@ class SocketioService {
 
   async sendAttempt(attempt, attemptIndex) {
     if (this.socket) {
-      console.log('sending attempt...')
-      console.log(attempt)
       const roomId = store.getters.getCurrentRoom._id
       this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
     }
