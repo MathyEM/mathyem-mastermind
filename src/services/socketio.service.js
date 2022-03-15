@@ -20,11 +20,6 @@ class SocketioService {
       console.log(response)
     })
 
-    this.socket.on('game-data-retrieved', async response => {
-      console.log('game-data-retrieved')
-      await store.dispatch('setGameData', response)
-    })
-
     // ON CONNECTED
     this.socket.on('connected', async response => {
       if (response.authorization) {

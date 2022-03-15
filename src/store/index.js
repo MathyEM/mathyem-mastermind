@@ -107,10 +107,6 @@ export default new Vuex.Store({
       state.currentRoom = payload
       console.log('Current room set', payload.name)
     },
-    SET_GAME_DATA(state, payload) {
-      state.gameData = payload
-      console.log('Game Data set')
-    },
     UPDATE_ATTEMPT(state, payload) {
       const index = state.currentRoom.attempts[payload.attemptIndex].indexOf('')
       const attemptsCopy = state.currentRoom.attempts.slice()
@@ -166,9 +162,6 @@ export default new Vuex.Store({
     async enterRoom({ state }, payload) {
       state
       await socketConnection.enterRoom(payload)
-    },
-    setGameData({ commit }, payload) {
-      commit('SET_GAME_DATA', payload)
     },
     updateAttempt({ commit, getters, dispatch }, payload) {
       if (!getters.hasCodeBreakerAuthority) {
