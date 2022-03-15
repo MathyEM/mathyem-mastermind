@@ -20,6 +20,7 @@ const state = {
     maxLength: 48,
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[._-])[0-9a-zA-Z._-]+$/,
   },
+  rememberMe: false,
   errors: {
     generic: {
       required: {
@@ -65,6 +66,7 @@ const getters = {
   getPasswordMinLength: state => state.password.minLength,
   getPasswordMaxLength: state => state.password.maxLength,
   getPasswordRegex: state => state.password.regex,
+  getRememberMe: state => state.rememberMe,
   getErrors: state => state.errors,
 }
 const mutations = {
@@ -76,7 +78,10 @@ const mutations = {
   },
   UPDATE_LOCAL_PASSWORD(state, payload) {
     state.password.value = payload
-  },  
+  },
+  UPDATE_REMEMBER_ME(state, payload) {
+    state.rememberMe = payload
+  },
 }
 const actions = {
   loginUser({ getters, dispatch }) {
@@ -85,6 +90,7 @@ const actions = {
       username: getters.getLocalUsername,
       email: getters.getLocalEmail,
       password: getters.getLocalPassword,
+      rememberMe: getters.getRememberMe,
     }, { withCredentials: true })
     .then((response) => {
       if (response.status !== 200) {

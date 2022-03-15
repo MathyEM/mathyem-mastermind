@@ -1,8 +1,10 @@
 <template>
   <div v-if="!getLoginStatus" class="main">
+    <h2>{{ title }}</h2>
     <LoginRegister/>
   </div>
   <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="main">
+    <h2>{{ title }}</h2>
     <CreateJoinRoom />
   </div>
   <div v-else class="main game">
@@ -37,6 +39,11 @@ export default {
     CodeButtons,
     GameStatus
   },
+  data() {
+    return {
+      title: 'Mastermind Game'
+    }
+  },
   computed: {
     ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
   }
@@ -49,23 +56,23 @@ export default {
   margin-top: 0;
   width: 100%;
   padding: 0 0.5rem 0;
-
-  .login-register {
-    margin-top: 4rem;
-  }
   
   .join-create-room, .login-register {
     input, button {
       box-sizing: border-box;
       width: 100%;
-      font-size: 1rem;
-      height: 2rem;
+      font-size: 1.2rem;
+      height: 2em;
       text-align: center;
     }
 
     input {
-      height: 2.2rem;
+      height: 2.2em;
       vertical-align: middle;
+    }
+
+    button {
+      height: 2.2em;
     }
   }
 }

@@ -22,6 +22,7 @@
         </div>
         <div v-if="!$v.password.regex" class="register-error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
+      <div v-if="!getRegisteringState" class="remember-me"><p>Remember me</p><input type="checkbox" name="remember-me" id="remember-me" value="yes" v-model="rememberMe"></div>
       <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
       <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
       <button v-if="getRegisteringState" @click="register" type="submit">Register</button>
@@ -77,6 +78,7 @@ export default {
       'getPasswordMinLength',
       'getPasswordMaxLength',
       'getPasswordRegex',
+      'getRememberMe',
       'getErrors',
     ]),
     username: {
@@ -100,10 +102,23 @@ export default {
         this.UPDATE_LOCAL_PASSWORD(password)
       }
     },
+    rememberMe: {
+      get() { return this.getRememberMe },
+      set(value) {
+        this.UPDATE_REMEMBER_ME(value)
+      }
+    },
+
   },
   methods: {
     ...mapActions(['socketLogin', 'validateRegister', 'loginUser', 'registerUser']),
-    ...mapMutations(['TOGGLE_REGISTERING_STATE', 'UPDATE_LOCAL_USERNAME', 'UPDATE_LOCAL_EMAIL', 'UPDATE_LOCAL_PASSWORD']),
+    ...mapMutations([
+      'TOGGLE_REGISTERING_STATE',
+      'UPDATE_LOCAL_USERNAME',
+      'UPDATE_LOCAL_EMAIL',
+      'UPDATE_LOCAL_PASSWORD',
+      'UPDATE_REMEMBER_ME',
+      ]),
     onSubmit() {
       return false
     },
@@ -121,9 +136,31 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
-form input:not(:first-of-type), button:first-of-type {
+form input:not(:first-of-type), .remember-me, button {
   margin-top: 0.75rem;
 }
+
+.login-register {
+  .remember-me {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    p {
+      margin: 0;
+      // width: 100%;
+      font-size: 1.1rem;
+    }
+
+    input {
+      width: 2.2rem;
+    }
+  }
+}
+
 .register-errors {
   margin-top: -1px;
   background: rgba($color: yellow, $alpha: 0.8);

@@ -1,10 +1,10 @@
 <template>
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
-			<h2>Welcome {{ getUsername }}!</h2>
+			<h3>Welcome {{ getUsername }}!</h3>
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
 			<form v-on:submit.prevent="onSubmit">
-				<input v-model="roomName" type="text" placeholder="Name your new room or enter room code"><br/>
+				<input v-model="roomName" type="text" :placeholder="inputText"><br/>
 				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error" class="create-join-errors">
 					<div v-if="getAlreadyInRoomErrorStatus" class="create-join-error">
 						{{ getCreateJoinRoomErrors.alreadyInRoom['EN'] }}
@@ -42,6 +42,7 @@ export default {
   },
 	data() {
 		return {
+			inputText: 'Name your new room or enter a join code'
 		}
 	},
 	validations() {
@@ -103,6 +104,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.join-create-room {
+	input, button {
+		margin-top: 0.5rem;
+	}
+}
+
 .create-join-errors {
   margin-top: -1px;
   background: rgba($color: yellow, $alpha: 0.8);
