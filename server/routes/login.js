@@ -6,7 +6,6 @@ const {userSocket} = require('../utils/socket.io')
 
 /* POST login */
 router.post('/login', (req, res, next) => {
-  console.log(req.body)
   passport.authenticate('local',
   (err, user, info) => {
     if (err) {
@@ -26,10 +25,6 @@ router.post('/login', (req, res, next) => {
     });
 
   })(req, res, next)
-
-  // TODO::
-  // ADD REMEMBER ME COOKIE
-  // SEE GITHUB
 })
 
 /* POST register */
