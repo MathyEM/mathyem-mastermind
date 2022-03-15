@@ -26,6 +26,10 @@ router.post('/login', (req, res, next) => {
     });
 
   })(req, res, next)
+
+  // TODO::
+  // ADD REMEMBER ME COOKIE
+  // SEE GITHUB
 })
 
 /* POST register */

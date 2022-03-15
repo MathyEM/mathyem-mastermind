@@ -12,8 +12,10 @@ const passport = require('passport')
 const User = require('./models/user')
 User.syncIndexes()
 const { Room } = require('./models/room')
+const RememberMeToken = require('./models/rememberMeToken')
 const roomController = require('./controllers/roomController')
 const LocalStrategy = require('passport-local').Strategy
+const RememberMeStrategy = require('passport-remember-me').Strategy
 const { socketConnection } = require('./utils/socket.io')
 
 //Setup body-parser
@@ -49,12 +51,59 @@ socketConnection.setupSocketConnection(io, sessionMiddleware, true)
 //Initialize passport
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(passport.authenticate('remember-me'))
 
 passport.use(new LocalStrategy(User.authenticate()))
 
 passport.serializeUser(User.serializeUser())
 
 passport.deserializeUser(User.deserializeUser())
+
+// REMEMBER ME
+async function consumeRememberMeToken(token, fn) {
+  const rememberMeToken = await RememberMeToken.findById(token)
+  const uid = rememberMeToken.user.id
+
+  // invalidate the single-use token
+  await RememberMeToken.deleteOne({_id: token})
+  return fn(null, uid);
+}
+
+async function saveRememberMeToken(uid, fn) {
+  const newToken = new RememberMeToken()
+  newToken.user = uid
+  await newToken.save()
+  return fn(null, newToken.id);
+}
+
+// Remember Me cookie strategy
+//   This strategy consumes a remember me token, supplying the user the
+//   token was originally issued to.  The token is single-use, so a new
+//   token is then issued to replace it.
+passport.use(new RememberMeStrategy(
+  async function(token, done) {
+    consumeRememberMeToken(token, async function(err, uid) {
+      if (err) { return done(err) }
+      if (!uid) { return done(null, false) }
+      
+      try {
+        const user = await User.findById(uid)
+        if (!user) { return done(null, false) }
+        return done(null, user)
+      } catch (err) {
+        if (err) { return done(err) } 
+      }
+    })
+  },
+  issueToken
+))
+
+function issueToken(user, done) {
+  saveRememberMeToken(user.id, function(err) {
+    if (err) { return done(err); }
+    return done(null, token);
+  });
+}
 
 
 //configure database and mongoose
