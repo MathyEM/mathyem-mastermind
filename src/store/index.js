@@ -12,6 +12,7 @@ export default new Vuex.Store({
   state: {
     appVersion: '1.5.0',
     registeringState: false,
+    sessionLoading: true,
     user: {
       id: '',
       username: '',
@@ -30,6 +31,7 @@ export default new Vuex.Store({
   getters: {
     getAppVersion: state => state.appVersion,
     getRegisteringState: state => state.registeringState,
+    getSessionLoading: state => state.sessionLoading,
     getUsername: state => state.user.username,
     getUserId: state => state.user.id,
     getLoginStatus: state => state.loginStatus,
@@ -83,6 +85,9 @@ export default new Vuex.Store({
   mutations: {
     TOGGLE_REGISTERING_STATE(state) {
       state.registeringState = !state.registeringState
+    },
+    SET_SESSION_LOADING(state, payload) {
+      state.sessionLoading = payload
     },
     SET_USER(state, payload) {
       state.user = {
