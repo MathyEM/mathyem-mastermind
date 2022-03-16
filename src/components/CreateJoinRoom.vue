@@ -5,7 +5,7 @@
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
 			<form v-on:submit.prevent="onSubmit">
 				<input v-model="roomName" class="join-create-input" type="text" :placeholder="inputText"><br/>
-				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error" class="create-join-errors">
+				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error || emptyInputError" class="create-join-errors">
 					<div v-if="getAlreadyInRoomErrorStatus" class="create-join-error">
 						{{ getCreateJoinRoomErrors.alreadyInRoom['EN'] }}
 					</div>
@@ -15,7 +15,7 @@
 					<div v-if="getInvalidJoinCodeLengthErrorStatus" v-html="getCreateJoinRoomErrors.invalidJoinCodeLength['EN']" class="create-join-error">
 						{{ getCreateJoinRoomErrors.invalidJoinCodeLength['EN'] }}
 					</div>
-					<div v-if="this.$v.$error" v-html="getCreateJoinRoomErrors.minMax['EN']" class="create-join-error">
+					<div v-if="this.$v.$error || emptyInputError" v-html="getCreateJoinRoomErrors.minMax['EN']" class="create-join-error1">
 						{{ getCreateJoinRoomErrors.minMax['EN'] }}
 					</div>
 				</div>
@@ -43,7 +43,7 @@ export default {
 	data() {
 		return {
 			inputText: 'Name a new room or join a room id',
-
+			emptyInputError: false,
 		}
 	},
 	validations() {
@@ -83,20 +83,25 @@ export default {
 			return false
 		},
 		createRoom() {
-			if (this.$v.$error) {
+			if (this.$v.$error || !this.$v.$anyDirty) {
+				if (!this.$v.$anyDirty) {
+					this.emptyInputError = true
+					this.TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS(false)
+				}
 				return
 			}
-			socketConnection.createRoom(this.getRoomName)
+			socketConnection.createRoom(this.getRoomName.trim())
     },
     joinRoom() {
-			if (this.roomName.length !== 24) {
+			if (this.roomName.trim().length !== 24) {
         this.TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS(true)
+				this.emptyInputError = false
         return
       }
 			if (this.$v.$error) {
 				return
 			}
-			socketConnection.joinRoom(this.getRoomName)
+			socketConnection.joinRoom(this.getRoomName.trim())
     }
   },
 	created() {

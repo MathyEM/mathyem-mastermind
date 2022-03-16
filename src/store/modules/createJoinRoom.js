@@ -68,7 +68,6 @@ const mutations = {
   },
   TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS(state, payload) {
     state.invalidJoinCodeLengthErrorStatus = payload
-    console.log("TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS called");
     if (payload) {
       state.createJoinRoomAnyErrorStatus = payload
     }
