@@ -25,8 +25,9 @@ import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
 import GameStatus from '@/components/GameStatus.vue'
+import { socketConnection } from '@/services/socketio.service.js'
 
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Game',
@@ -46,6 +47,19 @@ export default {
   },
   computed: {
     ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
+  },
+  methods: {
+    ...mapActions(['socketLogin'])
+  },
+  created() {
+    const onWindowOpen = () => {
+      if (!this.getCurrentRoom._id) {
+        return
+      }
+      this.socketLogin()
+      socketConnection.enterRoom(this.getCurrentRoom._id)
+    }
+    window.addEventListener('focus', onWindowOpen)
   }
 }
 </script>

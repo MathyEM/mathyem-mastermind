@@ -80,7 +80,6 @@ class SocketioService {
     this.socket.on('room-entered', async (response) => {
       const room = response
       console.log('room:', room)
-
       await store.dispatch('setCurrentRoom', room)
     })
 
@@ -157,7 +156,6 @@ class SocketioService {
 
   fetchUserRooms() {
     if (this.socket) {
-      console.log('fetching rooms...')
       this.socket.emit('fetch-user-rooms')
     }
   }

@@ -105,7 +105,6 @@ export default new Vuex.Store({
     },
     SET_CURRENT_ROOM(state, payload) {
       state.currentRoom = payload
-      console.log('Current room set', payload.name)
     },
     UPDATE_ATTEMPT(state, payload) {
       const index = state.currentRoom.attempts[payload.attemptIndex].indexOf('')
@@ -156,7 +155,6 @@ export default new Vuex.Store({
     },
     async setCurrentRoom({ commit, getters }, payload) {
       commit('SET_CURRENT_ROOM', payload)
-      console.log(getters.getSolutionState)
       commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
     },
     async enterRoom({ state }, payload) {
