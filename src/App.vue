@@ -44,6 +44,7 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+  touch-action: pan-x pan-y;
 }
 
 html {
