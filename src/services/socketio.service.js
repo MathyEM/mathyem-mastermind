@@ -20,11 +20,6 @@ class SocketioService {
       console.log(response)
     })
 
-    this.socket.on('game-data-retrieved', async response => {
-      console.log('game-data-retrieved')
-      await store.dispatch('setGameData', response)
-    })
-
     // ON CONNECTED
     this.socket.on('connected', async response => {
       if (response.authorization) {
@@ -169,8 +164,6 @@ class SocketioService {
 
   async sendSolution(solution) {
     if (this.socket) {
-      console.log("sending solution...")
-      console.log(solution)
       const roomId = store.getters.getCurrentRoom._id
       this.socket.emit('set-solution', { roomId, solution })
     }
@@ -178,8 +171,6 @@ class SocketioService {
 
   async sendAttempt(attempt, attemptIndex) {
     if (this.socket) {
-      console.log('sending attempt...')
-      console.log(attempt)
       const roomId = store.getters.getCurrentRoom._id
       this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
     }
