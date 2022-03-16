@@ -58,22 +58,17 @@ class SocketioService {
 
     // ON ROOM CREATED
     this.socket.on('room-created', async (response) => {
-      console.log('room created:')
-      console.log(response)
-
+      console.log('room created:', response)
       await store.dispatch('setCurrentRoom', response)
     })
 
     this.socket.on('room-joined', async (response) => {
-      console.log('room joined:')
-      console.log(response)
-
+      console.log('room joined:', response)
       await store.dispatch('setCurrentRoom', response)
       store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
     })
 
-    this.socket.on('room-left', async (response) => {
-      console.log(response)
+    this.socket.on('room-left', async () => {
       window.location.reload(true)
     })
 
@@ -83,14 +78,13 @@ class SocketioService {
       await store.dispatch('setCurrentRoom', room)
     })
 
-    this.socket.on('solution-set', () => {
-      console.log('called solution-set')
+    this.socket.on('solution-set', async (response) => {
+      await store.dispatch('setCurrentRoom', response.room)
       store.commit('TOGGLE_LOCAL_SOLUTION', true)
-      store.commit('TOGGLE_SOLUTION_STATE')
+      store.commit('TOGGLE_SOLUTION_STATE', true)
     })
 
     this.socket.on('attempt-set', (response) => {
-      console.log('called attempt-set')
       store.commit('UPDATE_ALL_ATTEMPTS', response.attempts)
       store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
     })

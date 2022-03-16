@@ -118,10 +118,10 @@ class SocketConnection {
 			// SET THE SOLUTION AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-solution', async (data) => {
 				console.log(data)
-				const { status } = await roomController.setSolution(socket, data.roomId, data.solution)
+				const { status, message, room, solution } = await roomController.setSolution(socket, data.roomId, data.solution)
 
 				if (status !== false) {
-					socket.to(data.roomId).emit('solution-set')
+					socket.to(data.roomId).emit('solution-set', { message, room })
 				}
 			})
 

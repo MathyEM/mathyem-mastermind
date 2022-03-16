@@ -132,9 +132,9 @@ export default new Vuex.Store({
       state.localSolution = ['', '', '', '']
       return
     },
-    TOGGLE_SOLUTION_STATE(state) {
+    TOGGLE_SOLUTION_STATE(state, payload) {
       const solutionCopy = state.currentRoom.solution.slice()
-      solutionCopy[0] = !solutionCopy[0]
+      solutionCopy[0] = payload
       state.currentRoom.solution = solutionCopy
     },
   },
@@ -181,8 +181,8 @@ export default new Vuex.Store({
       commit('UPDATE_LOCAL_SOLUTION', code)
       if (checkEntryCompletion(getters.getLocalSolution)) {
         dispatch('sendSolution')
-        commit('TOGGLE_SOLUTION_STATE')
-        commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
+        commit('TOGGLE_SOLUTION_STATE', true)
+        commit('TOGGLE_LOCAL_SOLUTION', true)
       }
     },
     sendAttempt({ getters }, payload) {
@@ -191,9 +191,6 @@ export default new Vuex.Store({
       socketConnection.sendAttempt(attempt, attemptIndex) // send attempt (Array)
     },
     sendSolution({ getters }) {
-      // TODO:
-      // CHECK FOR CURRENTCODEMAKER BEFORE SETTING SOLUTION
-      // IF CURRENTCODEMAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
       if (!getters.hasCodeMakerAuthority) {
         return
       }
@@ -211,7 +208,6 @@ export default new Vuex.Store({
 
 function checkEntryCompletion(entry) {  // check if an attempt or solution entry is complete (i.e. does not require more code pieces)
   if (!entry.includes('')) {
-    console.log('done')
     return true
   }
   return false
