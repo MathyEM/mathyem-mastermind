@@ -2,6 +2,9 @@
   <div v-if="!getLoginStatus" class="login-register">
     <form v-on:submit.prevent="onSubmit">
       <input v-model="username" type="text" placeholder="Username">
+      <div v-if="!getRegisteringState && getIncorrectUsernameOrPasswordState" class="login-errors">
+        <div class="register-error">{{ getErrors.generic.incorrectUsernameOrPassword['EN'] }}</div>
+      </div>
       <div v-if="getRegisteringState && $v && $v.username.$error" class="register-errors username-errors">
         <div v-if="!$v.username.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.username.regex" class="register-error" v-html="getErrors.username.regex['EN']">{{ getErrors.username.regex['EN'] }}</div>
@@ -14,7 +17,7 @@
         <div v-if="!$v.email.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.email.email" class="register-error">{{ getErrors.email.email['EN'] }}</div>
       </div>
-      <input v-model="password" type="password" placeholder="Password" minlength="6">
+      <input v-model="password" type="password" placeholder="Password">
       <div v-if="getRegisteringState && $v.password.$error" class="register-errors password-errors">
         <div v-if="!$v.password.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.password.minLength || !$v.password.maxLength" class="register-error">
@@ -79,6 +82,7 @@ export default {
       'getPasswordMaxLength',
       'getPasswordRegex',
       'getRememberMe',
+      'getIncorrectUsernameOrPasswordState',
       'getErrors',
     ]),
     username: {
@@ -86,6 +90,9 @@ export default {
       set(username) {
         this.$v.username.$touch()
         this.UPDATE_LOCAL_USERNAME(username)
+        if (!this.getRegisteringState) {
+          this.UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE(false)
+        }
       }
     },
     email: {
@@ -100,6 +107,9 @@ export default {
       set(password) {
         this.$v.password.$touch()
         this.UPDATE_LOCAL_PASSWORD(password)
+        if (!this.getRegisteringState) {
+          this.UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE(false)
+        }
       }
     },
     rememberMe: {
@@ -118,6 +128,7 @@ export default {
       'UPDATE_LOCAL_EMAIL',
       'UPDATE_LOCAL_PASSWORD',
       'UPDATE_REMEMBER_ME',
+      'UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE',
       ]),
     onSubmit() {
       return false
@@ -161,21 +172,19 @@ form input:not(:first-of-type), .remember-me, button {
   }
 }
 
-.register-errors {
+.login-errors, .register-errors {
   margin-top: -1px;
   background: rgba($color: yellow, $alpha: 0.8);
   border: 1px solid darken(yellow, 15);
   border-top: none;
   font-size: 0.9rem;
-
-  .register-error {
-    padding: 0.25rem;
-    
-    &:first-child:not(:last-child) {
-      border-bottom: 1px solid darken(yellow, 15);
-      
-    }
-  }
+}
+.register-error {
+  padding: 0.25rem;
   
+  &:first-child:not(:last-child) {
+    border-bottom: 1px solid darken(yellow, 15);
+    
+  }
 }
 </style>

@@ -21,12 +21,17 @@ const state = {
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[._-])[0-9a-zA-Z._-]+$/,
   },
   rememberMe: false,
+  incorrectUsernameOrPasswordState: false,
   errors: {
     generic: {
       required: {
         DA: 'Dette felt er obligatorisk',
         EN: 'This field is required',
       },
+      incorrectUsernameOrPassword: {
+        DA: 'Forkert brugernavn eller kodeord',
+        EN: 'Incorrect username or password'
+      }
     },
     username: {
       minmaxLength: {
@@ -67,6 +72,7 @@ const getters = {
   getPasswordMaxLength: state => state.password.maxLength,
   getPasswordRegex: state => state.password.regex,
   getRememberMe: state => state.rememberMe,
+  getIncorrectUsernameOrPasswordState: state => state.incorrectUsernameOrPasswordState,
   getErrors: state => state.errors,
 }
 const mutations = {
@@ -82,23 +88,28 @@ const mutations = {
   UPDATE_REMEMBER_ME(state, payload) {
     state.rememberMe = payload
   },
+  UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE(state, payload) {
+    state.incorrectUsernameOrPasswordState = payload
+  },
 }
 const actions = {
-  loginUser({ getters, dispatch }) {
+  loginUser({ getters, commit, dispatch }) {
+    if (!getters.getLocalUsername || !getters.getLocalPassword) {
+      return
+    }
     axios.post(socketEndpointProtocol + socketEndpoint + '/login',
     {
       username: getters.getLocalUsername,
-      email: getters.getLocalEmail,
       password: getters.getLocalPassword,
       remember_me: getters.getRememberMe,
     }, { withCredentials: true })
     .then((response) => {
-      if (response.status !== 200) {
-        console.log('status: ', response.status);
-        return
-      }
+      commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', false)
       console.log(response)
       dispatch('socketLogin', null, { root: true })
+    }).catch((err) => {
+      commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', true)
+      console.log('status: ', err)
     })
   },
   registerUser({ getters }, payload) {
