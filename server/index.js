@@ -1,24 +1,19 @@
 require('dotenv').config()
-const express = require('express')
-const PORT = process.env.PORT || 3001
-const cors = require('cors')
-const app = express()
-const http = require('http').createServer(app)
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const config = require('./config/db')
-const session = require('express-session')
-const passport = require('passport')
-const User = require('./models/user')
-User.syncIndexes()
-const { Room } = require('./models/room')
-const roomController = require('./controllers/roomController')
-const LocalStrategy = require('passport-local').Strategy
-const { socketConnection } = require('./utils/socket.io')
-
-//Setup body-parser
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+const express = require('express'),
+      cors = require('cors'),
+      app = express(),
+      http = require('http').createServer(app),
+      bodyParser = require('body-parser'),
+      config = require('./config/db'),
+      passport = require('passport'),
+      session = require('express-session'),
+      mongoose = require('mongoose'),
+      User = require('./models/user'),
+      { Room } = require('./models/room'),
+      roomController = require('./controllers/roomController'),
+      LocalStrategy = require('passport-local').Strategy,
+      { socketConnection } = require('./utils/socket.io'),
+      PORT = process.env.PORT || 3001
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
@@ -26,6 +21,9 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   maxAge: 365 * 24 * 60 * 60 * 1000,
 })
+//Setup body-parser
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 //Setup CORS
 app.use(cors({
@@ -42,18 +40,16 @@ io = require('socket.io')(http, {
   }
 })
 
+//Use session
 app.use(sessionMiddleware)
 socketConnection.setupSocketConnection(io, sessionMiddleware, true)
-
 
 //Initialize passport
 app.use(passport.initialize())
 app.use(passport.session())
 
 passport.use(new LocalStrategy(User.authenticate()))
-
 passport.serializeUser(User.serializeUser())
-
 passport.deserializeUser(User.deserializeUser())
 
 
@@ -69,14 +65,7 @@ mongoose
 
 //Added routes
 const loginRouter = require('./routes/login')
-
-// Room.find({owner: '61d8917a7274e857bdb81bac'}).exec((err, rooms) => {
-  //   if (err) console.log(err)
-  //   console.log(rooms)
-  // })
-  
 app.use('/', loginRouter)
-
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>')
 })
