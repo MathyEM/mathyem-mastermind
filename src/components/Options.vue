@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade">
-    <div v-if="getShowOptions" class="options">
+    <div v-if="getShowOptions" class="options" :class="{'in-room': (getCurrentRoom._id != undefined)}">
       <div class="footer">
         <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
           <p><span class="join-code-text">Join code:</span><br> {{ getCurrentRoom._id }}</p>
@@ -180,16 +180,23 @@ $dark-gray: #505050;
 
   .options-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: $item-margin;
+  }
+
+  .logout-btn {
+    display: flex;
+
+    button {
+      width: 50%;
+    }
   }
 
   .leave-room, .logout-btn {
     button {
       $btn-color: #fff;
-      margin: 0;
+      margin: auto;
       padding: 0.5rem;
-      width: 100%;
       height: 100%;
       font-size: 0.8em;
       border: 0;
@@ -225,6 +232,17 @@ $dark-gray: #505050;
     box-shadow: inset 0px 0px 0px 0px #F0F0F0;
   }
 }
+
+.options.in-room {
+  .options-buttons {
+    grid-template-columns: 1fr 1fr;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
 .slide-fade-enter, .slide-fade-leave-to {
   width: 0;
   opacity: 0;
