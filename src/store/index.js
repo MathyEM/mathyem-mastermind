@@ -10,7 +10,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appVersion: '1.5.0',
+    appVersion: '1.6.0',
     registeringState: false,
     sessionLoading: true,
     user: {
