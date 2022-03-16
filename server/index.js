@@ -7,19 +7,38 @@ const express = require('express'),
       config = require('./config/db'),
       passport = require('passport'),
       session = require('express-session'),
+      cookieParse = require('cookie-parser'),
       mongoose = require('mongoose'),
       User = require('./models/user'),
       { Room } = require('./models/room'),
+      MongoStore = require('connect-mongo'),
       roomController = require('./controllers/roomController'),
       LocalStrategy = require('passport-local').Strategy,
       { socketConnection } = require('./utils/socket.io'),
       PORT = process.env.PORT || 3001
 
+//configure database and mongoose
+const clientP = mongoose.connect(
+  config.database,
+).then((m) => {
+  console.log("Database is connected")
+  return m.connection.getClient()
+})
+.catch(err => {
+  console.log({ database_error: err })
+})
+
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  maxAge: 365 * 24 * 60 * 60 * 1000,
+  store: MongoStore.create({
+    clientPromise: clientP,
+    dbName: process.env.DB_NAME,
+    stringify: false,
+    autoRemove: 'interval',
+    autoRemoveInterval: 1,
+  }),
 })
 //Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -51,17 +70,6 @@ app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-
-
-//configure database and mongoose
-mongoose
-.connect(config.database)
-.then(() => {
-  console.log("Database is connected");
-})
-.catch(err => {
-  console.log({ database_error: err });
-})
 
 //Added routes
 const loginRouter = require('./routes/login')
