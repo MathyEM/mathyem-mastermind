@@ -15,7 +15,6 @@ class SocketioService {
     this.socket = io(socketEndpoint+'/user', {
       withCredentials: true,
     })
-    console.time('login-timer')
     store.commit('SET_SESSION_LOADING', true)
     this.socket.on('room-status', response => {
       console.log(response)
@@ -33,7 +32,6 @@ class SocketioService {
           email: email,
         })
         store.commit('SET_LOGIN_STATUS', true)
-        console.timeEnd('login-timer')
       }
     })
     
