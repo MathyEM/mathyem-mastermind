@@ -155,7 +155,7 @@ $dark-gray: #505050;
     &::before {
       content: '';
       position: absolute;
-      width: 0.2rem;
+      width: 0.4rem;
       height: 80%;
       background: $orange;
       top: 49%;
