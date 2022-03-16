@@ -6,12 +6,9 @@ const {userSocket} = require('../utils/socket.io')
 
 /* POST login */
 router.post('/login', (req, res, next) => {
-  console.log(req.body)
   if (req.body.rememberMe) {
-    console.log('remember me');
     req.session.cookie.originalMaxAge = 30 * 24 * 60 * 60 * 1000 // Expires in 30 days
   } else {
-    console.log('dont remember me');
     req.session.cookie.expires = false
   }
 
