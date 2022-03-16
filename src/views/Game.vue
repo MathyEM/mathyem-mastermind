@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!getLoginStatus" class="main">
+  <div v-if="!getLoginStatus" class="main login-screen">
     <h2>{{ title }}</h2>
     <LoginRegister/>
   </div>
@@ -73,6 +73,10 @@ export default {
 
   h2 {
     margin-top: 0;
+  }
+
+  &.login-screen {
+    margin-top: 2rem;
   }
   
   .join-create-room, .login-register {
