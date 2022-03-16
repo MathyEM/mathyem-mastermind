@@ -23,7 +23,13 @@ class SocketioService {
     // ON CONNECTED
     this.socket.on('connected', async response => {
       if (response.authorization) {
-        this.socket.emit('req-login', { message: 'attempting login' })
+        const { _id, username, email } = response.user
+        store.commit('SET_USER', {
+          id: _id,
+          username: username,
+          email: email,
+        })
+        store.commit('SET_LOGIN_STATUS', true)
       }
     })
     
@@ -39,17 +45,6 @@ class SocketioService {
       if (response.type === 'invalidJoinCodeLength') {
         store.commit('TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS', true)
       }
-    })
-
-    // ON LOGIN
-    this.socket.on('login', (response) => {
-      console.log('user:', response)
-      store.commit('SET_USER', {
-        id: response._id,
-        username: response.username,
-        email: response.email,
-      })
-      store.commit('SET_LOGIN_STATUS', true)
     })
 
     this.socket.on('user-rooms-fetched', async (rooms) => {

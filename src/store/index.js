@@ -197,6 +197,10 @@ export default new Vuex.Store({
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
     },
+    backToHome({ commit }) {
+      commit('SET_CURRENT_ROOM', { id: '', name: ''})
+      commit('SET_SHOW_ROOM_LIST', false)
+    },
   },
   modules: {
     statusMessages,
