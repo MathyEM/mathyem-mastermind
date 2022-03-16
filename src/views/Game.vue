@@ -56,23 +56,18 @@ export default {
   margin-top: 0;
   width: 100%;
   padding: 0 0.5rem 0;
+
+  h2 {
+    margin-top: 0;
+  }
   
   .join-create-room, .login-register {
     input, button {
       box-sizing: border-box;
       width: 100%;
-      font-size: 1.2rem;
-      height: 2em;
+      font-size: 1.1rem;
+      height: 2.6rem;
       text-align: center;
-    }
-
-    input {
-      height: 2.2em;
-      vertical-align: middle;
-    }
-
-    button {
-      height: 2.2em;
     }
   }
 }
@@ -86,6 +81,7 @@ export default {
 @media only screen and (max-width: 320px) {
   .main {
     margin: auto;
+    margin-top: 0;
     width: 100%;
     padding: 0 1rem;
   }

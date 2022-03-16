@@ -4,7 +4,7 @@
 			<h3>Welcome {{ getUsername }}!</h3>
 			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
 			<form v-on:submit.prevent="onSubmit">
-				<input v-model="roomName" type="text" :placeholder="inputText"><br/>
+				<input v-model="roomName" class="join-create-input" type="text" :placeholder="inputText"><br/>
 				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error" class="create-join-errors">
 					<div v-if="getAlreadyInRoomErrorStatus" class="create-join-error">
 						{{ getCreateJoinRoomErrors.alreadyInRoom['EN'] }}
@@ -42,7 +42,8 @@ export default {
   },
 	data() {
 		return {
-			inputText: 'Name your new room or enter a join code'
+			inputText: 'Name a new room or join a room id',
+
 		}
 	},
 	validations() {
