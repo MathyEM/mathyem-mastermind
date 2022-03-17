@@ -6,6 +6,7 @@ export default class ConfigProvider {
     return {
       socketEndpoint: "$VUE_APP_SOCKET_ENDPOINT",
       socketEndpointProtocol: "$VUE_APP_SOCKET_ENDPOINT_PROTOCOL",
+      publicVapidKey: "$VUE_APP_PUBLIC_VAPID_KEY",
     };
   }
 

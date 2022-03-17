@@ -11,9 +11,9 @@ module.exports = {
   },
   pwa: {
     manifestCrossorigin: 'use-credentials',
+    workboxPluginMode: 'InjectManifest',
     workboxOptions: {
-      skipWaiting: true,
-      clientsClaim: true,
+      swSrc: "./src/service-worker.js",
     },
     manifestOptions: {
       name: "Mastermind",

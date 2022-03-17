@@ -14,6 +14,8 @@ const express = require('express'),
       roomController = require('./controllers/roomController'),
       LocalStrategy = require('passport-local').Strategy,
       { socketConnection } = require('./utils/socket.io'),
+      webpush = require('web-push'),
+      path = require('path'),
       PORT = process.env.PORT || 3001
 
 //configure database and mongoose
@@ -100,6 +102,17 @@ async function updateUser() {
 // roomController.resetRoom('62191e17e1c78be54edb0c43')
 
 // roomController.completeRound('61d8917a7274e857bdb81bac','621ba322c8ab8cf3ce58c65c', 0)
+
+// PUSH NOTIFICATIONS/ WEB PUSH
+const publicVapidKey = process.env.PUBLIC_VAPID_KEY
+const privateVapidKey = process.env.PRIVATE_VAPID_KEY
+
+webpush.setVapidDetails('mailto:dj-ert@hotmail.com', publicVapidKey, privateVapidKey)
+
+// Subscribe Route
+const subscribeRouter = require('./routes/subscribe')
+
+app.use('/', subscribeRouter)
 
 //Start server
 http.listen(3001, () => {

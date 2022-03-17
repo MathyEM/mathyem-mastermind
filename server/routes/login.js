@@ -6,7 +6,9 @@ const {userSocket} = require('../utils/socket.io')
 
 /* POST login */
 router.post('/login', (req, res, next) => {
+  console.log(req.body);
   if (req.body.remember_me) {
+    console.log('remember me');
     req.session.cookie.originalMaxAge = 30 * 24 * 60 * 60 * 1000 // Expires in 30 days
   } else {
     req.session.cookie.expires = false
@@ -31,18 +33,18 @@ router.post('/login', (req, res, next) => {
   })(req, res, next)
 })
 
-router.post('/login', passport.authenticate('local', {
-  // successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}), (req, res) => {
-  if ( req.body.remember ) {
-    req.session.cookie.originalMaxAge = 24 * 60 * 60 * 1000 // Expires in 1 day
-  } else {
-    req.session.cookie.expires = false
-  }
-  res.redirect('/')
-})
+// router.post('/login', passport.authenticate('local', {
+//   // successRedirect: '/',
+//   failureRedirect: '/login',
+//   failureFlash: true
+// }), (req, res) => {
+//   if ( req.body.remember ) {
+//     req.session.cookie.originalMaxAge = 24 * 60 * 60 * 1000 // Expires in 1 day
+//   } else {
+//     req.session.cookie.expires = false
+//   }
+//   res.redirect('/')
+// })
 
 /* POST register */
 router.post('/register', (req, res, next) => {
