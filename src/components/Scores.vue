@@ -42,6 +42,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$marquee-padding: 1rem;
 .scores {
   width: 100%;
   display: grid;
@@ -65,6 +66,11 @@ export default {
     width: 100%;
     text-align: left;
     font-weight: bold;
+
+    &
+    > div {
+      padding-left: $marquee-padding;
+    }
   }
 
   .score {
@@ -84,7 +90,7 @@ export default {
 
       > div {
         position: absolute;
-        right: 0;
+        right: -$marquee-padding;
 
         > div {
           position: absolute;
