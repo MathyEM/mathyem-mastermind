@@ -47,11 +47,6 @@ export default {
       return 0
     },
   },
-  mounted() {
-    setTimeout(() => {
-      console.log((this.getDuration(this.getCurrentRoom.users[0]._id.username) > 0))
-    }, 2000);
-  }
 }
 </script>
 
