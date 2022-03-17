@@ -149,17 +149,6 @@ const actions = {
       }
     })
   },
-  logoutUser() {
-    const currentUrl = window.location.pathname
-    axios.post(socketEndpointProtocol + socketEndpoint + '/logout', {}, { withCredentials: true })
-    .then((response) => {
-      if (response.status !== 200) {
-        console.log('status: ', response.status);
-        return
-      }
-      window.location = currentUrl
-    })
-  }
 }
 
 export default {
