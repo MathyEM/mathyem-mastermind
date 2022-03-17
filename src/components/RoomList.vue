@@ -5,14 +5,16 @@
         <p>Opponent</p>
         <p>Room name</p>
       </div>
-      <div
-        class="room"
-        v-for="room in getUsersRooms"
-        :key="room._id"
-        @click="changeRoom(room._id)"
-        :class="{ active: (room._id === getCurrentRoom._id), 'your-turn': (isYourTurn(room) == true) }">
-        <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
-        <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
+      <div class="rooms">
+        <div
+          class="room"
+          v-for="room in getUsersRooms"
+          :key="room._id"
+          @click="changeRoom(room._id)"
+          :class="{ active: (room._id === getCurrentRoom._id), 'your-turn': (isYourTurn(room) == true) }">
+          <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
+          <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
+        </div>
       </div>
       <div class="room-list-footer">
         <div class="back-btn" @click="backToHome">
@@ -95,6 +97,8 @@ $margin-top: 2.7rem;
 $dark-gray: #505050;
 
 .room-list {
+  display: grid;
+  grid-template-rows: min-content auto min-content;
   font-size: 1rem;
   z-index: 4;
   position: absolute;
@@ -103,13 +107,35 @@ $dark-gray: #505050;
   transform: translateX(-50%);
   width: 100%;
   min-height: 10vh;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
-  max-height: calc(100vh - $margin-top - 1rem);
+  max-height: 70vh;
   margin-top: $margin-top;
   background: $dark-gray;
   color: whitesmoke;
-  display: grid;
+  
+  .rooms {
+    overflow-y: auto;
+    padding: 1px;
+
+    &::-webkit-scrollbar{
+    width: 13px;
+    height: 13px;
+    background: $dark-gray;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #B3AFB3;
+    border-radius: 9px;
+  }
+  &::-webkit-scrollbar-thumb:hover{
+    background: #B3AFB3;
+  }
+  &::-webkit-scrollbar-track{
+    background: transparent;
+    border-radius: 9px;
+    box-shadow: inset 0px 0px 0px 0px #F0F0F0;
+  }
+  }
 
   .room-list-headers, .room {
     display: grid;
@@ -191,24 +217,6 @@ $dark-gray: #505050;
         height: 1.8em;
       }
     }
-  }
-
-  &::-webkit-scrollbar{
-    width: 13px;
-    height: 13px;
-    background: $dark-gray;
-  }
-  &::-webkit-scrollbar-thumb{
-    background: #B3AFB3;
-    border-radius: 9px;
-  }
-  &::-webkit-scrollbar-thumb:hover{
-    background: #B3AFB3;
-  }
-  &::-webkit-scrollbar-track{
-    background: transparent;
-    border-radius: 9px;
-    box-shadow: inset 0px 0px 0px 0px #F0F0F0;
   }
 }
 .slide-fade-enter, .slide-fade-leave-to {
