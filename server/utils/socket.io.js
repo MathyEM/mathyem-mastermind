@@ -44,6 +44,14 @@ class SocketConnection {
 				user: user || null,
 				authorization: socket.authorization
 			})
+
+			socket.on("update item", (arg1, callback) => {
+				console.log(arg1); // 1
+				console.log(arg2); // { name: "updated" }
+				callback({
+					status: "ok"
+				});
+			});
 					
 			// CREATE ROOM
 			socket.on('create-room', async (data) => {

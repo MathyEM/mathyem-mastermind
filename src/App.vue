@@ -44,6 +44,8 @@ export default {
     window.addEventListener('hashchange', relocate)
   },
   async created() {
+  },
+  beforeMount() {
     socketConnection.setupSocketConnection()
   },
   beforeUnmount() {

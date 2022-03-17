@@ -17,7 +17,7 @@ class SocketioService {
     })
     store.commit('SET_SESSION_LOADING', true)
     this.socket.on('room-status', response => {
-      console.log(response)
+      console.log('hallo hallo',response)
     })
     
     // ON CONNECTED
@@ -30,6 +30,7 @@ class SocketioService {
           username: username,
           email: email,
         })
+        localStorage.user = JSON.stringify(response.user)
         store.commit('SET_LOGIN_STATUS', true)
       }
     })
@@ -98,12 +99,6 @@ class SocketioService {
   connect() {
     if (this.socket) {
       this.socket.emit('connection')
-    }
-  }
-
-  login() {
-    if (this.socket) {
-      this.socket.emit('req-login', {message: 'attempting login'})
     }
   }
 
