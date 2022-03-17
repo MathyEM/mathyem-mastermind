@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade">
-    <div v-if="getShowRoomList" class="room-list">
+    <div v-if="getShowRoomList" class="room-list" v-click-outside="toggleMenus">
       <div class="room-list-headers">
         <p>Opponent</p>
         <p>Room name</p>
@@ -48,8 +48,12 @@ export default {
     ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId', 'getCurrentRoom']),
 	},
   methods: {
-    ...mapMutations(['SET_SHOW_ROOM_LIST']),
-    ...mapActions(['enterRoom', 'backToHome']),
+    ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS']),
+    ...mapActions(['enterRoom', 'backToHome', 'setShowRoomList']),
+    toggleMenus() {
+      this.setShowRoomList()
+      this.SET_SHOW_OPTIONS(false)
+    },
     isYourTurn: function(room) {
       // if you are the code MAKER and a solution is not set, it's your turn
       if (this.getUserId === room.currentCodeMaker && !room.solution[0]) {

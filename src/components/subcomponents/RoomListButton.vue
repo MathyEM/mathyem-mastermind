@@ -24,9 +24,10 @@ export default {
   methods: {
     ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS']),
     ...mapActions(['setShowRoomList']),
-    toggleMenus() {
+    toggleMenus(event) {
       this.setShowRoomList()
       this.SET_SHOW_OPTIONS(false)
+      event.stopPropagation()
     }
   },
 	created() {

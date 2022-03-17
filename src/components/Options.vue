@@ -1,6 +1,10 @@
 <template>
   <transition name="slide-fade">
-    <div v-if="getShowOptions" class="options" :class="{'in-room': (getCurrentRoom._id != undefined)}">
+    <div
+    v-if="getShowOptions"
+    class="options"
+    :class="{'in-room': (getCurrentRoom._id != undefined)}"
+    v-click-outside="toggleMenus">
       <div class="footer">
         <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
           <p><span class="join-code-text">Join code:</span><br> {{ getCurrentRoom._id }}</p>
@@ -39,8 +43,13 @@ export default {
     ...mapGetters(['getCurrentRoom', 'getShowOptions']),
 	},
   methods: {
-    ...mapMutations(['SET_SHOW_OPTIONS']),
+    ...mapMutations(['SET_SHOW_OPTIONS', 'SET_SHOW_ROOM_LIST']),
     ...mapActions(['logoutUser', 'leaveRoom']),
+    toggleMenus(event) {
+      this.SET_SHOW_OPTIONS(!this.getShowOptions)
+      this.SET_SHOW_ROOM_LIST(false)
+      event.stopPropagation()
+    },
     getRoomId() {
       const roomId = this.currentRoom._id
       console.log(roomId)
@@ -132,7 +141,7 @@ $dark-gray: #505050;
   width: 100%;
   min-height: 20vh;
   overflow-y: auto;
-  max-height: calc(100vh - $margin-top - 1rem);
+  max-height: 70vh;
   margin-top: $margin-top;
   background: $dark-gray;
   color: whitesmoke;
