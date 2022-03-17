@@ -36,7 +36,11 @@ export default {
 
 <style lang="scss">
 .code-buttons-code-row {
+  gap: 0;
+
   .code-piece {
+    margin: 0 ($code-piece-margin/2);
+
     > div {
       @include code-piece-scaling(1.1)
     }
@@ -46,7 +50,7 @@ export default {
   .code-buttons-code-row {
     .code-piece {
       > div {
-        @include code-piece-scaling(1.2)
+        @include code-piece-scaling(1.25)
       }
     }
   }

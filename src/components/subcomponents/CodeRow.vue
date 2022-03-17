@@ -115,7 +115,7 @@ $color: #000;
 
   @media screen and (max-width: 375px) {
     .code-piece {
-      border-radius: 0.3rem;
+      border-radius: 0.25rem;
 
       > div {
         font-size: 1em;
