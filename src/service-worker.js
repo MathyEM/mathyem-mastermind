@@ -1,4 +1,4 @@
-importScripts('localforage.min.js')
+self.importScripts('localforage.min.js')
 workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"});
  
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
@@ -14,8 +14,15 @@ workbox.core.skipWaiting()
 
 console.log("Service Worker Loaded...")
 
-self.addEventListener("push", e => {
-  console.log('local forage:', localforage)
+self.addEventListener("push", async e => {
+  await localforage.ready()
+  localforage.getItem('user', function (err, user) {
+    if (err) {
+      console.error(err)
+      return
+    }
+    console.log('local forage user:', user)
+  })
   const data = e.data.json();
   console.log("Push Recieved...");
   self.registration.showNotification(data.title, {

@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client'
 import store from '../store'
 import ConfigProvider from '@/ConfigProvider'
+import localforage from 'localforage'
 
 const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
@@ -30,9 +31,23 @@ class SocketioService {
           username: username,
           email: email,
         })
-        localStorage.user = JSON.stringify(response.user)
+        localforage.setItem('user', response.user).then(function (value) {
+          console.log('value:', value)
+        }).catch(function(err) {
+          console.error(err)
+        })
         store.commit('SET_LOGIN_STATUS', true)
       }
+      // const user1 = {
+      //   id: 'sdfsdfsdf',
+      //   username: 'mathy :)'
+      // }
+      // console.log('is updated')
+      // localforage.setItem('user', user1).then(function (value) {
+      //   console.log('value:', value)
+      // }).catch(function(err) {
+      //   console.error(err)
+      // })
     })
     
     // ON ERROR
