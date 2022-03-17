@@ -24,7 +24,6 @@ class SocketioService {
     this.socket.on('connected', async response => {
       store.commit('SET_SESSION_LOADING', false)
       if (response.authorization) {
-        console.log('socket:', this.socket)
         const { _id, username, email } = response.user
         store.commit('SET_USER', {
           id: _id,
