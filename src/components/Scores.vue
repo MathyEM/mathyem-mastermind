@@ -1,12 +1,22 @@
 <template>
   <div class="scores">
-    <div class="player-score">
-      <MarqueeText class="player-name" :duration="getDuration(getCurrentRoom.users[0]._id.username)" :repeat="1">{{ getCurrentRoom.users[0]._id.username }}</MarqueeText>
+    <div class="player-score" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.users[0]._id.username) > 0) }">
+      <MarqueeText
+      class="player-name"
+      :duration="getDuration(getCurrentRoom.users[0]._id.username)"
+      :repeat="1">
+        {{ getCurrentRoom.users[0]._id.username }}
+      </MarqueeText>
       <span class="score">{{ getCurrentRoom.users[0].points }}</span>
     </div>
-    <div v-if="getCurrentRoom.users[1] !== undefined" class="player-score">
+    <div v-if="getCurrentRoom.users[1] !== undefined" class="player-score" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.users[1]._id.username) > 0) }">
       <span class="score">{{ getCurrentRoom.users[1].points }}</span>
-      <MarqueeText :reverse="false" class="player-name" :duration="getDuration(getCurrentRoom.users[1]._id.username)" :repeat="1">{{ getCurrentRoom.users[1]._id.username }}</MarqueeText>
+      <MarqueeText
+      class="player-name"
+      :duration="getDuration(getCurrentRoom.users[1]._id.username)"
+      :repeat="1">
+        {{ getCurrentRoom.users[1]._id.username }}
+      </MarqueeText>
     </div>
     <div v-else class="player-score">
       <span class="score"></span>
@@ -36,8 +46,12 @@ export default {
       }
       return 0
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log((this.getDuration(this.getCurrentRoom.users[0]._id.username) > 0))
+    }, 2000);
   }
-
 }
 </script>
 
@@ -66,12 +80,11 @@ $marquee-padding: 1rem;
     width: 100%;
     text-align: left;
     font-weight: bold;
+  }
 
-    &
-    > div {
+  &.is-scrolling .player-name > div {
       padding-left: $marquee-padding;
     }
-  }
 
   .score {
     text-align: right;
@@ -90,7 +103,7 @@ $marquee-padding: 1rem;
 
       > div {
         position: absolute;
-        right: -$marquee-padding;
+        right: 0;
 
         > div {
           position: absolute;
@@ -99,6 +112,10 @@ $marquee-padding: 1rem;
         }
       }
     }
+
+    &.is-scrolling .player-name > div {
+        right: -$marquee-padding;
+      }
 
     .score {
       text-align: left;

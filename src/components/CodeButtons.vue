@@ -39,7 +39,7 @@ export default {
   gap: 0;
 
   .code-piece {
-    margin: 0 ($code-piece-margin/2);
+    margin: 0 calc($code-piece-margin / 2);
 
     > div {
       @include code-piece-scaling(1.1)
