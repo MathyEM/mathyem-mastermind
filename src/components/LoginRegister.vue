@@ -1,7 +1,7 @@
 <template>
   <div v-if="!getLoginStatus" class="login-register">
     <form v-on:submit.prevent="onSubmit">
-      <input v-model="username" type="text" placeholder="Username">
+      <input v-model="username" type="text" placeholder="Username" autocomplete="username">
       <div v-if="!getRegisteringState && getIncorrectUsernameOrPasswordState" class="login-errors">
         <div class="register-error">{{ getErrors.generic.incorrectUsernameOrPassword['EN'] }}</div>
       </div>
@@ -12,12 +12,12 @@
           {{ getErrors.username.minmaxLength['EN'] }}
         </div>
       </div>
-      <input v-if="getRegisteringState" v-model="email" type="text" placeholder="Email">
+      <input v-if="getRegisteringState" v-model="email" type="text" placeholder="Email" autocomplete="email">
       <div v-if="getRegisteringState && $v.email.$error" class="register-errors email-errors">
         <div v-if="!$v.email.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.email.email" class="register-error">{{ getErrors.email.email['EN'] }}</div>
       </div>
-      <input v-model="password" type="password" placeholder="Password">
+      <input v-model="password" type="password" placeholder="Password" autocomplete="current-password">
       <div v-if="getRegisteringState && $v.password.$error" class="register-errors password-errors">
         <div v-if="!$v.password.required" class="register-error">{{ getErrors.generic.required['EN'] }}</div>
         <div v-if="!$v.password.minLength || !$v.password.maxLength" class="register-error">

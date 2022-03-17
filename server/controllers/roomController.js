@@ -159,7 +159,8 @@ exports.setSolution = async function (socket, roomId, solution) {
 
 	room.solution = solution
 	await room.save()
-	return { status: true, solution }
+	room.solution = true
+	return { status: true, room, solution }
 }
 
 exports.updateAttempt = async function (socket, roomId, attempt, attemptIndex) {

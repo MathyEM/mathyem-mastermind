@@ -17,7 +17,8 @@ module.exports = {
     },
     manifestOptions: {
       name: "Mastermind",
-      short_name: "Mastermind"
+      short_name: "Mastermind",
+      theme_color: '#ffb700',
     }
   },
   devServer: {

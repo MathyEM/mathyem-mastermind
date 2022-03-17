@@ -32,9 +32,6 @@ class SocketConnection {
 
 		namespace.on('connection', (socket) => {
 			var user
-			const uid = function(){
-				return Date.now().toString(36) + Math.random().toString(36).substr(2);
-			}
 
 			if (socket.request.user != null) {
 				user = socket.request.user
@@ -46,12 +43,6 @@ class SocketConnection {
 				socketId: socket.id,
 				user: user || null,
 				authorization: socket.authorization
-			})
-
-			// ON LOGIN
-			socket.on('req-login', (data) => {
-				data
-				login(socket, user)
 			})
 					
 			// CREATE ROOM
@@ -118,10 +109,10 @@ class SocketConnection {
 			// SET THE SOLUTION AND INFORM OTHER PLAYERS IN THE ROOM
 			socket.on('set-solution', async (data) => {
 				console.log(data)
-				const { status } = await roomController.setSolution(socket, data.roomId, data.solution)
+				const { status, message, room, solution } = await roomController.setSolution(socket, data.roomId, data.solution)
 
 				if (status !== false) {
-					socket.to(data.roomId).emit('solution-set')
+					socket.to(data.roomId).emit('solution-set', { message, room })
 				}
 			})
 
@@ -171,10 +162,6 @@ class SocketConnection {
 				return
 			}
 			console.log('no socket')
-		}
-	
-		function login(socket, user) {
-			socket.emit('login', user)
 		}
 	}
 

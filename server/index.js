@@ -32,6 +32,7 @@ const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  httpOnly: false,
   store: MongoStore.create({
     clientPromise: clientP,
     dbName: process.env.DB_NAME,

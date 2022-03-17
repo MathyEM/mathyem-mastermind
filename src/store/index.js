@@ -10,8 +10,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appVersion: '1.3.2',
+    appVersion: '1.6.0',
     registeringState: false,
+    sessionLoading: true,
     user: {
       id: '',
       username: '',
@@ -30,6 +31,7 @@ export default new Vuex.Store({
   getters: {
     getAppVersion: state => state.appVersion,
     getRegisteringState: state => state.registeringState,
+    getSessionLoading: state => state.sessionLoading,
     getUsername: state => state.user.username,
     getUserId: state => state.user.id,
     getLoginStatus: state => state.loginStatus,
@@ -84,6 +86,9 @@ export default new Vuex.Store({
     TOGGLE_REGISTERING_STATE(state) {
       state.registeringState = !state.registeringState
     },
+    SET_SESSION_LOADING(state, payload) {
+      state.sessionLoading = payload
+    },
     SET_USER(state, payload) {
       state.user = {
         id: payload.id,
@@ -132,9 +137,9 @@ export default new Vuex.Store({
       state.localSolution = ['', '', '', '']
       return
     },
-    TOGGLE_SOLUTION_STATE(state) {
+    TOGGLE_SOLUTION_STATE(state, payload) {
       const solutionCopy = state.currentRoom.solution.slice()
-      solutionCopy[0] = !solutionCopy[0]
+      solutionCopy[0] = payload
       state.currentRoom.solution = solutionCopy
     },
   },
@@ -181,8 +186,8 @@ export default new Vuex.Store({
       commit('UPDATE_LOCAL_SOLUTION', code)
       if (checkEntryCompletion(getters.getLocalSolution)) {
         dispatch('sendSolution')
-        commit('TOGGLE_SOLUTION_STATE')
-        commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
+        commit('TOGGLE_SOLUTION_STATE', true)
+        commit('TOGGLE_LOCAL_SOLUTION', true)
       }
     },
     sendAttempt({ getters }, payload) {
@@ -191,14 +196,15 @@ export default new Vuex.Store({
       socketConnection.sendAttempt(attempt, attemptIndex) // send attempt (Array)
     },
     sendSolution({ getters }) {
-      // TODO:
-      // CHECK FOR CURRENTCODEMAKER BEFORE SETTING SOLUTION
-      // IF CURRENTCODEMAKER !== USERID && GETSOLUTIONSTATE === FALSE THEN WRITE "WAITING FOR CODEMAKER"
       if (!getters.hasCodeMakerAuthority) {
         return
       }
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
+    },
+    backToHome({ commit }) {
+      commit('SET_CURRENT_ROOM', { id: '', name: ''})
+      commit('SET_SHOW_ROOM_LIST', false)
     },
   },
   modules: {
@@ -211,7 +217,6 @@ export default new Vuex.Store({
 
 function checkEntryCompletion(entry) {  // check if an attempt or solution entry is complete (i.e. does not require more code pieces)
   if (!entry.includes('')) {
-    console.log('done')
     return true
   }
   return false

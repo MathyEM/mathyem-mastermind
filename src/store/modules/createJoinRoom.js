@@ -81,9 +81,7 @@ const mutations = {
 }
 
 const actions = {
-  backToHome() {
-    location.reload()
-  },
+  
 }
 
 export default {

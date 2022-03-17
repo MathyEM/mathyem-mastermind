@@ -32,6 +32,17 @@ export default {
   computed: {
     ...mapGetters(['getLoginStatus', 'getAppVersion']),
   },
+  beforeCreate() {
+    function relocate() {
+      const { origin, href } = window.location
+      const postOrigin = href.replace(origin, '')
+      if (postOrigin !== '/#/') {
+        window.location = origin + '/#/'
+      }
+    }
+    window.addEventListener('load', relocate)
+    window.addEventListener('hashchange', relocate)
+  },
   async created() {
     socketConnection.setupSocketConnection()
   },

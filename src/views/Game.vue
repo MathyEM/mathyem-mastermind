@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!getLoginStatus" class="main">
+  <div v-if="getSessionLoading" class="main loading">
+    <img :src="loading" alt="">
+  </div>
+  <div v-else-if="!getLoginStatus" class="main login-screen">
     <h2>{{ title }}</h2>
     <LoginRegister/>
   </div>
@@ -42,11 +45,12 @@ export default {
   },
   data() {
     return {
-      title: 'Mastermind Game'
+      title: 'Mastermind Game',
+      loading: require('@/assets/Spinner-1s-357px.svg'),
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
+    ...mapGetters(['getSessionLoading', 'getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
   },
   methods: {
     ...mapActions(['socketLogin'])
@@ -73,6 +77,10 @@ export default {
 
   h2 {
     margin-top: 0;
+  }
+
+  &.login-screen {
+    margin-top: 2rem;
   }
   
   .join-create-room, .login-register {

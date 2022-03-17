@@ -15,15 +15,23 @@ class SocketioService {
     this.socket = io(socketEndpoint+'/user', {
       withCredentials: true,
     })
-
+    store.commit('SET_SESSION_LOADING', true)
     this.socket.on('room-status', response => {
       console.log(response)
     })
-
+    
     // ON CONNECTED
     this.socket.on('connected', async response => {
+      store.commit('SET_SESSION_LOADING', false)
       if (response.authorization) {
-        this.socket.emit('req-login', { message: 'attempting login' })
+        console.log('socket:', this.socket)
+        const { _id, username, email } = response.user
+        store.commit('SET_USER', {
+          id: _id,
+          username: username,
+          email: email,
+        })
+        store.commit('SET_LOGIN_STATUS', true)
       }
     })
     
@@ -41,39 +49,23 @@ class SocketioService {
       }
     })
 
-    // ON LOGIN
-    this.socket.on('login', (response) => {
-      console.log('user:', response)
-      store.commit('SET_USER', {
-        id: response._id,
-        username: response.username,
-        email: response.email,
-      })
-      store.commit('SET_LOGIN_STATUS', true)
-    })
-
     this.socket.on('user-rooms-fetched', async (rooms) => {
       store.commit('SET_USERS_ROOMS', rooms)
     })
 
     // ON ROOM CREATED
     this.socket.on('room-created', async (response) => {
-      console.log('room created:')
-      console.log(response)
-
+      console.log('room created:', response)
       await store.dispatch('setCurrentRoom', response)
     })
 
     this.socket.on('room-joined', async (response) => {
-      console.log('room joined:')
-      console.log(response)
-
+      console.log('room joined:', response)
       await store.dispatch('setCurrentRoom', response)
       store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
     })
 
-    this.socket.on('room-left', async (response) => {
-      console.log(response)
+    this.socket.on('room-left', async () => {
       window.location.reload(true)
     })
 
@@ -83,14 +75,13 @@ class SocketioService {
       await store.dispatch('setCurrentRoom', room)
     })
 
-    this.socket.on('solution-set', () => {
-      console.log('called solution-set')
+    this.socket.on('solution-set', async (response) => {
+      await store.dispatch('setCurrentRoom', response.room)
       store.commit('TOGGLE_LOCAL_SOLUTION', true)
-      store.commit('TOGGLE_SOLUTION_STATE')
+      store.commit('TOGGLE_SOLUTION_STATE', true)
     })
 
     this.socket.on('attempt-set', (response) => {
-      console.log('called attempt-set')
       store.commit('UPDATE_ALL_ATTEMPTS', response.attempts)
       store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
     })
