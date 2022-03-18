@@ -40,7 +40,7 @@ class SocketConnection {
 			console.log(`connected to /user: ` + socket.id)
 			socket.emit('connected', {
 				message: `connection to /user successful`,
-				socketId: socket.id,
+				sessionID: socket.request.sessionID,
 				user: user || null,
 				authorization: socket.authorization
 			})
@@ -61,8 +61,7 @@ class SocketConnection {
 					return
 				}
 				const newRoom = await roomController.createRoom(socket, data)
-				socket.join(newRoom._id)
-				console.log('Room created')
+				joinSocketRoom(socket, newRoom.id)
 				socket.emit('room-created', newRoom)
 			})
 		
@@ -81,7 +80,7 @@ class SocketConnection {
 				}
 
 				console.log('Room joined: ', data.roomId)
-				socket.join(data.roomId)
+				joinSocketRoom(socket, data.roomId)
 
 				room
 				.populate([
@@ -109,7 +108,7 @@ class SocketConnection {
 
 			socket.on('enter-room', async (data) => {
 				const room = await roomController.fetchRoom(socket, data.roomId)
-				socket.join(data.roomId)
+				joinSocketRoom(socket, data.roomId)
 				socket.emit('room-entered', room)
 				socket.to(data.roomId).emit('room-status', `${user.username} joined the room`)
 			})
@@ -163,6 +162,17 @@ class SocketConnection {
 				console.log(`user disconnected from /user`)
 			})
 		})
+
+		function joinSocketRoom(socket, roomId) {
+			const oldRooms = socket.rooms
+			Array.from(oldRooms).forEach((room, index) => {
+				if (index == 0) {
+					return
+				}
+				socket.leave(room)
+			})
+			socket.join(roomId)
+		}
 
 		function disconnect() {
 			if (this.socket) {

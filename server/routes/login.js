@@ -33,19 +33,6 @@ router.post('/login', (req, res, next) => {
   })(req, res, next)
 })
 
-// router.post('/login', passport.authenticate('local', {
-//   // successRedirect: '/',
-//   failureRedirect: '/login',
-//   failureFlash: true
-// }), (req, res) => {
-//   if ( req.body.remember ) {
-//     req.session.cookie.originalMaxAge = 24 * 60 * 60 * 1000 // Expires in 1 day
-//   } else {
-//     req.session.cookie.expires = false
-//   }
-//   res.redirect('/')
-// })
-
 /* POST register */
 router.post('/register', (req, res, next) => {
   const newUser = new User({ username: req.body.username, email: req.body.email })
