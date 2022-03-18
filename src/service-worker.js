@@ -28,7 +28,7 @@ self.addEventListener("push", async event => {
       console.log("Push Recieved...")
 
       event.waitUntil( // don't terminate the SW untill this is done
-        await self.registration.showNotification(data.title, {
+        self.registration.showNotification(data.title, {
           body: data.body,
           icon: "http://image.ibb.co/frYOFd/tmlogo.png",
           vibrate: [200, 200],
