@@ -40,7 +40,7 @@ class SocketConnection {
 			console.log(`connected to /user: ` + socket.id)
 			socket.emit('connected', {
 				message: `connection to /user successful`,
-				socketId: socket.id,
+				sessionID: socket.request.sessionID,
 				user: user || null,
 				authorization: socket.authorization
 			})
