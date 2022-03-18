@@ -14,7 +14,7 @@ self.addEventListener('install', () => self.skipWaiting())
 
 console.log("Service Worker Loaded...1234")
 
-self.addEventListener("push", async e => {
+self.addEventListener("push", async event => {
   try {
     await localforage.ready()
     const user = await localforage.getItem('user')
@@ -22,14 +22,18 @@ self.addEventListener("push", async e => {
     const sessionValidate = await postData('https://api.mastermind.mem-home.tk/validate-session', {user, sessionId})
     console.log(sessionValidate)
 
-    const data = e.data.json()
+    const data = event.data.json()
 
     if (sessionValidate.sessionValid) {
       console.log("Push Recieved...")
-      self.registration.showNotification(data.title, {
-        body: data.body,
-        icon: "http://image.ibb.co/frYOFd/tmlogo.png"
-      })  
+
+      event.waitUntil( // don't terminate the SW untill this is done
+        await self.registration.showNotification(data.title, {
+          body: data.body,
+          icon: "http://image.ibb.co/frYOFd/tmlogo.png",
+          vibrate: [200, 200],
+        })
+      )   
     }
   } catch (error) {
     console.error(error)
