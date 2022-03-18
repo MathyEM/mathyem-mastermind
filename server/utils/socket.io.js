@@ -129,15 +129,17 @@ class SocketConnection {
 					const codeBreakerId = codeBreaker.id
 
 					// find the subscription info for the user
-					const codeBreakerSubscription = await PushSubscription.findOne({ 'user': codeBreakerId })
-					if (!codeBreakerSubscription) {
+					const codeBreakerSubscription = await PushSubscription.find({ 'user': codeBreakerId })
+					if (codeBreakerSubscription < 0) {
 						return
 					}
 					const payload = JSON.stringify({
 						title: `It's your turn in ${room.name}`,
 						body: `${codeMaker.username} has made a code for you to solve!`,
 					})
-					webpush.sendNotification(codeBreakerSubscription.subscription, payload).catch(err => console.error(err))
+					codeBreakerSubscription.forEach(async (subscription) => {
+						await webpush.sendNotification(subscription.subscription, payload).catch(err => console.error(err))
+					})
 				}
 			})
 

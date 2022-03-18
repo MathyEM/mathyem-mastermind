@@ -11,19 +11,10 @@ router.post('/subscribe', async (req, res) => {
   const subscription = req.body.subscription
   // console.log(userId)
   // console.log(subscription)
-
-  const existingUser = await PushSubscription.findOne({'user': userId})
-  if (existingUser) {
-    await existingUser.delete()
-
-    const pushSubscription = new PushSubscription()
-    pushSubscription.user = userId
-    pushSubscription.subscription = subscription
-    await pushSubscription.save()  
-
-    return res.status('201').json({ pushSubscription })
+  const existingEndpoint = await PushSubscription.findOne({ 'subscription.endpoint': subscription.endpoint })
+  if (existingEndpoint) {
+    return res.status('200').json({})
   }
-  
   const pushSubscription = new PushSubscription()
   pushSubscription.user = userId
   pushSubscription.subscription = subscription

@@ -23,7 +23,7 @@ const mutations = {
 
 const actions = {
   async pushNotificationsInitialize({ getters }) {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in window.navigator) {
       send().catch(err => console.error(err))
     }
     // Register Push, Send Push

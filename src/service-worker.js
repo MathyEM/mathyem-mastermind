@@ -25,7 +25,6 @@ self.addEventListener("push", async e => {
     if (sessionValidate.sessionValid) {
       console.log("Push Recieved...")
       self.registration.showNotification(data.title, {
-        body: "Notified by Traversy Media!",
         icon: "http://image.ibb.co/frYOFd/tmlogo.png"
       })  
     }
