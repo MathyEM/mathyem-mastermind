@@ -22,7 +22,7 @@ const mutations = {
 }
 
 const actions = {
-  async pushNotificationsInitialize({ getters, rootGetters }) {
+  async pushNotificationsInitialize({ getters }) {
     if ('serviceWorker' in navigator) {
       send().catch(err => console.error(err))
     }
@@ -42,7 +42,6 @@ const actions = {
       axios.post(socketEndpointProtocol + socketEndpoint + '/subscribe',
       {
         subscription,
-        userId: rootGetters.getUserId,
       }, { withCredentials: true })
       .catch((error) => {
         if (error.response) {

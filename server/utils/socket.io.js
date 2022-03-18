@@ -1,6 +1,8 @@
 const passport = require('passport')
 const roomController = require('../controllers/roomController')
 const { Room } = require('../models/room')
+const PushSubscription = require('../models/pushSubscription')
+const webpush = require('web-push')
 
 class SocketConnection {
 	io
@@ -44,14 +46,6 @@ class SocketConnection {
 				user: user || null,
 				authorization: socket.authorization
 			})
-
-			socket.on("update item", (arg1, callback) => {
-				console.log(arg1); // 1
-				console.log(arg2); // { name: "updated" }
-				callback({
-					status: "ok"
-				});
-			});
 					
 			// CREATE ROOM
 			socket.on('create-room', async (data) => {
@@ -119,7 +113,31 @@ class SocketConnection {
 				const { status, message, room, solution } = await roomController.setSolution(socket, data.roomId, data.solution)
 
 				if (status !== false) {
+					// find who made the new solution
+					const codeMaker = socket.request.user
+					const codeMakerId = codeMaker.id
+
+					// send new the new solution to the other person in the socket room
 					socket.to(data.roomId).emit('solution-set', { message, room })
+
+					// find the user id for the person who now need to break the code
+					const codeBreaker = await room.users.find(user => user._id.id !== codeMakerId)._id
+					// if the room doesn't have another player - nobody has joined yet, they left etc
+					if (!codeBreaker) {
+						return
+					}
+					const codeBreakerId = codeBreaker.id
+
+					// find the subscription info for the user
+					const codeBreakerSubscription = await PushSubscription.findOne({ 'user': codeBreakerId })
+					if (!codeBreakerSubscription) {
+						return
+					}
+					const payload = JSON.stringify({
+						title: `It's your turn in ${room.name}`,
+						body: `${codeMaker.username} has made a code for you to solve!`,
+					})
+					webpush.sendNotification(codeBreakerSubscription.subscription, payload).catch(err => console.error(err))
 				}
 			})
 
@@ -141,8 +159,13 @@ class SocketConnection {
 					namespace.to(data.roomId).emit('game-over', gameOver)
 
 					if (gameOver) {
+						// reset the room
 						await roomController.completeRound(socket, data.roomId, attemptIndex, codeBreakerWin)
+
+						// get the new room
 						const room = await roomController.fetchRoom(socket, data.roomId)
+
+						// send the updated room to players in the socket room
 						namespace.to(data.roomId).emit('room-entered', room)
 					}
 				}

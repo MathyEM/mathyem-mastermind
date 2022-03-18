@@ -1,24 +1,44 @@
 const express = require('express'),
       router = express.Router(),
       webpush = require('web-push'),
+      mongoStore = require('../models/mongoStore'),
       User = require('../models/user'),
-      mongoStore = require('../models/mongoStore')
+      PushSubscription = require('../models/pushSubscription')
 
-router.post('/subscribe', (req, res) => {
-  // Get pushSubscription object
+router.post('/subscribe', async (req, res) => {
+  // Get user and pushSubscription object
+  const userId = req.user.id
   const subscription = req.body.subscription
-  console.log(subscription)
+  // console.log(userId)
+  // console.log(subscription)
+
+  const existingUser = await PushSubscription.findOne({'user': userId})
+  if (existingUser) {
+    await existingUser.delete()
+
+    const pushSubscription = new PushSubscription()
+    pushSubscription.user = userId
+    pushSubscription.subscription = subscription
+    await pushSubscription.save()  
+
+    return res.status('201').json({ pushSubscription })
+  }
+  
+  const pushSubscription = new PushSubscription()
+  pushSubscription.user = userId
+  pushSubscription.subscription = subscription
+  await pushSubscription.save()
 
   // Send 201 - resource created
-  res.status('201').json({})
+  return res.status('201').json({ pushSubscription })
 
   // Create payload
-  const payload = JSON.stringify({
-    title: 'Push Test'
-  })
+  // const payload = JSON.stringify({
+  //   title: 'Push Test'
+  // })
 
   // Pass object into sendNotification
-  webpush.sendNotification(subscription, payload).catch(err => console.error(err))
+  // webpush.sendNotification(subscription, payload).catch(err => console.error(err))
 })
 
 router.post('/validate-session', async (req, res) => {

@@ -43,16 +43,6 @@ class SocketioService {
         })
         store.commit('SET_LOGIN_STATUS', true)
       }
-      // const user1 = {
-      //   id: 'sdfsdfsdf',
-      //   username: 'mathy :)'
-      // }
-      // console.log('is updated')
-      // localforage.setItem('user', user1).then(function (value) {
-      //   console.log('value:', value)
-      // }).catch(function(err) {
-      //   console.error(err)
-      // })
     })
     
     // ON ERROR

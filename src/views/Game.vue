@@ -9,7 +9,7 @@
   <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="main">
     <h2>{{ title }}</h2>
     <CreateJoinRoom />
-    <PushNotification v-if="getUserId === '622b623cc8886fb59a2c7c5e'" />
+    <PushNotification v-if="getUserId === '622b623cc8886fb59a2c7c5e' || getUserId === '622b79e9f5d2fff863b2d37e' || getUserId === '622e18692f935212d4784ea0'" />
   </div>
   <div v-else class="main game">
     <Scores />

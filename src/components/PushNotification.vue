@@ -1,6 +1,6 @@
 <template>
-  <div class="push-notifcation">
-    <button @click="pushNotificationsInitialize">The push notification button</button>
+  <div class="push-notification">
+    <button @click="pushNotificationsInitialize">subscribe to push</button>
   </div>
 </template>
 
@@ -28,5 +28,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.push-notification {
+  margin: 1rem;
+}
 </style>
