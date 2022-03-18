@@ -10,7 +10,9 @@ self.addEventListener('message', (event) => {
   }
 });
 
-console.log("Service Worker Loaded...")
+self.addEventListener('install', () => self.skipWaiting())
+
+console.log("Service Worker Loaded...1234")
 
 self.addEventListener("push", async e => {
   try {
@@ -24,7 +26,8 @@ self.addEventListener("push", async e => {
 
     if (sessionValidate.sessionValid) {
       console.log("Push Recieved...")
-      self.registration.showNotification(data.title, data.body, {
+      self.registration.showNotification(data.title, {
+        body: data.body,
         icon: "http://image.ibb.co/frYOFd/tmlogo.png"
       })  
     }
