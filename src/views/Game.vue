@@ -9,6 +9,7 @@
   <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="main">
     <h2>{{ title }}</h2>
     <CreateJoinRoom />
+    <PushNotification v-if="getUserId === '622b623cc8886fb59a2c7c5e'" />
   </div>
   <div v-else class="main game">
     <Scores />
@@ -28,6 +29,7 @@ import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
 import GameStatus from '@/components/GameStatus.vue'
+import PushNotification from '@/components/PushNotification.vue'
 import { socketConnection } from '@/services/socketio.service.js'
 
 import { mapActions, mapGetters } from 'vuex'
@@ -41,7 +43,8 @@ export default {
     Solution,
     Attempts,
     CodeButtons,
-    GameStatus
+    GameStatus,
+    PushNotification,
   },
   data() {
     return {

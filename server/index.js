@@ -11,6 +11,7 @@ const express = require('express'),
       User = require('./models/user'),
       { Room } = require('./models/room'),
       MongoStore = require('connect-mongo'),
+      mongoStore = require('./models/mongoStore')
       roomController = require('./controllers/roomController'),
       LocalStrategy = require('passport-local').Strategy,
       { socketConnection } = require('./utils/socket.io'),
@@ -18,29 +19,13 @@ const express = require('express'),
       path = require('path'),
       PORT = process.env.PORT || 3001
 
-//configure database and mongoose
-const clientP = mongoose.connect(
-  config.database,
-).then((m) => {
-  console.log("Database is connected")
-  return m.connection.getClient()
-})
-.catch(err => {
-  console.log({ database_error: err })
-})
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   httpOnly: false,
-  store: MongoStore.create({
-    clientPromise: clientP,
-    dbName: process.env.DB_NAME,
-    stringify: false,
-    autoRemove: 'interval',
-    autoRemoveInterval: 1,
-  }),
+  store: mongoStore,
 })
 //Setup body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -114,8 +99,11 @@ const subscribeRouter = require('./routes/subscribe')
 
 app.use('/', subscribeRouter)
 
+
 //Start server
 http.listen(3001, () => {
   console.log(`listening on *${PORT}`)
 })
+
+module.exports = { mongoStore }
   

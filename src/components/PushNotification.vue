@@ -1,10 +1,11 @@
 <template>
   <div class="push-notifcation">
-    <button>The push notification button</button>
+    <button @click="pushNotificationsInitialize">The push notification button</button>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'PushNotification',
@@ -21,6 +22,7 @@ export default {
   computed: {
   },
   methods: {
+    ...mapActions(['pushNotificationsInitialize'])
   }
 }
 </script>

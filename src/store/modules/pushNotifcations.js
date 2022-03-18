@@ -22,13 +22,14 @@ const mutations = {
 }
 
 const actions = {
-  async pushNotificationsInitialize({ rootGetters }, register) {
+  async pushNotificationsInitialize({ getters, rootGetters }) {
     if ('serviceWorker' in navigator) {
       send().catch(err => console.error(err))
     }
     // Register Push, Send Push
     async function send() {
       console.log('Registering Push...')
+      const register = getters.getServiceWorkerRegister
       console.log(register)
       const subscription = await register.pushManager.subscribe({
         userVisibleOnly: true,

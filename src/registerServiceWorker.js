@@ -5,15 +5,16 @@ import store from './store'
 
 if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready () {
+    ready (registration) {
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'
       )
+      // store.dispatch('pushNotificationsInitialize', registration)
+        store.commit('SET_SERVICE_WORKER_REGISTER', registration)
     },
-    registered (registration) {
+    registered () {
       console.log('Service worker has been registered.')
-      store.dispatch('pushNotificationsInitialize', registration)
     },
     cached () {
       console.log('Content has been cached for offline use.')

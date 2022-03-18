@@ -36,6 +36,11 @@ class SocketioService {
         }).catch(function(err) {
           console.error(err)
         })
+        localforage.setItem('sessionId', response.sessionID).then(function (value) {
+          console.log('value:', value)
+        }).catch(function(err) {
+          console.error(err)
+        })
         store.commit('SET_LOGIN_STATUS', true)
       }
       // const user1 = {
