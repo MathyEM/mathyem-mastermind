@@ -17,14 +17,14 @@ self.addEventListener("push", async e => {
     await localforage.ready()
     const user = await localforage.getItem('user')
     const sessionId = await localforage.getItem('sessionId')
-    const sessionValidate = await postData('http://localhost:3001/validate-session', {user, sessionId})
+    const sessionValidate = await postData('https://api.mastermind.mem-home.tk/validate-session', {user, sessionId})
     console.log(sessionValidate)
 
     const data = e.data.json()
 
     if (sessionValidate.sessionValid) {
       console.log("Push Recieved...")
-      self.registration.showNotification(data.title, {
+      self.registration.showNotification(data.title, data.body, {
         icon: "http://image.ibb.co/frYOFd/tmlogo.png"
       })  
     }

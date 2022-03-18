@@ -1,6 +1,6 @@
 <template>
   <div class="push-notification">
-    <button @click="pushNotificationsInitialize">subscribe to push</button>
+    <button @click="pushNotificationsInitialize()">subscribe to push</button>
   </div>
 </template>
 

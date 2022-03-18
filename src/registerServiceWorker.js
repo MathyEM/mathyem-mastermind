@@ -5,16 +5,15 @@ import store from './store'
 
 if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready (registration) {
+    ready () {
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'
       )
-      // store.dispatch('pushNotificationsInitialize', registration)
-        store.commit('SET_SERVICE_WORKER_REGISTER', registration)
     },
-    registered () {
+    registered (registration) {
       console.log('Service worker has been registered.')
+      store.commit('SET_SERVICE_WORKER_REGISTER', registration)
     },
     cached () {
       console.log('Content has been cached for offline use.')
@@ -27,7 +26,7 @@ if (process.env.NODE_ENV === "production") {
       caches.keys().then(function(names) {
         for (let name of names) caches.delete(name);
       })
-      await registration.update()
+      registration.update()
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')
