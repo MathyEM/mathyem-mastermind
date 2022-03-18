@@ -1,17 +1,14 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
-import store from './store'
 
 if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready (registration) {
+    ready () {
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'
       )
-      // store.dispatch('pushNotificationsInitialize', registration)
-        store.commit('SET_SERVICE_WORKER_REGISTER', registration)
     },
     registered () {
       console.log('Service worker has been registered.')

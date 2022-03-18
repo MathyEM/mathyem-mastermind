@@ -33,10 +33,10 @@ const actions = {
 // Register Push, Send Push
 async function send() {
   console.log('Registering Push...')
-  const register = state.serviceWorkerRegister
-  console.log(register)
+  const registration = await window.navigator.serviceWorker.getRegistration()
+  console.log(registration)
   const applicationServerKey = urlBase64ToUint8Array(publicVapidKey)
-  const subscription = await register.pushManager.subscribe({
+  const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
   })
