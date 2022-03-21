@@ -18,20 +18,18 @@ self.addEventListener("push", async event => {
   event.waitUntil(
     localforage.ready().then(async () => {
       const user = await localforage.getItem('user')
-      const sessionId = await localforage.getItem('sessionId')
+      const sessionExpiration = await localforage.getItem('sessionExpiration')
 
-      return postData('https://api.mastermind.mem-home.tk/validate-session', {user, sessionId})
-      .then(sessionValidate => {
-        if (sessionValidate.sessionValid) {
-          console.log("Push Recieved...")
-          const data = event.data.json()
+      if (!user || !sessionExpiration || (new Date() > new Date(sessionExpiration))) {
+        console.log('not valid user or session')
+        return
+      }
+      const data = event.data.json()
 
-          return self.registration.showNotification(data.title, {
-            body: data.body,
-            icon: "http://image.ibb.co/frYOFd/tmlogo.png",
-            vibrate: [200, 200],
-          })
-        }
+      return self.registration.showNotification(data.title, {
+        body: data.body,
+        icon: "http://image.ibb.co/frYOFd/tmlogo.png",
+        vibrate: [200, 100, 200],
       })
     }).catch((err) => { console.log(err) })
   )

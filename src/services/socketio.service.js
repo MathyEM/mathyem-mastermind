@@ -32,15 +32,16 @@ class SocketioService {
           email: email,
         })
         localforage.setItem('user', response.user).then(function (value) {
-          console.log('value:', value)
+          console.log('user stored:', value)
         }).catch(function(err) {
           console.error(err)
         })
-        localforage.setItem('sessionId', response.sessionID).then(function (value) {
-          console.log('value:', value)
+        localforage.setItem('sessionExpiration', response.sessionExpiration).then(function (value) {
+          console.log('sessionExpiration stored:', value)
         }).catch(function(err) {
           console.error(err)
         })
+
         store.commit('SET_LOGIN_STATUS', true)
       }
     })

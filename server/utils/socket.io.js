@@ -35,7 +35,6 @@ class SocketConnection {
 
 		namespace.on('connection', (socket) => {
 			var user
-
 			if (socket.request.user != null) {
 				user = socket.request.user
 			}
@@ -45,7 +44,8 @@ class SocketConnection {
 				message: `connection to /user successful`,
 				sessionID: socket.request.sessionID,
 				user: user || null,
-				authorization: socket.authorization
+				authorization: socket.authorization,
+				sessionExpiration: socket.request.session.cookie._expires,
 			})
 					
 			// CREATE ROOM
@@ -139,6 +139,7 @@ class SocketConnection {
 						body: `${codeMaker.username} has made a code for you to solve!`,
 					})
 					codeBreakerSubscription.forEach(async (subscription) => {
+						console.log('Attemping to push notification to:', subscription.user)
 						await webpush.sendNotification(subscription.subscription, payload)
 						.catch(async (err) => {
 							console.log(err)

@@ -2,13 +2,12 @@ var express = require('express')
 var router = express.Router()
 const passport = require('passport')
 const User = require("../models/user")
-const {userSocket} = require('../utils/socket.io')
 
 /* POST login */
 router.post('/login', (req, res, next) => {
-  console.log(req.body);
+  console.log(req.body)
   if (req.body.remember_me) {
-    console.log('remember me');
+    console.log('remember me')
     req.session.cookie.originalMaxAge = 30 * 24 * 60 * 60 * 1000 // Expires in 30 days
   } else {
     req.session.cookie.expires = false
