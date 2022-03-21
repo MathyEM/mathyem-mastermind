@@ -3,6 +3,7 @@ const roomController = require('../controllers/roomController')
 const { Room } = require('../models/room')
 const PushSubscription = require('../models/pushSubscription')
 const webpush = require('web-push')
+const { findByIdAndDelete } = require('../models/pushSubscription')
 
 class SocketConnection {
 	io
@@ -138,7 +139,15 @@ class SocketConnection {
 						body: `${codeMaker.username} has made a code for you to solve!`,
 					})
 					codeBreakerSubscription.forEach(async (subscription) => {
-						await webpush.sendNotification(subscription.subscription, payload).catch(err => console.error(err))
+						await webpush.sendNotification(subscription.subscription, payload)
+						.catch(async (err) => {
+							console.log(err)
+							if (err.statusCode === 410) {
+								const subscriptionDeleted = await PushSubscription.findByIdAndDelete(subscription._id).exec()
+								console.log('Subscription deleted')
+								console.log(subscriptionDeleted)
+							}
+						})
 					})
 				}
 			})
