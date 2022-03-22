@@ -12,7 +12,7 @@ self.addEventListener('message', (event) => {
 
 self.addEventListener('install', () => self.skipWaiting())
 
-console.log("Service Worker Loaded...1234")
+console.log("Service Worker Loaded...")
 
 self.addEventListener("push", async event => {
   event.waitUntil(
@@ -34,6 +34,17 @@ self.addEventListener("push", async event => {
     }).catch((err) => { console.log(err) })
   )
 })
+
+self.addEventListener("pushsubscriptionchange", event => {
+  console.log('push subscription changed')
+  event.waitUntil(self.registration.pushManager.subscribe(event.oldSubscription.options)
+    .then(subscription => {
+      return postData('/subscribe', {
+        subscription,
+      })
+    })
+  );
+}, false);
 
 async function postData(url = '', data = {}) {
   // Default options are marked with *
