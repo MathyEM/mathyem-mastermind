@@ -31,17 +31,19 @@ class SocketioService {
           username: username,
           email: email,
         })
-        localforage.setItem('user', response.user).then(function (value) {
-          console.log('user stored:', value)
-        }).catch(function(err) {
-          console.error(err)
-        })
-        localforage.setItem('sessionExpiration', response.sessionExpiration).then(function (value) {
-          console.log('sessionExpiration stored:', value)
-        }).catch(function(err) {
-          console.error(err)
-        })
 
+        const user = await localforage.setItem('user', response.user)
+        console.log('user stored:', user)
+
+        if (!response.sessionExpiration) {
+          let date = new Date()
+          date.setHours(date.getHours() + 12)
+          const sessionExpiration = await localforage.setItem('sessionExpiration', date)
+          console.log('sessionExpiration stored:', sessionExpiration)
+        } else {
+          const sessionExpiration = await localforage.setItem('sessionExpiration', response.sessionExpiration)
+          console.log('sessionExpiration stored:', sessionExpiration)
+        }
         store.commit('SET_LOGIN_STATUS', true)
       }
     })

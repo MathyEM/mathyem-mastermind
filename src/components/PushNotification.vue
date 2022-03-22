@@ -1,6 +1,6 @@
 <template>
   <div class="push-notification">
-    <button @click="pushNotificationsInitialize()">subscribe to push</button>
+    <button @click="pushNotificationsInitialize()">Turn on notifications</button>
   </div>
 </template>
 
@@ -30,5 +30,11 @@ export default {
 <style scoped lang="scss">
 .push-notification {
   margin: 1rem;
+
+  button {
+    font-size: 1.1rem;
+    width: 80%;
+    height: 2.6rem;
+  }
 }
 </style>

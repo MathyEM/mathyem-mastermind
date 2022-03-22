@@ -45,10 +45,11 @@ export default {
   },
   async created() {
   },
-  beforeMount() {
+  async beforeMount() {
     socketConnection.setupSocketConnection()
   },
-  beforeUnmount() {
+  beforeDestroy() {
+    console.log('test beforeDestroy')
     socketConnection.disconnect()
   }
 }
