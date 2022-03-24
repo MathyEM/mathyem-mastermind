@@ -47,8 +47,18 @@ router.post('/register', (req, res, next) => {
 
 /* POST logout */
 router.post('/logout', (req, res) => {
+  const cookie = req.session.cookie
   req.logout()
-  res.sendStatus(200)
+  res.status(200).clearCookie('session_id', {
+    path: cookie.path,
+    httpOnly: cookie.httpOnly,
+    secure: cookie.secure,
+    domain: cookie.domain,
+    sameSite: cookie.sameSite,
+  })
+  req.session.destroy(function () {
+    res.redirect('/');
+  });
 })
 
 module.exports = router;
