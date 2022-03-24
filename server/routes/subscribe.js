@@ -1,22 +1,11 @@
 const express = require('express'),
       router = express.Router(),
-      PushSubscription = require('../models/pushSubscription')
+      pushSubscriptionController = require('../controllers/pushSubscriptionController')
 
-router.post('/subscribe', async (req, res) => {
-  // Get user and pushSubscription object
-  const userId = req.user.id
-  const subscription = req.body.subscription
-  const existingEndpoint = await PushSubscription.findOne({ 'subscription.endpoint': subscription.endpoint })
-  if (existingEndpoint) {
-    return res.status('200').json({})
-  }
-  const pushSubscription = new PushSubscription()
-  pushSubscription.user = userId
-  pushSubscription.subscription = subscription
-  await pushSubscription.save()
+// Subscribe user to push notifications
+router.post('/subscribe', pushSubscriptionController.subscribeToPush)
 
-  // Send 201 - resource created
-  return res.status('201').json({ pushSubscription })
-})
+// Unsubscribe user from push notifications
+router.post('/unsubscribe', pushSubscriptionController.unsubscribeFromPush)
 
 module.exports = router
