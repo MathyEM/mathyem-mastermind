@@ -21,10 +21,14 @@ const express = require('express'),
 
 
 const sessionMiddleware = session({
+  name: 'session_id',
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   httpOnly: false,
+  cookie: {
+    httpOnly: false,
+  },
   store: mongoStore,
 })
 //Setup body-parser

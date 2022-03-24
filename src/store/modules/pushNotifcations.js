@@ -8,38 +8,41 @@ const socketEndpointProtocol = ConfigProvider.value('socketEndpointProtocol')
 const publicVapidKey = ConfigProvider.value('publicVapidKey')
 
 const state = {
-  serviceWorkerRegister: {},
+  pushSubscription: null,
 }
 
 const getters = {
-  getServiceWorkerRegister: state => state.serviceWorkerRegister,
+  getPushSubscription: state => state.pushSubscription,
 }
 
 const mutations = {
-  SET_SERVICE_WORKER_REGISTER(state, payload) {
-    state.serviceWorkerRegister = payload
-  }
+  SET_PUSH_SUBSCRIPTION: (state, payload) => state.pushSubscription = payload,
 }
 
 const actions = {
-  async pushNotificationsInitialize() {
+  async setPushSubscription({ state, commit }) {
+    const reg = await navigator.serviceWorker.getRegistration()
+    const subscription = await reg.pushManager.getSubscription()
+    commit('SET_PUSH_SUBSCRIPTION', subscription)
+    console.log(state.pushSubscription);
+  }, 
+  async pushNotificationsInitialize({ dispatch }) {
     if ('serviceWorker' in window.navigator) {
-      console.log('service worker');
-      send().catch(err => console.log(err))
+      send(dispatch).catch(err => console.log(err))
     }
   }
 }
 
 // Register Push, Send Push
-async function send() {
+async function send(dispatch) {
   console.log('Registering Push...')
   const registration = await window.navigator.serviceWorker.getRegistration()
-  console.log(registration)
   const applicationServerKey = urlBase64ToUint8Array(publicVapidKey)
   const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
   })
+  await dispatch('setPushSubscription')
   console.log('Push Registered...')
 
   // Send Push Notification
@@ -48,7 +51,11 @@ async function send() {
   {
     subscription,
   }, { withCredentials: true })
-  .catch((error) => {
+  .catch(async (error) => {
+    // if subscription fails on server, then unsubscribe
+    await subscription.unsubscribe()
+    await dispatch('setPushSubscription')
+    
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx

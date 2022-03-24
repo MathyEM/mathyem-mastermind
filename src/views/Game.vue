@@ -9,7 +9,7 @@
   <div v-else-if="getLoginStatus && getCurrentRoom.id === ''" class="main">
     <h2>{{ title }}</h2>
     <CreateJoinRoom />
-    <PushNotification v-if="getUserId === '622b623cc8886fb59a2c7c5e' || getUserId === '622b79e9f5d2fff863b2d37e' || getUserId === '622e18692f935212d4784ea0'" />
+    <PushNotification v-if="!getPushSubscription" />
   </div>
   <div v-else class="main game">
     <Scores />
@@ -53,12 +53,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getSessionLoading', 'getLoginStatus', 'getCurrentRoom', 'getUserId', 'getUsername', 'getGameStatus']),
+    ...mapGetters([
+      'getSessionLoading',
+      'getLoginStatus',
+      'getCurrentRoom',
+      'getUserId',
+      'getUsername',
+      'getGameStatus',
+      'getPushSubscription',
+    ]),
   },
   methods: {
-    ...mapActions(['socketLogin'])
+    ...mapActions(['socketLogin', 'setPushSubscription']),
   },
   created() {
+    this.setPushSubscription()
     const onWindowOpen = () => {
       if (!this.getCurrentRoom._id) {
         return
@@ -67,7 +76,7 @@ export default {
       socketConnection.enterRoom(this.getCurrentRoom._id)
     }
     window.addEventListener('focus', onWindowOpen)
-  }
+  },
 }
 </script>
 

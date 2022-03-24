@@ -32,7 +32,7 @@ const actions = {
 			console.log(err)
 
 		})
-		}
+	}
 }
 
 export default {

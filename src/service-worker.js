@@ -1,8 +1,10 @@
 self.importScripts('localforage.min.js')
-workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"});
+workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"})
  
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+
+const API_URL = 'http://localhost:3001'
  
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -14,24 +16,27 @@ self.addEventListener('install', () => self.skipWaiting())
 
 console.log("Service Worker Loaded...")
 
+self.addEventListener('activate', async (event) => {
+  // Snapshot current state of subscriptions.
+  const subscriptions = await self.registration.cookies.getSubscriptions()
+
+  // Clear any existing subscriptions.
+  await self.registration.cookies.unsubscribe(subscriptions)
+
+  await self.registration.cookies.subscribe([
+    {
+      name: 'session_id',  // Subscribe to change events for cookies named session_id.
+    }
+  ])
+})
+
 self.addEventListener("push", async event => {
   event.waitUntil(
-    localforage.ready().then(async () => {
-      const user = await localforage.getItem('user')
-      const sessionExpiration = await localforage.getItem('sessionExpiration')
-
-      if (!user || !sessionExpiration || (new Date() > new Date(sessionExpiration))) {
-        console.log('not valid user or session')
-        return
-      }
-      const data = event.data.json()
-
-      return self.registration.showNotification(data.title, {
-        body: data.body,
-        icon: "http://image.ibb.co/frYOFd/tmlogo.png",
-        vibrate: [200, 100, 200],
-      })
-    }).catch((err) => { console.log(err) })
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: "http://image.ibb.co/frYOFd/tmlogo.png",
+      vibrate: [200, 100, 200],
+    })
   )
 })
 
@@ -39,27 +44,74 @@ self.addEventListener("pushsubscriptionchange", event => {
   console.log('push subscription changed')
   event.waitUntil(self.registration.pushManager.subscribe(event.oldSubscription.options)
     .then(subscription => {
-      return postData('/subscribe', {
+      return postData(API_URL + '/subscribe', {
         subscription,
       })
     })
   );
-}, false);
+}, false)
+
+self.addEventListener("cookiechange", async event => {
+  console.log(event)
+  const subscription = await self.registration.pushManager.getSubscription()
+  console.log(subscription)
+
+  if (subscription) {
+    // make a copy of the applicationServerKey
+    const applicationServerKey = subscription.options.applicationServerKey.slice(0)
+
+    // If the session cookie has been changed or deleted, unsubscribe from push
+    if (event.deleted.length > 0 || event.changed.length > 0) {
+      const endpoint = subscription.endpoint
+      try {
+        await postData(API_URL + '/unsubscribe', {
+          endpoint: endpoint,
+        })
+        await subscription.unsubscribe()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
+    // if the session cookie was only changed, then make a new subscription
+    // - last one should be considered invalidated by the cookie change
+    if (event.changed.length > 0) {
+      try {
+        const newSubscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: applicationServerKey
+        })
+        await postData(API_URL + '/subscribe', {
+          subscription: newSubscription,
+        })
+      } catch (error) {
+        // if subscription fails on server then unsubscribe
+        await newSubscription.unsubscribe()
+        console.log(error)
+      }
+    }
+  }
+})
 
 async function postData(url = '', data = {}) {
   // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  })
-  return response.json() // parses JSON response into native JavaScript objects
+  try {
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    })
+    return response // parses JSON response into native JavaScript objects
+  
+  } catch (error) {
+    console.log(error)
+  }
 }
