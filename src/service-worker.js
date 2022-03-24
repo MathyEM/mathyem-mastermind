@@ -4,7 +4,8 @@ workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"})
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
-const API_URL = 'http://localhost:3001'
+// const API_URL = 'http://localhost:3001'
+const API_URL = 'https://api.mastermind.mem-home.tk'
  
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
