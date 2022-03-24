@@ -32,6 +32,7 @@ self.addEventListener('activate', async (event) => {
 })
 
 self.addEventListener("push", async event => {
+  const data = event.data.json()
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
