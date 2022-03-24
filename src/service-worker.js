@@ -35,7 +35,7 @@ self.addEventListener("push", async event => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: "http://image.ibb.co/frYOFd/tmlogo.png",
+      icon: "https://i.imgur.com/W0by9jQ.png",
       vibrate: [200, 100, 200],
     })
   )
