@@ -273,8 +273,3 @@ const getAccuracyHint = async (solution, attempt) => {
 	
 	return { correctPieceCount, correctPositionCount }
 }
-
-const indexesOf = (arr, item) => 
-  arr.reduce(
-    (acc, v, i) => (v === item && acc.push(i), acc),
-  []);
