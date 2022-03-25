@@ -93,8 +93,13 @@ exports.leaveRoom = async function (socket, roomId) {
 		}
 
 		var userIndex = room.users.findIndex(function(obj){return obj.id == userId})
+		const leavingUserId = room.users[userIndex].id
 		room.users.splice(userIndex, 1)
-		
+
+		if (leavingUserId === room.owner.id.toString('hex')) {
+			room.owner = room.users[0].id
+		}
+
 		await room.save()
 		return room
 
