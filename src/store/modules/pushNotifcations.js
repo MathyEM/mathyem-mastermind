@@ -20,11 +20,24 @@ const mutations = {
 }
 
 const actions = {
-  async setPushSubscription({ state, commit }) {
+  async setPushSubscription({ commit }) {
+    // does the browser support service workers
+    if ('navigator' in window === false) {
+      console.log('no navigator')
+      return
+    }
+    // get service worker registration
     const reg = await navigator.serviceWorker.getRegistration()
+
+    // does the browser support push notifications
+    if ('pushManager' in reg === false) {
+      commit('SET_PUSH_SUBSCRIPTION', { empty: true })
+      return
+    }
+
+    // get push subscription
     const subscription = await reg.pushManager.getSubscription()
     commit('SET_PUSH_SUBSCRIPTION', subscription)
-    console.log(state.pushSubscription);
   }, 
   async pushNotificationsInitialize({ dispatch }) {
     if ('serviceWorker' in window.navigator) {
@@ -46,7 +59,6 @@ async function send(dispatch) {
   console.log('Push Registered...')
 
   // Send Push Notification
-  console.log('Sending Push...')
   axios.post(socketEndpointProtocol + socketEndpoint + '/subscribe',
   {
     subscription,
