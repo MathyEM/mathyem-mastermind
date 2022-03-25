@@ -96,6 +96,11 @@ exports.leaveRoom = async function (socket, roomId) {
 		const leavingUserId = room.users[userIndex].id
 		room.users.splice(userIndex, 1)
 
+		if (room.users.length < 1) {
+			room.remove()
+			return
+		}
+
 		if (leavingUserId === room.owner.id.toString('hex')) {
 			room.owner = room.users[0].id
 		}
