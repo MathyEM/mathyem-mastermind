@@ -73,6 +73,14 @@ const roomSchema = new Schema({
 	timestamps: true
 })
 
+roomSchema.virtual('attemptIndex').get(function() {
+	const attempts = this.attempts
+	const index = attempts.filter(attempt => {
+		return attempt.includes('')
+	})
+	return index.length-1
+})
+
 function usersLimit(val) {
 	return val.length <= 2
 }
