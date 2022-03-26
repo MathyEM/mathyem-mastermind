@@ -36,7 +36,8 @@ self.addEventListener("push", async event => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: "https://i.imgur.com/W0by9jQ.png",
+      icon: "https://i.imgur.com/AogVwS1.png",
+      badge: "https://i.imgur.com/IStneky.png",
       vibrate: [200, 100, 200],
     })
   )
