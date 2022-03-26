@@ -61,13 +61,14 @@ export default {
       'getUsername',
       'getGameStatus',
       'getPushSubscription',
+      'getSWRegistration',
     ]),
   },
   methods: {
-    ...mapActions(['socketLogin', 'setPushSubscription']),
+    ...mapActions(['socketLogin', 'setRegistrationAndPushSubscription']),
   },
-  created() {
-    this.setPushSubscription()
+  async created() {
+    await this.setRegistrationAndPushSubscription()
     const onWindowOpen = () => {
       if (!this.getCurrentRoom._id) {
         return
@@ -76,6 +77,18 @@ export default {
       socketConnection.enterRoom(this.getCurrentRoom._id)
     }
     window.addEventListener('focus', onWindowOpen)
+    window.addEventListener('focus', async () => {
+      if (!await this.getSWRegistration) {
+        return
+      }
+      const reg = await this.getSWRegistration
+      const notifications = await reg.getNotifications()
+      if (notifications.length > 0) {
+        notifications.forEach(async notification => {
+          await notification.close()
+        })
+      }
+    })
   },
 }
 </script>

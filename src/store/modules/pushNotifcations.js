@@ -9,25 +9,31 @@ const publicVapidKey = ConfigProvider.value('publicVapidKey')
 
 const state = {
   pushSubscription: null,
+  SWRegistration: null,
 }
 
 const getters = {
   getPushSubscription: state => state.pushSubscription,
+  getSWRegistration: state => state.SWRegistration,
 }
 
 const mutations = {
   SET_PUSH_SUBSCRIPTION: (state, payload) => state.pushSubscription = payload,
+  SET_SW_REGISTRATION: (state, payload) => state.SWRegistration = payload,
 }
 
 const actions = {
-  async setPushSubscription({ commit }) {
+  async setRegistrationAndPushSubscription({ commit }) {
     // does the browser support service workers
-    if ('navigator' in window === false) {
+    if (('navigator' in window === false) || ('serviceWorker' in navigator === false)) {
       console.log('no navigator')
       return
     }
     // get service worker registration
     const reg = await navigator.serviceWorker.getRegistration()
+    if (reg) {
+      commit('SET_SW_REGISTRATION', reg)
+    }
 
     // does the browser support push notifications
     if ('pushManager' in reg === false) {
