@@ -250,6 +250,22 @@ exports.resetRoom = async (roomId) => {
 	await room.save()
 }
 
+exports.updateUserReviewingPreviousRound = async (roomId, newReviewState, userId = null) => {
+	const room = await Room.findOne({ '_id': roomId })
+
+	if (userId !== null) {
+		const userIndex = room.users.findIndex(user => user.id === userId)
+		room.users[userIndex].reviewingPreviousRound = newReviewState
+		await room.save()
+		return
+	}
+
+	room.users.forEach((user, index) => {
+		room.users[index].reviewingPreviousRound = newReviewState
+	})
+	await room.save()
+}
+
 exports.deleteRooms = async function () {
 	const count = await Room.deleteMany({})
 	console.log(count);
