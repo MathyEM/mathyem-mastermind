@@ -239,6 +239,10 @@ exports.resetRoom = async (roomId) => {
 	const solutionDefault = Room.schema.paths.solution.options.default
 	const accuracyHintsDefault = Room.schema.paths.accuracyHints.options.default
 
+	room.previousGame.solution = room.solution 
+	room.previousGame.attempts = room.attempts
+	room.previousGame.accuracyHints = room.accuracyHints
+
 	room.attempts = attemptsDefault
 	room.solution = solutionDefault
 	room.accuracyHints = accuracyHintsDefault
