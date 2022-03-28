@@ -6,7 +6,51 @@ const usersSchema = new Schema({
 	points: {
 		type: Number,
 		default: 0,
+	},
+	reviewingPreviousGame: {
+		type: Boolean,
+		default: false,
 	}
+})
+
+const previousGameSchema = new Schema({
+	solution: {
+		type: Array,
+		required: true,
+		default: ['','','','']
+	},
+	attempts: {
+		type: [Array],
+		required: true,
+		default: [
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','',''],
+			['','','','']
+		]
+	},
+	accuracyHints: {
+		type: Array,
+		required: true,
+		default: [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		]
+	},
 })
 
 const roomSchema = new Schema({
@@ -25,7 +69,7 @@ const roomSchema = new Schema({
 		required: true,
 		default: ['','','','']
 	},
-	attempts: {	// USe this to update Array in mongoose Schema: Room.attempts.set(0, [1, 2, 2, 3]) to set index 0 in the array.
+	attempts: {
 		type: [Array],
 		required: true,
 		default: [
@@ -68,6 +112,9 @@ const roomSchema = new Schema({
 	codeSet: {
 		type: Array,
 		default: ['1', '2', '3', '4']
+	},
+	previousGame: {
+		type: previousGameSchema,
 	}
 }, {
 	timestamps: true
