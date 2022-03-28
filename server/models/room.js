@@ -7,13 +7,13 @@ const usersSchema = new Schema({
 		type: Number,
 		default: 0,
 	},
-	reviewingPreviousGame: {
+	reviewingPreviousRound: {
 		type: Boolean,
 		default: false,
 	}
 })
 
-const previousGameSchema = new Schema({
+const previousRoundSchema = new Schema({
 	solution: {
 		type: Array,
 		required: true,
@@ -113,8 +113,8 @@ const roomSchema = new Schema({
 		type: Array,
 		default: ['1', '2', '3', '4']
 	},
-	previousGame: {
-		type: previousGameSchema,
+	previousRound: {
+		type: previousRoundSchema,
 	}
 }, {
 	timestamps: true
