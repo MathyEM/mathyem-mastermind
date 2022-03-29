@@ -9,18 +9,23 @@
       <div>{{ piece }}</div>
     </div>
     <div
-      class="accuracy-hints"
-      :class="{ showAccuracyHint: (gameData.accuracyHints[attemptIndex].correctPieceCount !== undefined) }"
-      v-if="gameData.accuracyHints !== undefined && gameData.accuracyHints[attemptIndex].correctPieceCount !== undefined"
-    >
+    class="accuracy-hints"
+    :class="{ showAccuracyHint: (gameData.accuracyHints[attemptIndex].correctPieceCount !== undefined) }"
+    v-if="gameData.accuracyHints !== undefined && gameData.accuracyHints[attemptIndex].correctPieceCount !== undefined">
       <div class="hint correctPosition" v-for="correctPositionCount in (gameData.accuracyHints[attemptIndex].correctPositionCount)" :key="'position'+correctPositionCount"></div>
       <div class="hint correctPiece" v-for="correctPieceCount in (Math.max((gameData.accuracyHints[attemptIndex].correctPieceCount-gameData.accuracyHints[attemptIndex].correctPositionCount), 0))" :key="'piece'+correctPieceCount"></div>
+    </div>
+    <div v-else-if="getCurrentAttempt == attemptIndex && !getReviewingPreviousRound && hasCodeBreakerAuthority" class="undo-attempt">
+      <button>
+        <img @click="undoAttemptPiece" :src="undoImg" alt="Undo icon. Use to reset current attempt">
+        <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'CodeRow',
   props: {
@@ -35,8 +40,13 @@ export default {
       type: Boolean,
     }
   },
+  data() {
+    return {
+      undoImg: require('@/assets/undo.png')
+    }
+  },
   computed: {
-    ...mapGetters(['getCurrentRoom', 'getReviewingPreviousRound', 'getPreviousRound']),
+    ...mapGetters(['getCurrentRoom', 'getCurrentAttempt', 'hasCodeBreakerAuthority', 'getReviewingPreviousRound', 'getPreviousRound']),
     gameData: {
       get: function () {
         if (this.getReviewingPreviousRound == true) {
@@ -45,6 +55,9 @@ export default {
         return this.getCurrentRoom
       }
     }
+  },
+  methods: {
+    ...mapActions(['undoAttemptPiece']),
   },
   created() {
       
@@ -81,16 +94,38 @@ $color: #000;
       @include code-piece-scaling(1);
     }
   }
+  .accuracy-hints, .undo-attempt {
+    position: absolute;
+    right: -25%;
+  }
+
+  .undo-attempt {
+    @include code-piece-scaling(1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    button {
+      display: flex;
+      align-items: center;
+      height: 75%;
+      width: 75%;
+      padding: 0 0.2rem;
+
+      img {
+        // height: 100%;
+        width: 100%;
+      }
+    }
+  }
 
   .accuracy-hints {
-    position: absolute;
     @include code-piece-scaling(1);
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
     gap: 0.1rem;
-    right: -25%;
     // border: 1px solid transparent;
 
     .hint {

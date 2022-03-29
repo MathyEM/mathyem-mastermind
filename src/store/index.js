@@ -128,6 +128,15 @@ export default new Vuex.Store({
       attemptsCopy[payload.attemptIndex][index] = payload.code
       state.currentRoom.attempts = attemptsCopy
     },
+    UNDO_ATTEMPT_PIECE(state, payload) {
+      const index = state.currentRoom.attempts[payload.attemptIndex].indexOf('')-1
+      if (index < 0) {
+        return
+      }
+      const attemptsCopy = state.currentRoom.attempts.slice()
+      attemptsCopy[payload.attemptIndex][index] = ''
+      state.currentRoom.attempts = attemptsCopy
+    },
     UPDATE_ALL_ATTEMPTS(state, payload) {
       state.currentRoom.attempts = payload
     },
@@ -183,11 +192,18 @@ export default new Vuex.Store({
       }
       const code = getters.getCodeSet[payload].toString()
       const attemptIndex = getters.getCurrentAttempt
-      commit('UPDATE_ATTEMPT', {code, attemptIndex})
+      commit('UPDATE_ATTEMPT', { code, attemptIndex })
       const attempt = getters.getCurrentRoom.attempts[attemptIndex].slice()
       if (checkEntryCompletion(attempt)) {
         dispatch('sendAttempt', attemptIndex)
       }
+    },
+    undoAttemptPiece({ commit, getters }) {
+      if (!getters.hasCodeBreakerAuthority) {
+        return
+      }
+      const attemptIndex = getters.getCurrentAttempt
+      commit('UNDO_ATTEMPT_PIECE', { attemptIndex })
     },
     updateLocalSolution({ commit, getters, dispatch }, payload) {
       if (!getters.hasCodeMakerAuthority) {
