@@ -1,9 +1,9 @@
 <template>
   <div class="solution">
     <CodeRow
-      :code="getLocalSolution"
+      :code="getSolution"
       :onClick="onClick"
-      :class="{ active: !getSolutionState }"
+      :class="{ active: (!getSolutionState && !getReviewingPreviousRound )}"
       class="solution-code-row" />
   </div>
 </template>
@@ -25,7 +25,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLocalSolution', 'getSolutionState', 'getCodeMaker'])
+    ...mapGetters(['getLocalSolution', 'getSolutionState', 'getCodeMaker', 'getPreviousRound', 'getReviewingPreviousRound']),
+    getSolution: {
+      get: function () {
+        if (this.getReviewingPreviousRound == true) {
+          return this.getPreviousRound.solution
+        }
+        return this.getLocalSolution
+      }
+    }
   },
   methods: {
     onClick(index) {

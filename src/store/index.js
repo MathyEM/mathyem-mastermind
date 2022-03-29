@@ -35,12 +35,22 @@ export default new Vuex.Store({
     getSessionLoading: state => state.sessionLoading,
     getUsername: state => state.user.username,
     getUserId: state => state.user.id,
+    getReviewingPreviousRound: (state, getters) => {
+      state;
+      const userIndex = findUserIndexById(getters.getCurrentRoom.users, getters.getUserId)
+      console.log(userIndex);
+      if ('reviewingPreviousRound' in getters.getCurrentRoom.users[userIndex]) {
+        return getters.getCurrentRoom.users[userIndex].reviewingPreviousRound
+      }
+      return null
+    },
     getLoginStatus: state => state.loginStatus,
     getShowRoomList: state => state.showRoomList,
     getShowOptions: state => state.showOptions,
     getEmail: state => state.user.email,
     getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
+    getPreviousRound: state => state.currentRoom.previousRound,
     getCodeSet: state => state.currentRoom.codeSet,
     getSolutionState: state => state.currentRoom.solution[0],
     getLocalSolution: state => state.localSolution,
@@ -207,6 +217,10 @@ export default new Vuex.Store({
       commit('SET_CURRENT_ROOM', { id: '', name: ''})
       commit('SET_SHOW_ROOM_LIST', false)
     },
+    finishRoundReview() {
+      console.log('clicked')
+      socketConnection.finishRoundReview()
+    },
   },
   modules: {
     statusMessages,
@@ -222,4 +236,8 @@ function checkEntryCompletion(entry) {  // check if an attempt or solution entry
     return true
   }
   return false
+}
+
+function findUserIndexById(userList, userId) {
+  return userList.findIndex(function(user){return user._id._id == userId})
 }

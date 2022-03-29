@@ -186,6 +186,12 @@ class SocketConnection {
 				}
 			})
 
+			socket.on('finish-round-review', async (data) => {
+				await roomController.updateUserReviewingPreviousRound(data.roomId, false, data.userId)
+				const room = await roomController.fetchRoom(socket, data.roomId)
+				socket.emit('room-entered', room)
+			})
+
 			//TEST CALL
 			socket.on('function-call', () => {
 				console.log('function called')

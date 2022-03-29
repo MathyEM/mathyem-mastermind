@@ -4,10 +4,11 @@
       v-for="(attempt, attemptIndex) in gameData.attempts"
       :key="attemptIndex"
       :code="attempt"
+      :hints="gameData.accuracyHints[attemptIndex]"
       :onClick="onClick"
       :attemptIndex="attemptIndex" 
       class="attempts-code-row"
-      :class="{ active: (getCurrentAttempt == attemptIndex && getSolutionState) }" />
+      :class="{ active: (getCurrentAttempt == attemptIndex && getSolutionState && !getReviewingPreviousRound) }" />
   </div>
 </template>
 
@@ -23,10 +24,15 @@ export default {
   props: {
   },
   computed: {
-    ...mapGetters({
-      gameData: 'getCurrentRoom',
-    }),
-    ...mapGetters(['getCurrentAttempt', 'getSolutionState']),
+    ...mapGetters(['getCurrentAttempt', 'getSolutionState', 'getCurrentRoom', 'getReviewingPreviousRound', 'getPreviousRound']),
+    gameData: {
+      get: function () {
+        if (this.getReviewingPreviousRound == true) {
+          return this.getPreviousRound
+        }
+        return this.getCurrentRoom
+      }
+    }
   },
   methods: {
     onClick(pieceIndex, attemptIndex) {

@@ -14,7 +14,10 @@
   <div v-else class="main game">
     <Scores />
     <Solution />
-    <GameStatus />
+    <div class="game-status-wrapper">
+      <GameStatus v-if="!getReviewingPreviousRound" />
+      <NextRoundButton v-else />
+    </div>
     <Attempts />
     <CodeButtons />
   </div>
@@ -29,6 +32,7 @@ import Solution from '@/components/Solution.vue'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
 import GameStatus from '@/components/GameStatus.vue'
+import NextRoundButton from '@/components/subcomponents/NextRoundButton'
 import PushNotification from '@/components/PushNotification.vue'
 import { socketConnection } from '@/services/socketio.service.js'
 
@@ -44,6 +48,7 @@ export default {
     Attempts,
     CodeButtons,
     GameStatus,
+    NextRoundButton,
     PushNotification,
   },
   data() {
@@ -62,6 +67,7 @@ export default {
       'getGameStatus',
       'getPushSubscription',
       'getSWRegistration',
+      'getReviewingPreviousRound',
     ]),
   },
   methods: {

@@ -1,9 +1,9 @@
 <template>
   <div class="code-buttons">
     <!-- if the solution is set and then check if they have codebreaker authority -->
-    <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority" class="code-buttons-code-row" />
+    <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
     <!-- if the solution is set do you have codemaker authority? -->
-    <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority" class="code-buttons-code-row" />
+    <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   props: {
   },
   computed: {
-    ...mapGetters(['getCodeSet', 'getSolutionState', 'hasCodeBreakerAuthority', 'hasCodeMakerAuthority']),
+    ...mapGetters(['getCodeSet', 'getSolutionState', 'hasCodeBreakerAuthority', 'hasCodeMakerAuthority', 'getReviewingPreviousRound']),
   },
   methods: {
     ...mapActions(['updateAttempt', 'updateLocalSolution']),

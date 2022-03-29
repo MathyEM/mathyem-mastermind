@@ -115,6 +115,7 @@ const roomSchema = new Schema({
 	},
 	previousRound: {
 		type: previousRoundSchema,
+		default: () => ({})
 	}
 }, {
 	timestamps: true

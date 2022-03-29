@@ -171,6 +171,13 @@ class SocketioService {
       this.socket.emit('set-attempt', { roomId, attempt, attemptIndex })
     }
   }
+  async finishRoundReview() {
+    if (this.socket) {
+      const roomId = store.getters.getCurrentRoom._id
+      const userId = store.getters.getUserId
+      this.socket.emit('finish-round-review', { roomId, userId })
+    }
+  }
 }
 
 function checkId(element) {
