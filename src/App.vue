@@ -44,6 +44,20 @@ export default {
     window.addEventListener('hashchange', relocate)
   },
   async created() {
+    window.addEventListener('focus', clearNotifications)
+    window.addEventListener('load', clearNotifications)
+    const clearNotifications = async () => {
+      if (!await this.getSWRegistration) {
+        return
+      }
+      const reg = await this.getSWRegistration
+      const notifications = await reg.getNotifications()
+      if (notifications.length > 0) {
+        notifications.forEach(async notification => {
+          await notification.close()
+        })
+      }
+    }
   },
   async beforeMount() {
     socketConnection.setupSocketConnection()
