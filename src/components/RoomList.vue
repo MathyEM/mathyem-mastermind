@@ -180,7 +180,7 @@ $dark-gray: #505050;
 
     .opponent, .room-name {
       margin: 0;
-      padding: 0.5em 0.5em;
+      padding: 0.6em 0.5em;
       border-bottom: 1px solid darken($dark-gray, 7);
     }
 
