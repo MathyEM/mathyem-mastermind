@@ -1,6 +1,6 @@
 <template>
   <div v-if="getSessionLoading" class="main loading">
-    <img :src="loading" alt="">
+    <img :src="loading" alt="repeating loading gif">
   </div>
   <div v-else-if="!getLoginStatus" class="main login-screen">
     <h2>{{ title }}</h2>

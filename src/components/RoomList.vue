@@ -5,7 +5,7 @@
         <p>Opponent</p>
         <p>Room name</p>
       </div>
-      <div class="rooms">
+      <div v-if="getUsersRooms.length > 0" class="rooms">
         <div
           class="room"
           v-for="room in getUsersRooms"
@@ -15,6 +15,9 @@
           <MarqueeText :duration="getDuration(getSecondPlayer(room))" :repeat="1" class="opponent">{{ getSecondPlayer(room) }}</MarqueeText>
           <MarqueeText :duration="getDuration(room.name)" :repeat="1" class="room-name">{{ room.name }}</MarqueeText>
         </div>
+      </div>
+      <div v-else class="rooms loading">
+        <img :src="loading" alt="repeating loading gif">
       </div>
       <div class="room-list-footer">
         <div class="back-btn" @click="backToHome">
@@ -42,6 +45,7 @@ export default {
 	data() {
 		return {
       backBtn: require('@/assets/left-arrow.png'),
+      loading: require('@/assets/Spinner-1s-357px.svg'),
 		}
 	},
 	computed: {
@@ -121,6 +125,14 @@ $dark-gray: #505050;
   .rooms {
     overflow-y: auto;
     padding: 1px;
+
+    &.loading {
+      width: 100%;
+
+      img {
+        width: 50%;
+      }
+    }
 
     &::-webkit-scrollbar{
       width: 6px;
