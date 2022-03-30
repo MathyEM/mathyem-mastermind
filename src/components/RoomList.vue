@@ -66,7 +66,7 @@ export default {
       return false
     },
     getDuration(text) {
-      if (text.length > 17) {
+      if (text.length > 16) {
         return 6
       }
       return 0
@@ -102,7 +102,7 @@ $dark-gray: #505050;
 
 .room-list {
   display: grid;
-  grid-template-rows: min-content auto min-content;
+  grid-template-rows: min-content 1fr min-content;
   font-size: 1rem;
   z-index: 4;
   position: absolute;
@@ -123,22 +123,22 @@ $dark-gray: #505050;
     padding: 1px;
 
     &::-webkit-scrollbar{
-    width: 13px;
-    height: 13px;
-    background: $dark-gray;
-  }
-  &::-webkit-scrollbar-thumb{
-    background: #B3AFB3;
-    border-radius: 9px;
-  }
-  &::-webkit-scrollbar-thumb:hover{
-    background: #B3AFB3;
-  }
-  &::-webkit-scrollbar-track{
-    background: transparent;
-    border-radius: 9px;
-    box-shadow: inset 0px 0px 0px 0px #F0F0F0;
-  }
+      width: 6px;
+      height: 13px;
+      background: $dark-gray;
+    }
+    &::-webkit-scrollbar-thumb{
+      background: #B3AFB3;
+      border-radius: 9px;
+    }
+    &::-webkit-scrollbar-thumb:hover{
+      background: #B3AFB3;
+    }
+    &::-webkit-scrollbar-track{
+      background: transparent;
+      border-radius: 9px;
+      box-shadow: inset 0px 0px 0px 0px #F0F0F0;
+    }
   }
 
   .room-list-headers, .room {
@@ -148,7 +148,7 @@ $dark-gray: #505050;
   }
 
   .room-list-headers p {
-    font-size: 1.1em;
+    font-size: 1.2em;
     margin: 0.25rem;
     text-decoration: underline;
   }
@@ -156,6 +156,7 @@ $dark-gray: #505050;
    .room {
     margin: 0;
     position: relative;
+    font-size: 1.05em;
     cursor: pointer;
 
     &:nth-child(even) {
@@ -170,7 +171,7 @@ $dark-gray: #505050;
 
     .opponent, .room-name {
       margin: 0;
-      padding: 0.5rem;
+      padding: 0.5em 0.5em;
       border-bottom: 1px solid darken($dark-gray, 7);
     }
 
@@ -191,6 +192,7 @@ $dark-gray: #505050;
       top: 49%;
       right: 0;
       transform: translateY(-50%);
+      z-index: 1;
     }
 
     &.your-turn::before {
