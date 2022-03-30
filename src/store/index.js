@@ -40,7 +40,6 @@ export default new Vuex.Store({
         return null
       }
       const userIndex = findUserIndexById(getters.getCurrentRoom.users, getters.getUserId)
-      console.log(userIndex);
       if ('reviewingPreviousRound' in getters.getCurrentRoom.users[userIndex]) {
         return getters.getCurrentRoom.users[userIndex].reviewingPreviousRound
       }

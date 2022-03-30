@@ -1,7 +1,6 @@
 import { io } from 'socket.io-client'
 import store from '../store'
 import ConfigProvider from '@/ConfigProvider'
-import localforage from 'localforage'
 
 const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
@@ -32,18 +31,6 @@ class SocketioService {
           email: email,
         })
 
-        const user = await localforage.setItem('user', response.user)
-        console.log('user stored:', user)
-
-        if (!response.sessionExpiration) {
-          let date = new Date()
-          date.setHours(date.getHours() + 12)
-          const sessionExpiration = await localforage.setItem('sessionExpiration', date)
-          console.log('sessionExpiration stored:', sessionExpiration)
-        } else {
-          const sessionExpiration = await localforage.setItem('sessionExpiration', response.sessionExpiration)
-          console.log('sessionExpiration stored:', sessionExpiration)
-        }
         store.commit('SET_LOGIN_STATUS', true)
       }
     })
