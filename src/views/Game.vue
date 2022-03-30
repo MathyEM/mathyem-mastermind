@@ -74,16 +74,16 @@ export default {
     ...mapActions(['socketLogin', 'setRegistrationAndPushSubscription']),
   },
   async created() {
-    await this.setRegistrationAndPushSubscription()
+    socketConnection
+    this.setRegistrationAndPushSubscription()
     
-    window.addEventListener('focus', onWindowOpen)
-    const onWindowOpen = () => {
+    window.addEventListener('focus', async () => {
       if (!this.getCurrentRoom._id) {
         return
       }
-      this.socketLogin()
+      await this.socketLogin()
       socketConnection.enterRoom(this.getCurrentRoom._id)
-    }
+    })      
   },
 }
 </script>
