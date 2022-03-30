@@ -16,8 +16,8 @@
       <div class="hint correctPiece" v-for="correctPieceCount in (Math.max((gameData.accuracyHints[attemptIndex].correctPieceCount-gameData.accuracyHints[attemptIndex].correctPositionCount), 0))" :key="'piece'+correctPieceCount"></div>
     </div>
     <div v-else-if="getCurrentAttempt == attemptIndex && !getReviewingPreviousRound && hasCodeBreakerAuthority" class="undo-attempt">
-      <button>
-        <img @click="undoAttemptPiece" :src="undoImg" alt="Undo icon. Use to reset current attempt">
+      <button @click="undoAttemptPiece">
+        <img :src="undoImg" alt="Undo icon. Use to reset current attempt">
         <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
       </button>
     </div>
@@ -111,6 +111,8 @@ $color: #000;
       height: 75%;
       width: 75%;
       padding: 0 0.2rem;
+      border: 1px solid gray;
+      border-radius: 0.2rem;
 
       img {
         // height: 100%;
