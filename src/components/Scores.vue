@@ -72,7 +72,6 @@ $marquee-padding: 1rem;
   .player-name {
     display: inline-block;
     margin: 0;
-    width: 100%;
     text-align: left;
     font-weight: bold;
   }
