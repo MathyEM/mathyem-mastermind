@@ -151,6 +151,11 @@ form input:not(:first-of-type), .remember-me, button {
   margin-top: 0.75rem;
 }
 
+input, button {
+  border: 1px solid gray;
+  border-radius: 0.2rem;
+}
+
 .login-register {
   .remember-me {
     width: 100%;

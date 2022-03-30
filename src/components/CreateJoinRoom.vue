@@ -113,6 +113,8 @@ export default {
 .join-create-room {
 	input, button {
 		margin-top: 0.5rem;
+		border: 1px solid gray;
+		border-radius: 0.2rem;
 	}
 }
 
