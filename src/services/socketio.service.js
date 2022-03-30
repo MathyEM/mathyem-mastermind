@@ -88,7 +88,7 @@ class SocketioService {
     })
 
     this.socket.on('accuracy-hints', (response) => {
-      // console.log('on accuracy-hints')
+      store.commit('SET_LOADING_ACCURACY_HINT', false)
       store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
     })
 

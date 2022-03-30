@@ -21,6 +21,9 @@
         <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
       </button>
     </div>
+    <div v-if="getLoadingAccuracyHint === attemptIndex" class="accuracy-hints loading">
+      <img :src="loading" alt="repeating loading gif">
+    </div>
   </div>
 </template>
 
@@ -42,11 +45,19 @@ export default {
   },
   data() {
     return {
-      undoImg: require('@/assets/undo.png')
+      undoImg: require('@/assets/undo.png'),
+      loading: require('@/assets/Spinner-1s-357px.svg'),
     }
   },
   computed: {
-    ...mapGetters(['getCurrentRoom', 'getCurrentAttempt', 'hasCodeBreakerAuthority', 'getReviewingPreviousRound', 'getPreviousRound']),
+    ...mapGetters([
+      'getCurrentRoom',
+      'getCurrentAttempt',
+      'hasCodeBreakerAuthority',
+      'getReviewingPreviousRound',
+      'getPreviousRound',
+      'getLoadingAccuracyHint'
+      ]),
     gameData: {
       get: function () {
         if (this.getReviewingPreviousRound == true) {
@@ -139,6 +150,20 @@ $color: #000;
       }
       &.correctPosition {
         background: $green;
+      }
+    }
+
+    &.loading {
+      grid-template-columns: none;
+      grid-template-rows: none;
+
+      img {
+        position: absolute;
+        width: 350%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        pointer-events: none;
       }
     }
   }

@@ -4,7 +4,6 @@
       v-for="(attempt, attemptIndex) in gameData.attempts"
       :key="attemptIndex"
       :code="attempt"
-      :hints="gameData.accuracyHints[attemptIndex]"
       :onClick="onClick"
       :attemptIndex="attemptIndex" 
       class="attempts-code-row"

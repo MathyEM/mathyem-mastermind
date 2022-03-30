@@ -28,6 +28,7 @@ export default new Vuex.Store({
       name: '',
     },
     localSolution: ['','','',''],
+    loadingAccuracyHint: false,
   },
   getters: {
     getAppVersion: state => state.appVersion,
@@ -69,6 +70,7 @@ export default new Vuex.Store({
     getAccuracyHint: (state) => (index) => {
       return state.currentRoom.accuracyHints[index]
     },
+    getLoadingAccuracyHint: state => state.loadingAccuracyHint,
     hasCodeMakerAuthority: (state, getters) => {
       state;
       //solution already set
@@ -144,6 +146,9 @@ export default new Vuex.Store({
     UPDATE_ALL_ACCURACY_HINTS(state, payload) {
       state.currentRoom.accuracyHints = payload
     },
+    SET_LOADING_ACCURACY_HINT(state, payload) {
+      state.loadingAccuracyHint = payload
+    },
     UPDATE_LOCAL_SOLUTION(state, payload) {
       const index = state.localSolution.indexOf('')
       const solutionCopy = state.localSolution.slice()
@@ -218,8 +223,9 @@ export default new Vuex.Store({
         commit('TOGGLE_LOCAL_SOLUTION', true)
       }
     },
-    sendAttempt({ getters }, payload) {
+    sendAttempt({ commit, getters }, payload) {
       const attemptIndex = payload
+      commit('SET_LOADING_ACCURACY_HINT', attemptIndex)
       const attempt = getters.getCurrentRoom.attempts[attemptIndex].slice()
       socketConnection.sendAttempt(attempt, attemptIndex) // send attempt (Array)
     },
