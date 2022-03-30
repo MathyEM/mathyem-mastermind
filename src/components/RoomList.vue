@@ -178,10 +178,6 @@ $dark-gray: #505050;
       }
     }
 
-    &.active {
-      background: lighten($dark-gray, 8);
-    }
-
     .opponent, .room-name {
       margin: 0;
       padding: 0.5em 0.5em;
@@ -200,13 +196,17 @@ $dark-gray: #505050;
         content: '';
         position: absolute;
         width: 0.3em;
-        height: 100%;
+        height: 95%;
         background: $dark-gray;
-        top: 49%;
+        top: 50%;
         left: 0;
         transform: translateY(-50%);
         z-index: 1;
       }
+    }
+
+    &.active, &.active .room-name::before {
+      background: lighten($dark-gray, 8);
     }
 
     &::after {
@@ -226,7 +226,7 @@ $dark-gray: #505050;
     }
   }
 
-  .room:hover, .back-btn:hover {
+  .room:hover, .back-btn:hover, .room:hover .room-name::before {
     background: lighten($dark-gray, 12);
   }
 
