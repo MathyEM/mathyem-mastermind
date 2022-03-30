@@ -52,7 +52,7 @@ export default {
     ...mapGetters(['getUsersRooms', 'getShowRoomList', 'getUserId', 'getCurrentRoom']),
 	},
   methods: {
-    ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS']),
+    ...mapMutations(['SET_SHOW_ROOM_LIST', 'SET_SHOW_OPTIONS', 'SET_SESSION_LOADING']),
     ...mapActions(['enterRoom', 'backToHome', 'setShowRoomList']),
     toggleMenus() {
       this.setShowRoomList()
@@ -76,6 +76,7 @@ export default {
       return 0
     },
     changeRoom(roomId) {
+      this.SET_SESSION_LOADING(true)
       this.enterRoom(roomId)
       this.SET_SHOW_ROOM_LIST(!this.getShowRoomList) // Hide room list after selecting a room
     },

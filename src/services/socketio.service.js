@@ -73,6 +73,7 @@ class SocketioService {
       const room = response
       console.log('room:', room)
       await store.dispatch('setCurrentRoom', room)
+      store.commit('SET_SESSION_LOADING', false)
     })
 
     this.socket.on('solution-set', async (response) => {
@@ -87,6 +88,7 @@ class SocketioService {
     })
 
     this.socket.on('accuracy-hints', (response) => {
+      // console.log('on accuracy-hints')
       store.commit('UPDATE_ALL_ACCURACY_HINTS', response.accuracyHints)
     })
 
