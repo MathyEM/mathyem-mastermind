@@ -180,10 +180,23 @@ $dark-gray: #505050;
     }
 
     .room-name {
+      position: relative;
       margin-left: 0;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 0.3em;
+        height: 100%;
+        background: $dark-gray;
+        top: 49%;
+        left: 0;
+        transform: translateY(-50%);
+        z-index: 1;
+      }
     }
 
-    &::before {
+    &::after {
       content: '';
       position: absolute;
       width: 0.4rem;
@@ -195,7 +208,7 @@ $dark-gray: #505050;
       z-index: 1;
     }
 
-    &.your-turn::before {
+    &.your-turn::after {
       background: $green;
     }
   }
