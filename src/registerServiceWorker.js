@@ -19,9 +19,8 @@ if (process.env.NODE_ENV === "production") {
     updatefound () {
       console.log('New content is downloading.')
     },
-    async updated (registration) {
+    async updated () {
       console.log('New content is available; please refresh.')
-      registration.update()
       setTimeout(() => {
         window.location.reload(true)
       }, 1000)
