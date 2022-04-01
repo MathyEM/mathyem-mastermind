@@ -72,7 +72,7 @@ export default {
       get() { return this.getRoomName },
       set(roomName) {
         this.$v.roomName.$touch()
-        this.UPDATE_ROOM_NAME(roomName)
+        this.UPDATE_ROOM_NAME(roomName.trim())
 				this.TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR(false)
       }
     },

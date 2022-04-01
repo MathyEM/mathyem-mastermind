@@ -89,7 +89,7 @@ export default {
       get() { return this.getLocalUsername },
       set(username) {
         this.$v.username.$touch()
-        this.UPDATE_LOCAL_USERNAME(username)
+        this.UPDATE_LOCAL_USERNAME(username.trim())
         if (!this.getRegisteringState) {
           this.UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE(false)
         }
@@ -99,14 +99,14 @@ export default {
       get() { return this.getLocalEmail },
       set(email) {
         this.$v.email.$touch()
-        this.UPDATE_LOCAL_EMAIL(email)
+        this.UPDATE_LOCAL_EMAIL(email.trim())
       }
     },
     password: {
       get() { return this.getLocalPassword },
       set(password) {
         this.$v.password.$touch()
-        this.UPDATE_LOCAL_PASSWORD(password)
+        this.UPDATE_LOCAL_PASSWORD(password.trim())
         if (!this.getRegisteringState) {
           this.UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE(false)
         }
