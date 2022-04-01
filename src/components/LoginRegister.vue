@@ -179,8 +179,9 @@ input, button {
 
 .login-errors, .register-errors {
   margin-top: -1px;
-  background: rgba($color: yellow, $alpha: 0.8);
-  border: 1px solid darken(yellow, 15);
+	padding: 0.2rem;
+  background: $orange;
+  border: 1px solid darken($orange, 15);
   border-top: none;
   font-size: 0.9rem;
 }
@@ -188,7 +189,7 @@ input, button {
   padding: 0.25rem;
   
   &:first-child:not(:last-child) {
-    border-bottom: 1px solid darken(yellow, 15);
+    border-bottom: 1px solid darken($orange, 15);
     
   }
 }
