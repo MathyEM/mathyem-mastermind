@@ -1,4 +1,3 @@
-self.importScripts('localforage.min.js')
 workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"})
  
 self.__precacheManifest = [].concat(self.__precacheManifest || [])

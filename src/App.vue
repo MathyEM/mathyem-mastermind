@@ -60,6 +60,7 @@ export default {
   },
   async beforeMount() {
     socketConnection.setupSocketConnection()
+    document.querySelector('html').lang = 'en'
   },
   beforeDestroy() {
     console.log('test beforeDestroy')
