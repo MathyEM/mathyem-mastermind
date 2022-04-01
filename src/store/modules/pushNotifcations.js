@@ -31,13 +31,14 @@ const actions = {
     }
     // get service worker registration
     const reg = await navigator.serviceWorker.getRegistration()
-    if (reg) {
-      commit('SET_SW_REGISTRATION', reg)
+    if (!reg) {
+      return
     }
+    commit('SET_SW_REGISTRATION', reg)
 
     // does the browser support push notifications
     if ('pushManager' in reg === false) {
-      commit('SET_PUSH_SUBSCRIPTION', { empty: true })
+      commit('SET_PUSH_SUBSCRIPTION', {})
       return
     }
 
@@ -45,15 +46,15 @@ const actions = {
     const subscription = await reg.pushManager.getSubscription()
     commit('SET_PUSH_SUBSCRIPTION', subscription)
   }, 
-  async pushNotificationsInitialize({ dispatch }) {
+  async pushNotificationsInitialize({ commit }) {
     if ('serviceWorker' in window.navigator) {
-      send(dispatch).catch(err => console.log(err))
+      send(commit).catch(err => console.log(err))
     }
   }
 }
 
 // Register Push, Send Push
-async function send(dispatch) {
+async function send(commit) {
   console.log('Registering Push...')
   const registration = await window.navigator.serviceWorker.getRegistration()
   const applicationServerKey = urlBase64ToUint8Array(publicVapidKey)
@@ -61,7 +62,7 @@ async function send(dispatch) {
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
   })
-  await dispatch('setPushSubscription')
+  commit('SET_PUSH_SUBSCRIPTION', subscription)
   console.log('Push Registered...')
 
   // Send Push Notification
@@ -72,7 +73,7 @@ async function send(dispatch) {
   .catch(async (error) => {
     // if subscription fails on server, then unsubscribe
     await subscription.unsubscribe()
-    await dispatch('setPushSubscription')
+    commit('SET_PUSH_SUBSCRIPTION', subscription)
     
     if (error.response) {
       // The request was made and the server responded with a status code
