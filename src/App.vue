@@ -29,10 +29,10 @@ export default {
   },
   methods: {
     async clearNotifications() {
-      if (!await this.getSWRegistration) {
+      const reg = await this.getSWRegistration
+      if (!reg) {
         return
       }
-      const reg = await this.getSWRegistration
       const notifications = await reg.getNotifications()
       if (notifications.length > 0) {
         notifications.forEach(async notification => {
@@ -42,7 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getAppVersion']),
+    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration']),
   },
   beforeCreate() {
     function relocate() {
@@ -56,9 +56,7 @@ export default {
     window.addEventListener('hashchange', relocate)
   },
   async created() {
-    this.clearNotifications()
     window.addEventListener('focus', this.clearNotifications)
-    window.addEventListener('load', this.clearNotifications)
   },
   async beforeMount() {
     socketConnection.setupSocketConnection()

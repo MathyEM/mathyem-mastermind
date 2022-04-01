@@ -18,12 +18,17 @@ self.addEventListener('install', () => self.skipWaiting())
 console.log("Service Worker Loaded...")
 
 self.addEventListener('activate', async (event) => {
+  const notifications = await self.registration.getNotifications()
+  if (notifications.length > 0) {
+    notifications.forEach(async notification => {
+      await notification.close()
+    })
+  }
+
   // Snapshot current state of subscriptions.
   const subscriptions = await self.registration.cookies.getSubscriptions()
-
   // Clear any existing subscriptions.
   await self.registration.cookies.unsubscribe(subscriptions)
-
   await self.registration.cookies.subscribe([
     {
       name: 'session_id',  // Subscribe to change events for cookies named session_id.
