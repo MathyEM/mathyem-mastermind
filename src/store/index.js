@@ -6,6 +6,7 @@ import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
 import pushNotifcations from './modules/pushNotifcations'
 import { socketConnection } from '@/services/socketio.service.js'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -237,9 +238,12 @@ export default new Vuex.Store({
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
     },
-    backToHome({ commit }) {
-      commit('SET_CURRENT_ROOM', { id: '', name: ''})
-      commit('SET_SHOW_ROOM_LIST', false)
+    backToHome({ commit }, currentRoute) {
+      if (currentRoute == 'home') {
+        commit('SET_SHOW_ROOM_LIST', false)
+        return
+      }
+      router.push({ name: 'home' })
     },
     finishRoundReview() {
       console.log('clicked')

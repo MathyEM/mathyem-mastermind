@@ -1,8 +1,6 @@
 <template>
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
-			<h3>Welcome {{ getUsername }}!</h3>
-			<h3 v-if="getCurrentRoom.id != ''">Room: {{ getCurrentRoom.name }}</h3>
 			<form v-on:submit.prevent="onSubmit">
 				<input v-model="roomName" class="join-create-input" type="text" :placeholder="inputText"><br/>
 				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error || emptyInputError" class="create-join-errors">

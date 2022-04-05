@@ -20,7 +20,7 @@
         <img :src="loading" alt="repeating loading gif">
       </div>
       <div class="room-list-footer">
-        <div class="back-btn" @click="backToHome">
+        <div class="back-btn" @click="backToHome($route.name)">
           <img :src="backBtn" alt="back-icon icon">
           <p>Back to create/join room</p>
         </div>

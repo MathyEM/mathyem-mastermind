@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h2>{{ title }}</h2>
+    <h3>Welcome {{ getUsername }}!</h3>
     <CreateJoinRoom />
     <PushNotification v-if="!getPushSubscription" />
   </div>
@@ -27,6 +28,7 @@ export default {
   computed: {
     ...mapGetters([
       'getSessionLoading',
+      'getUsername',
       'getPushSubscription',
     ]),
   },
