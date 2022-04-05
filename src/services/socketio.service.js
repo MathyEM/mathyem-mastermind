@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client'
 import store from '../store'
 import ConfigProvider from '@/ConfigProvider'
+import router from '../router'
 
 const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
@@ -32,6 +33,7 @@ class SocketioService {
         })
 
         store.commit('SET_LOGIN_STATUS', true)
+        router.push('/home')
       }
     })
     

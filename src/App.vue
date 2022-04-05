@@ -6,7 +6,10 @@
       <OptionsButton title="Options"/>
       <Options />
     </div>
-    <router-view/>
+    <div v-if="getSessionLoading" class="main loading">
+      <img :src="loading" alt="repeating loading gif">
+    </div>
+    <router-view v-else />
     <div class="version">v{{ getAppVersion }}</div>
   </div>
 </template>
@@ -27,6 +30,11 @@ export default {
     OptionsButton,
     Options,
   },
+  data() {
+    return {
+      loading: require('@/assets/Spinner-1s-357px.svg'),
+    }
+  },
   methods: {
     async clearNotifications() {
       const reg = await this.getSWRegistration
@@ -42,18 +50,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration']),
+    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration', 'getSessionLoading']),
   },
   beforeCreate() {
-    function relocate() {
-      const { origin, href } = window.location
-      const postOrigin = href.replace(origin, '')
-      if (postOrigin !== '/#/') {
-        window.location = origin + '/#/'
-      }
-    }
-    window.addEventListener('load', relocate)
-    window.addEventListener('hashchange', relocate)
+    // function relocate() {
+    //   const { origin, href } = window.location
+    //   const postOrigin = href.replace(origin, '')
+    //   if (postOrigin !== '/#/') {
+    //     window.location = origin + '/#/'
+    //   }
+    // }
+    // window.addEventListener('load', relocate)
+    // window.addEventListener('hashchange', relocate)
   },
   async created() {
     window.addEventListener('focus', this.clearNotifications)
