@@ -1,5 +1,5 @@
 <template>
-  <div class="main login-screen">
+  <div class="login-screen">
     <h2>{{ title }}</h2>
     <LoginRegister/>
   </div>
@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       title: 'Mastermind Game',
-      loading: require('@/assets/Spinner-1s-357px.svg'),
     }
   },
   computed: {
@@ -34,5 +33,17 @@ export default {
 </script>
 
 <style lang="scss">
+.login-screen {
+  margin-top: 2rem;
+}
 
+.login-register {
+  input, button {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.1rem;
+    height: 2.6rem;
+    text-align: center;
+  }
+}
 </style>

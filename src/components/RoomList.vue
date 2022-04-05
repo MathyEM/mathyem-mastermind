@@ -76,9 +76,7 @@ export default {
       return 0
     },
     changeRoom(roomId) {
-      this.SET_SESSION_LOADING(true)
-      this.enterRoom(roomId)
-      this.SET_SHOW_ROOM_LIST(!this.getShowRoomList) // Hide room list after selecting a room
+      this.$router.push({ name: 'room', params: { id: roomId } })
     },
     getSecondPlayer(room) {
       const userId = this.getUserId

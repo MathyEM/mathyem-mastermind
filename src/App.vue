@@ -6,10 +6,10 @@
       <OptionsButton title="Options"/>
       <Options />
     </div>
-    <div v-if="getSessionLoading" class="main loading">
+    <div v-if="getSessionLoading" class="loading">
       <img :src="loading" alt="repeating loading gif">
     </div>
-    <router-view v-else />
+    <router-view class="main" :class="{ 'hidden': getSessionLoading }" />
     <div class="version">v{{ getAppVersion }}</div>
   </div>
 </template>
@@ -120,6 +120,18 @@ body {
   // background: lightgray;
 }
 
+.loading {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  grid-row: span 2;
+
+  img {
+    width: 100%;
+  }
+}
+
 .version {
   display: flex;
   align-items: flex-end;
@@ -128,5 +140,29 @@ body {
   text-align: right;
   padding-right: 0.2rem;
   padding-bottom: 0.1rem;
+}
+
+.main {
+  margin: auto;
+  margin-top: 0;
+  width: 100%;
+  padding: 0 0.5rem 0;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .main {
+    margin: auto;
+    margin-top: 0;
+    width: 100%;
+    padding: 0 1rem;
+  }
 }
 </style>

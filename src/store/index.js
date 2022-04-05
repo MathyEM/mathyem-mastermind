@@ -189,7 +189,8 @@ export default new Vuex.Store({
       commit('TOGGLE_LOCAL_SOLUTION', getters.getSolutionState)
     },
     async enterRoom({ state }, payload) {
-      state
+      state; payload
+      console.log('enter room')
       await socketConnection.enterRoom(payload)
     },
     updateAttempt({ commit, getters, dispatch }, payload) {

@@ -33,7 +33,7 @@ class SocketioService {
         })
 
         store.commit('SET_LOGIN_STATUS', true)
-        router.push('/home')
+        router.go(-1) // after login, go back to the page before
       }
     })
     
@@ -73,7 +73,8 @@ class SocketioService {
 
     this.socket.on('room-entered', async (response) => {
       const room = response
-      console.log('room:', room)
+      room
+      console.log('room entered')
       await store.dispatch('setCurrentRoom', room)
       store.commit('SET_SESSION_LOADING', false)
     })
