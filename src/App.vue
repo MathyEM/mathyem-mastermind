@@ -20,7 +20,7 @@ import RoomList from '@/components/RoomList.vue'
 import OptionsButton from '@/components/subcomponents/OptionsButton.vue'
 import Options from '@/components/Options.vue'
 import { socketConnection } from './services/socketio.service.js'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -36,6 +36,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setRegistrationAndPushSubscription']),
     async clearNotifications() {
       const reg = await this.getSWRegistration
       if (!reg) {
@@ -64,6 +65,7 @@ export default {
     // window.addEventListener('hashchange', relocate)
   },
   async created() {
+    this.setRegistrationAndPushSubscription()
     window.addEventListener('focus', this.clearNotifications)
   },
   async beforeMount() {
