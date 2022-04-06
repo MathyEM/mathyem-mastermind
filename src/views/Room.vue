@@ -34,7 +34,6 @@ export default {
   },
   data() {
     return {
-      title: 'Mastermind Game',
     }
   },
   computed: {
@@ -52,11 +51,14 @@ export default {
     ...mapActions(['enterRoom']),
   },
   async created() {
-    console.log(this.$route.params.id)
-    this.SET_SESSION_LOADING(true)
-    this.enterRoom(this.$route.params.id)
-    this.SET_SHOW_ROOM_LIST(false) // Hide room list after selecting a room
-
+    if (this.$route.hash != '#nofetch') { // don't fetch room data if the join hash is set
+      this.SET_SESSION_LOADING(true)
+      this.enterRoom(this.$route.params.id)
+      this.SET_SHOW_ROOM_LIST(false) // Hide room list after selecting a room
+    } else {
+      let href = window.location.href
+      window.location = href.substring(0, href.lastIndexOf('#'))
+    }
   },
 }
 </script>

@@ -63,8 +63,13 @@ class SocketioService {
 
     this.socket.on('room-joined', async (response) => {
       console.log('room joined:', response)
+      //
+      // TEST JOIN ROOM FUNCTIONALITY
+      //
+      router.push({ name: 'room', params: { id: response._id }, hash: '#nofetch' })
       await store.dispatch('setCurrentRoom', response)
       store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
+      store.commit('SET_SESSION_LOADING', false)
     })
 
     this.socket.on('room-left', async () => {
@@ -73,8 +78,6 @@ class SocketioService {
 
     this.socket.on('room-entered', async (response) => {
       const room = response
-      room
-      console.log('room entered')
       await store.dispatch('setCurrentRoom', room)
       store.commit('SET_SESSION_LOADING', false)
     })
@@ -126,7 +129,7 @@ class SocketioService {
         store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR_STATUS', true)
         return
       }
-
+      store.commit('SET_SESSION_LOADING', true)
       this.socket.emit('join-room', { roomId: roomId })
     }
   }
