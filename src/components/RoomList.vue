@@ -76,6 +76,9 @@ export default {
       return 0
     },
     changeRoom(roomId) {
+      if (roomId == this.getCurrentRoom._id) {
+        return
+      }
       this.$router.push({ name: 'room', params: { id: roomId } })
     },
     getSecondPlayer(room) {
