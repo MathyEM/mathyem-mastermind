@@ -43,6 +43,10 @@ self.addEventListener("push", async event => {
       icon: "https://i.imgur.com/dPPaEkH.png",
       badge: "https://i.imgur.com/dPPaEkH.png",
       vibrate: [200, 100, 200],
+      data: {
+        roomId: data.data.roomId,
+        test: 'test',
+      }
     })
   )
 })
@@ -55,7 +59,7 @@ self.addEventListener("pushsubscriptionchange", event => {
         subscription,
       })
     })
-  );
+  )
 }, false)
 
 self.addEventListener('notificationclick', function(event) {
@@ -65,22 +69,24 @@ self.addEventListener('notificationclick', function(event) {
   // focuses if it is
   event.waitUntil(clients.matchAll({
     type: "window"
-  }).then(function(clientList) {
-    console.log('clientList:', clientList)
+  }).then(async function(clientList) {
+    // console.log('clientList:', clientList)
+    // console.log(event.notification)
     for (var i = 0; i < clientList.length; i++) {
       var client = clientList[i]
-      if ('focus' in client)
-        return client.focus()
+      if ('focus' in client && 'navigate' in client)
+        await client.focus()
+        return client.navigate('/#/room/' + event.notification.data.roomId)
     }
     if (clients.openWindow)
-      return clients.openWindow('/')
-  }));
-});
+      return clients.openWindow('/#/room/' + event.notification.data.roomId)
+  }))
+})
 
 self.addEventListener("cookiechange", async event => {
-  console.log(event)
+  // console.log(event)
   const subscription = await self.registration.pushManager.getSubscription()
-  console.log(subscription)
+  // console.log(subscription)
 
   if (subscription) {
     // make a copy of the applicationServerKey

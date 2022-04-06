@@ -151,6 +151,9 @@ class SocketConnection {
 					const payload = JSON.stringify({
 						title: `It's your turn in ${room.name}`,
 						body: `${codeMaker.username} has made a code for you to solve!`,
+						data: {
+							roomId: room.id,
+						}
 					})
 					codeBreakerSubscription.forEach(async (subscription) => {
 						console.log('Attemping to push notification to:', subscription.user)
