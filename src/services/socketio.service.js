@@ -42,13 +42,28 @@ class SocketioService {
       console.log(response)
       if (response.type === 'alreadyInRoom') {
         store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR_STATUS', true)
+        store.commit('SET_SESSION_LOADING', false)
+        router.push({ name: 'home' })
+        return
       }
       if (response.type === 'invalidJoinCode') {
         store.commit('TOGGLE_INVALID_JOIN_CODE_ERROR_STATUS', true)
+        store.commit('SET_SESSION_LOADING', false)
+        router.push({ name: 'home' })
+        return
       }
       if (response.type === 'invalidJoinCodeLength') {
         store.commit('TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS', true)
+        store.commit('SET_SESSION_LOADING', false)
+        router.push({ name: 'home' })
+        return
       }
+      if (response.type === 'invalidRoomId') {
+        console.log(response.message)
+        return
+      }
+      store.commit('SET_SESSION_LOADING', false)
+      router.push({ name: 'home' })
     })
 
     this.socket.on('user-rooms-fetched', async (rooms) => {

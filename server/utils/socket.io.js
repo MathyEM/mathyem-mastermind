@@ -55,7 +55,12 @@ class SocketConnection {
 					socket.emit('error', { message: 'Please login to create a room' })
 					return
 				}
-				const newRoom = await roomController.createRoom(socket, data)
+				const result = await roomController.createRoom(socket, data)
+				if (!result.room) {
+					socket.emit('error', result)
+					return
+				}
+				const newRoom = result.room
 				joinSocketRoom(socket, newRoom.id)
 				socket.emit('room-created', newRoom)
 			})
@@ -91,8 +96,12 @@ class SocketConnection {
 
 			// LEAVE ROOM
 			socket.on('leave-room', async (data) => {
-				const room = await roomController.leaveRoom(socket, data)
-				socket.emit('room-left', room)
+				const result = await roomController.leaveRoom(socket, data)
+				if (result.status === false) {
+					socket.emit('error', result)
+					return
+				}
+				socket.emit('room-left', result.room)
 			})
 
 			// FETCH USER ROOMS
@@ -102,7 +111,12 @@ class SocketConnection {
 			})
 
 			socket.on('enter-room', async (data) => {
-				const room = await roomController.fetchRoom(socket, data.roomId)
+				const result = await roomController.fetchRoom(socket, data.roomId)
+				if (!result.room) {
+					socket.emit('error', result)
+					return
+				}
+				const room = result.room
 				joinSocketRoom(socket, data.roomId)
 				socket.emit('room-entered', room)
 				socket.to(data.roomId).emit('room-status', `${user.username} joined the room`)
@@ -150,7 +164,9 @@ class SocketConnection {
 							}
 						})
 					})
+					return
 				}
+				socket.emit('error', { status, message })
 			})
 
 			// SET AN ATTEMPT AND INFORM OTHER PLAYERS IN THE ROOM
@@ -173,10 +189,14 @@ class SocketConnection {
 					if (gameOver) {
 						// reset the room
 						await roomController.completeRound(socket, data.roomId, attemptIndex, codeBreakerWin)
-
 						// get the new room
-						const room = await roomController.fetchRoom(socket, data.roomId)
+						const result = await roomController.fetchRoom(socket, data.roomId)
 
+						if (!result.room) {
+							socket.emit('error', result)
+							return
+						}
+						const room = result.room
 						// send the updated room to players in the socket room
 						namespace.to(data.roomId).emit('room-entered', room)
 					}
@@ -188,7 +208,13 @@ class SocketConnection {
 
 			socket.on('finish-round-review', async (data) => {
 				await roomController.updateUserReviewingPreviousRound(data.roomId, false, data.userId)
-				const room = await roomController.fetchRoom(socket, data.roomId)
+				const result = await roomController.fetchRoom(socket, data.roomId)
+
+				if (!result.room) {
+					socket.emit('error', result)
+					return
+				}
+				const room = result.room
 				socket.emit('room-entered', room)
 			})
 

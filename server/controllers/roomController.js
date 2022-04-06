@@ -21,7 +21,7 @@ exports.createRoom = async function (socket, data) {
 
 	await room.save()
 	room.solution = false //set to false for client - false = no solution set | true = solution is set
-	return room
+	return { room }
 }
 
 exports.joinRoom = async function (socket, id) {	
@@ -106,7 +106,7 @@ exports.leaveRoom = async function (socket, roomId) {
 		}
 
 		await room.save()
-		return room
+		return { room }
 
 	} catch (error) {
 		console.log(error)
@@ -131,19 +131,29 @@ exports.fetchUserRooms = async function (socket) {
 }
 
 exports.fetchRoom = async function (socket, roomId) {
-	const userId = socket.request.user._id
-	const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
-	populate([
-		'owner',
-		'currentCodeMaker',
-		{ path: 'users._id', model: 'User' }
-	])
-	if (!isSolutionSet(room.solution)) {
-		room.solution = false
-		return room
+	try {
+		if (roomId.length !== 24) {
+			return { status: false, message: 'Invalid room identifier', type: 'invalidRoomId' }
+		}
+		const userId = socket.request.user._id
+		const room = await Room.findOne({ 'users._id': userId, '_id': roomId }).
+		populate([
+			'owner',
+			'currentCodeMaker',
+			{ path: 'users._id', model: 'User' }
+		])
+		if (!room) {
+			return { status: false, message: 'no room found' }
+		}
+		if (!isSolutionSet(room.solution)) {
+			room.solution = false
+			return { room }
+		}
+		room.solution = true
+		return { room }
+	} catch (error) {
+		return { status: false, message: '' }
 	}
-	room.solution = true
-	return room
 }
 
 exports.setSolution = async function (socket, roomId, solution) {
