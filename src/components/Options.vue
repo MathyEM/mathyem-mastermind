@@ -52,7 +52,6 @@ export default {
     },
     getRoomId() {
       const roomId = this.currentRoom._id
-      console.log(roomId)
       return roomId
     },
     leaveRoomCheck() {

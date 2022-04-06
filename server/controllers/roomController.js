@@ -98,7 +98,7 @@ exports.leaveRoom = async function (socket, roomId) {
 
 		if (room.users.length < 1) {
 			room.remove()
-			return
+			return { status: true, message: 'Room left' }
 		}
 
 		if (leavingUserId === room.owner.id.toString('hex')) {

@@ -101,7 +101,7 @@ class SocketConnection {
 					socket.emit('error', result)
 					return
 				}
-				socket.emit('room-left', result.room)
+				socket.emit('room-left', result)
 			})
 
 			// FETCH USER ROOMS

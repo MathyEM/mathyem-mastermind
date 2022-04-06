@@ -25,7 +25,6 @@ export default {
     if (to.params && to.params.id) {
       socketConnection.joinRoom(to.params.id.trim())
     }
-
   },
 }
 </script>

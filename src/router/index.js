@@ -12,12 +12,15 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/home',
   },
   {
     path: '/login',
     name: 'login',
     component: Login,
+    meta: {
+      requiresAuth: false,
+    }
   },
   {
     path: '/home',

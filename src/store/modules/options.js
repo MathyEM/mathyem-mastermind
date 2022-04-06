@@ -19,9 +19,10 @@ const mutations = {
 }
 
 const actions = {
-	leaveRoom({state}, roomId) {
-		state
+	leaveRoom({ commit, dispatch }, roomId) {
 		socketConnection.leaveRoom(roomId)
+		commit('SET_SHOW_OPTIONS', false)
+		dispatch('resetCurrentRoom')
 	},
 	logoutUser() {
 		const currentUrl = window.location.pathname

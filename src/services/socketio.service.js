@@ -33,7 +33,7 @@ class SocketioService {
         })
 
         store.commit('SET_LOGIN_STATUS', true)
-        router.go(-1) // after login, go back to the page before
+        router.go(-1) // after login, go back to the previous page
       }
     })
     
@@ -74,6 +74,8 @@ class SocketioService {
     this.socket.on('room-created', async (response) => {
       console.log('room created:', response)
       await store.dispatch('setCurrentRoom', response)
+      router.push({ name: 'room', params: { id: response._id }, hash: '#nofetch' })
+      store.commit('SET_SESSION_LOADING', false)
     })
 
     this.socket.on('room-joined', async (response) => {
@@ -81,14 +83,14 @@ class SocketioService {
       //
       // TEST JOIN ROOM FUNCTIONALITY
       //
-      router.push({ name: 'room', params: { id: response._id }, hash: '#nofetch' })
       await store.dispatch('setCurrentRoom', response)
+      router.push({ name: 'room', params: { id: response._id }, hash: '#nofetch' })
       store.commit('TOGGLE_CREATE_JOIN_ROOM_ANY_ERROR', false)
       store.commit('SET_SESSION_LOADING', false)
     })
 
-    this.socket.on('room-left', async () => {
-      window.location.reload(true)
+    this.socket.on('room-left', async (response) => {
+      console.log(response)
     })
 
     this.socket.on('room-entered', async (response) => {
@@ -151,8 +153,8 @@ class SocketioService {
 
   async leaveRoom(roomId) {
     if (this.socket) {
+      router.push({ name: 'home' })
       await this.socket.emit('leave-room', roomId)
-      console.log('leave-room emitted')
     }
   }
 

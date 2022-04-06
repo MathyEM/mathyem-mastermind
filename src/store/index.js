@@ -191,7 +191,6 @@ export default new Vuex.Store({
     },
     async enterRoom({ state }, payload) {
       state; payload
-      console.log('enter room')
       await socketConnection.enterRoom(payload)
     },
     updateAttempt({ commit, getters, dispatch }, payload) {
@@ -238,12 +237,18 @@ export default new Vuex.Store({
       const solution = getters.getLocalSolution
       socketConnection.sendSolution(solution) // send solution (Array)
     },
-    backToHome({ commit }, currentRoute) {
+    resetCurrentRoom({ commit }) {
+      commit('SET_CURRENT_ROOM', {
+        id: '',
+        name: '',
+      })
+    },
+    backToHome({ commit, dispatch }, currentRoute) {
+      commit('SET_SHOW_ROOM_LIST', false)
       if (currentRoute == 'home') {
-        commit('SET_SHOW_ROOM_LIST', false)
         return
       }
-      commit('SET_SHOW_ROOM_LIST', false)
+      dispatch('resetCurrentRoom')
       router.push({ name: 'home' })
     },
     finishRoundReview() {
