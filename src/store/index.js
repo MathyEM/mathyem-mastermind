@@ -243,6 +243,7 @@ export default new Vuex.Store({
         commit('SET_SHOW_ROOM_LIST', false)
         return
       }
+      commit('SET_SHOW_ROOM_LIST', false)
       router.push({ name: 'home' })
     },
     finishRoundReview() {
