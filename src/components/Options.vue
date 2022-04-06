@@ -7,7 +7,7 @@
     v-click-outside="toggleMenus">
       <div class="footer">
         <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
-          <p><span class="join-code-text">Join code:</span><br> {{ getCurrentRoom._id }}</p>
+          <p><span class="join-code-text">Tap to copy invitation link</span><br> {{ getCurrentRoom._id }}</p>
           <div class="copy-img">
             <img :src="copyImg" alt="copy-paste icon">
           </div>
@@ -61,7 +61,7 @@ export default {
       }, 5000);
     },
     copyRoomId() {
-      const text = this.getCurrentRoom._id
+      const text = window.location.origin + '/#/join/' + this.getCurrentRoom._id
       if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text)
         return
