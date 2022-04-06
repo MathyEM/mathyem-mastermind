@@ -5,7 +5,7 @@ exports.subscribeToPush = async function (req, res) {
   const userId = req.user.id
   const subscription = req.body.subscription
   const existingEndpoint = await PushSubscription.findOne({ 'subscription.endpoint': subscription.endpoint })
-  if (existingEndpoint) {
+  if (existingEndpoint && existingEndpoint.user.id.toString('hex') == userId) {
     return res.status('200').json({})
   }
   const pushSubscription = new PushSubscription()

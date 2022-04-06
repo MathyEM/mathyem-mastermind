@@ -33,6 +33,7 @@ self.addEventListener('activate', async (event) => {
       name: 'session_id',  // Subscribe to change events for cookies named session_id.
     }
   ])
+  console.log(await self.registration.cookies)
 })
 
 self.addEventListener("push", async event => {
@@ -84,9 +85,9 @@ self.addEventListener('notificationclick', function(event) {
 })
 
 self.addEventListener("cookiechange", async event => {
-  // console.log(event)
+  console.log(event)
   const subscription = await self.registration.pushManager.getSubscription()
-  // console.log(subscription)
+  console.log(subscription)
 
   if (subscription) {
     // make a copy of the applicationServerKey
