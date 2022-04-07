@@ -19,7 +19,7 @@ import GameStatus from '@/components/GameStatus.vue'
 import NextRoundButton from '@/components/subcomponents/NextRoundButton'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
-
+import { socketConnection } from '../services/socketio.service.js'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -59,6 +59,11 @@ export default {
       let href = window.location.href
       window.location = href.substring(0, href.lastIndexOf('#'))
     }
+
+    window.addEventListener('focus', async () => {
+      await this.socketLogin()
+      socketConnection.enterRoom(this.$route.params.id)
+    })
   },
 }
 </script>

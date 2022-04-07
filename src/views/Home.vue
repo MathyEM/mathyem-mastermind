@@ -37,6 +37,10 @@ export default {
   },
   async created() {
     this.resetCurrentRoom()
+
+    window.addEventListener('focus', async () => {
+      await this.socketLogin()
+    })
   },
 }
 </script>
