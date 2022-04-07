@@ -31,9 +31,8 @@ export default {
   },
   watch: {
     loginStatus: function (newLoginStatus) {
-      console.log(newLoginStatus)
       if (newLoginStatus) {
-        this.$router.push({ name: 'home' })
+        this.$router.go(-1)
       }
     }
   },

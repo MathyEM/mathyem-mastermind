@@ -37,32 +37,49 @@ class SocketioService {
     })
     
     // ON ERROR
-    this.socket.on('error', (response) => {
+    this.socket.on('error', async (response) => {
       console.log(response)
       if (response.type === 'alreadyInRoom') {
         store.commit('TOGGLE_ALREADY_IN_ROOM_ERROR_STATUS', true)
         store.commit('SET_SESSION_LOADING', false)
-        router.push({ name: 'home' })
+        if (router.history.current.name != 'home') {
+          router.push({ name: 'home' })
+        }
         return
       }
       if (response.type === 'invalidJoinCode') {
         store.commit('TOGGLE_INVALID_JOIN_CODE_ERROR_STATUS', true)
         store.commit('SET_SESSION_LOADING', false)
-        router.push({ name: 'home' })
+        if (router.history.current.name != 'home') {
+          router.push({ name: 'home' })
+        }
         return
       }
       if (response.type === 'invalidJoinCodeLength') {
         store.commit('TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS', true)
         store.commit('SET_SESSION_LOADING', false)
-        router.push({ name: 'home' })
+        if (router.history.current.name != 'home') {
+          router.push({ name: 'home' })
+        }
         return
       }
       if (response.type === 'invalidRoomId') {
         console.log(response.message)
         return
       }
+      if (response.type === 'unauthorized') {
+        store.commit('SET_USER', {})
+        store.commit('SET_LOGIN_STATUS', false)
+        await window.cookieStore.delete('session_id')
+
+        if (router.history.current.name != 'login') {
+          router.push({ name: 'login' })
+        }
+      }
       store.commit('SET_SESSION_LOADING', false)
-      router.push({ name: 'home' })
+      if (router.history.current.name != 'home' && store.getters.getLoginStatus) {
+        router.push({ name: 'home' })
+      }
     })
 
     this.socket.on('user-rooms-fetched', async (rooms) => {

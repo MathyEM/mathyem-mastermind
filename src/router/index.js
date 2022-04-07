@@ -56,8 +56,13 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  console.log(to);
+router.beforeEach(async (to, from, next) => {
+  // console.log('from:',from)
+  // console.log('to:',to)
+  if (await window.cookieStore.get('session_id')) {
+    next()
+    return
+  }
   if (to.name === 'login') {
     next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
   } else if (to.meta && to.meta.requiresAuth === false) {

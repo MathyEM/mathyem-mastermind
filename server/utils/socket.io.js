@@ -29,6 +29,7 @@ class SocketConnection {
 			} else {
 				console.log('unauthorized')
 				socket.authorization = false
+				socket.emit('error', { status: false, message: 'Unauthorized user', type: 'unauthorized'})
 				next()
 			}
 		})

@@ -152,7 +152,7 @@ exports.fetchRoom = async function (socket, roomId) {
 		room.solution = true
 		return { room }
 	} catch (error) {
-		return { status: false, message: '' }
+		return { status: false, message: error }
 	}
 }
 
