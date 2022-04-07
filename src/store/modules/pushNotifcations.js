@@ -45,6 +45,7 @@ const actions = {
     // get push subscription
     const subscription = await reg.pushManager.getSubscription()
     commit('SET_PUSH_SUBSCRIPTION', subscription)
+    return
   }, 
   async pushNotificationsInitialize({ commit }) {
     if ('serviceWorker' in window.navigator) {

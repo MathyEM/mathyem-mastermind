@@ -40,10 +40,12 @@ export default {
     async clearNotifications() {
       const reg = await this.getSWRegistration
       if (!reg) {
+        console.log('no registration detected')
         return
       }
       const notifications = await reg.getNotifications()
       if (notifications.length > 0) {
+        console.log(notifications)
         notifications.forEach(async notification => {
           await notification.close()
         })
@@ -65,7 +67,8 @@ export default {
     // window.addEventListener('hashchange', relocate)
   },
   async created() {
-    this.setRegistrationAndPushSubscription()
+    await this.setRegistrationAndPushSubscription()
+    this.clearNotifications()
     window.addEventListener('focus', this.clearNotifications)
   },
   async beforeMount() {
