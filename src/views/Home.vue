@@ -12,7 +12,7 @@
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
 import PushNotification from '@/components/PushNotification.vue'
 
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -33,10 +33,10 @@ export default {
     ]),
   },
   methods: {
-
+    ...mapActions(['resetCurrentRoom'])
   },
   async created() {
-
+    this.resetCurrentRoom()
   },
 }
 </script>
