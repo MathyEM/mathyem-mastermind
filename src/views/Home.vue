@@ -30,10 +30,11 @@ export default {
       'getSessionLoading',
       'getUsername',
       'getPushSubscription',
+      'getUserId',
     ]),
   },
   methods: {
-    ...mapActions(['resetCurrentRoom'])
+    ...mapActions(['resetCurrentRoom', 'socketLogin'])
   },
   async created() {
     this.resetCurrentRoom()

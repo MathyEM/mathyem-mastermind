@@ -21,13 +21,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus'])
+    ...mapGetters(['getLoginStatus']),
+    loginStatus () {
+      return this.getLoginStatus
+    },
   },
   methods: {
 
   },
+  watch: {
+    loginStatus: function (newLoginStatus) {
+      console.log(newLoginStatus)
+      if (newLoginStatus) {
+        this.$router.push({ name: 'home' })
+      }
+    }
+  },
   async created() {
-
+    if (this.getLoginStatus) {
+      this.$router.push({ name: 'home' })
+    }
   },
 }
 </script>

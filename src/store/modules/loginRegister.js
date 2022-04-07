@@ -106,7 +106,7 @@ const actions = {
     .then((response) => {
       commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', false)
       console.log(response)
-      dispatch('socketLogin', null, { root: true })
+      dispatch('socketLogin', { name: 'home' }, { root: true })
     }).catch((err) => {
       commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', true)
       console.log('status: ', err)

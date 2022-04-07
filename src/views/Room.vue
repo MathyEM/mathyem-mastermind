@@ -45,24 +45,35 @@ export default {
       'getReviewingPreviousRound',
       'getShowRoomList',
     ]),
+    roomId() {
+      return this.$route.params.id
+    },
   },
   methods: {
     ...mapMutations(['SET_SESSION_LOADING', 'SET_SHOW_ROOM_LIST']),
-    ...mapActions(['enterRoom']),
+    ...mapActions(['enterRoom', 'socketLogin']),
+    fetchTheRoom(roomId) {
+      if (this.$route.hash != '#nofetch') { // don't fetch room data if the join hash is set
+        this.SET_SESSION_LOADING(true)
+        this.enterRoom(roomId)
+        this.SET_SHOW_ROOM_LIST(false) // Hide room list after selecting a room
+      } else {
+        let href = window.location.href
+        window.location = href.substring(0, href.lastIndexOf('#'))
+      }
+    }
+  },
+  watch: {
+    roomId: function(newRoomId) {
+      this.fetchTheRoom(newRoomId)
+    }
   },
   async created() {
-    if (this.$route.hash != '#nofetch') { // don't fetch room data if the join hash is set
-      this.SET_SESSION_LOADING(true)
-      this.enterRoom(this.$route.params.id)
-      this.SET_SHOW_ROOM_LIST(false) // Hide room list after selecting a room
-    } else {
-      let href = window.location.href
-      window.location = href.substring(0, href.lastIndexOf('#'))
-    }
+    this.fetchTheRoom(this.roomId)
 
     window.addEventListener('focus', async () => {
       await this.socketLogin()
-      socketConnection.enterRoom(this.$route.params.id)
+      socketConnection.enterRoom(this.roomId)
     })
   },
 }

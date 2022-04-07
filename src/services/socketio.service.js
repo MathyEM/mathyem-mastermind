@@ -33,7 +33,6 @@ class SocketioService {
         })
 
         store.commit('SET_LOGIN_STATUS', true)
-        router.go(-1) // after login, go back to the previous page
       }
     })
     

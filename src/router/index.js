@@ -57,11 +57,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to);
   if (to.name === 'login') {
-    if (store.getters.getLoginStatus) {
-      next({ name: 'home' }) // if the login page is accessed when already logged in
-      return
-    }
     next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
   } else if (to.meta && to.meta.requiresAuth === false) {
     next() // requires auth is explicitly set to false
