@@ -75,9 +75,9 @@ self.addEventListener('notificationclick', function(event) {
     // console.log(event.notification)
     for (var i = 0; i < clientList.length; i++) {
       var client = clientList[i]
-      if ('focus' in client && 'navigate' in client)
-        await client.navigate('/#/room/' + event.notification.data.roomId)
-        return client.focus()
+      if ('focus' in client && 'navigate' in client) {
+        return client.navigate('/#/room/' + event.notification.data.roomId)
+      }
     }
     if (clients.openWindow)
       return clients.openWindow('/#/room/' + event.notification.data.roomId)
