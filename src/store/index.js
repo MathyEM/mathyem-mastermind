@@ -25,7 +25,7 @@ export default new Vuex.Store({
     showOptions: false,
     usersRooms: [],
     currentRoom: {
-      id: '',
+      _id: '',
       name: '',
     },
     localSolution: ['','','',''],
@@ -38,7 +38,7 @@ export default new Vuex.Store({
     getUsername: state => state.user.username,
     getUserId: state => state.user.id,
     getReviewingPreviousRound: (state, getters) => {
-      if (state.currentRoom.id === '') {
+      if (state.currentRoom._id === '') {
         return null
       }
       const userIndex = findUserIndexById(getters.getCurrentRoom.users, getters.getUserId)
@@ -53,6 +53,9 @@ export default new Vuex.Store({
     getEmail: state => state.user.email,
     getUsersRooms: state => state.usersRooms,
     getCurrentRoom: state => state.currentRoom,
+    isInRoom: state => {
+      return state.currentRoom._id != false
+    },
     getPreviousRound: state => state.currentRoom.previousRound,
     getCodeSet: state => state.currentRoom.codeSet,
     getSolutionState: state => state.currentRoom.solution[0],
@@ -239,7 +242,7 @@ export default new Vuex.Store({
     },
     resetCurrentRoom({ commit }) {
       commit('SET_CURRENT_ROOM', {
-        id: '',
+        _id: '',
         name: '',
       })
     },

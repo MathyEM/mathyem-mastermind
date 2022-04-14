@@ -27,7 +27,7 @@ const state = {
 const getters = {
     getGameStatus: (state, rootGetters) => {
         // default
-        if (rootGetters.getCurrentRoom.id === '') {
+        if (rootGetters.getCurrentRoom._id === '') {
             return false
         }
 

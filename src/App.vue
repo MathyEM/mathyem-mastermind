@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration', 'getSessionLoading']),
+    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration', 'getSessionLoading', 'isInRoom']),
   },
   beforeCreate() {
     // function relocate() {
