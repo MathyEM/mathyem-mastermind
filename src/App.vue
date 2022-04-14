@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div v-if="getLoginStatus" class="menus-container">
-      <RoomListButton title="Rooms" />
-      <RoomList />
-      <OptionsButton title="Options"/>
-      <Options />
+    <div v-if="getLoginStatus" class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0) }">
+      <RoomListButton :title="isInRoom ? '' : 'Room'" />
+      <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
+      <OptionsButton :title="isInRoom ? '' : 'Options'"/>
     </div>
+    <RoomList />
+    <Options />
     <div v-if="getSessionLoading" class="loading">
       <img :src="loading" alt="repeating loading gif">
     </div>
@@ -20,6 +21,7 @@ import RoomList from '@/components/RoomList.vue'
 import OptionsButton from '@/components/subcomponents/OptionsButton.vue'
 import Options from '@/components/Options.vue'
 import { socketConnection } from './services/socketio.service.js'
+import MarqueeText from 'vue-marquee-text-component/src/components/MarqueeText.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -29,11 +31,15 @@ export default {
     RoomList,
     OptionsButton,
     Options,
+    MarqueeText,
   },
   data() {
     return {
       loading: require('@/assets/Spinner-1s-357px.svg'),
     }
+  },
+  computed: {
+    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration', 'getSessionLoading', 'isInRoom', 'getCurrentRoom']),
   },
   methods: {
     ...mapActions(['setRegistrationAndPushSubscription']),
@@ -50,10 +56,13 @@ export default {
           await notification.close()
         })
       }
-    }
-  },
-  computed: {
-    ...mapGetters(['getLoginStatus', 'getAppVersion', 'getSWRegistration', 'getSessionLoading', 'isInRoom']),
+    },
+    getDuration(text) {
+      if (text.length > 16) {
+        return 10
+      }
+      return 0
+    },
   },
   beforeCreate() {
     // function relocate() {
@@ -76,7 +85,6 @@ export default {
     document.querySelector('html').lang = 'en'
   },
   beforeDestroy() {
-    console.log('test beforeDestroy')
     socketConnection.disconnect()
   }
 }
@@ -100,6 +108,7 @@ body {
 #app {
   height: 100%;
   max-width: 400px;
+  position: relative;
   margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -118,11 +127,40 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem;
   padding-bottom: 0.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
   font-size: 1.5rem;
-  // background: lightgray;
+  overflow: hidden;
+
+  .room-name {
+    display: flex;
+    overflow: hidden;
+    padding: 0 1rem;
+
+    & > div {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}
+
+.menus-container.is-scrolling {
+  .room-name {
+  display: block;
+  overflow: hidden;
+  padding: 0 1rem 0 6rem;
+
+  & > div {
+    display: block;
+    justify-content: unset;
+  }
+}
+}
+
+
+
+.room-name-text {
+  margin: 0;
 }
 
 .loading {

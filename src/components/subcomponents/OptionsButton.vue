@@ -33,8 +33,10 @@ export default {
   cursor: pointer;
 }
 .options-icon {
+  padding: 0 0.25rem 0 0.75rem;
+
   span {
-    font-size: 1.1em;
+    font-size: 1.4em;
   }
 }
 </style>
