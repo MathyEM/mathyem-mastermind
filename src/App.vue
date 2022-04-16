@@ -103,6 +103,7 @@ html {
 body {
   height: 100%;
   margin: 0;
+  background: $background-color;
 }
 
 #app {
@@ -114,7 +115,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $text-color;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: min-content auto min-content;
