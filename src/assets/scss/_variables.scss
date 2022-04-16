@@ -1,8 +1,9 @@
 // COLORS
-$green: #50b701;
-$orange: #ffb700;
-$text-color: #fff;
-$background-color: #1d2935;
+$green: #398300;
+$orange: #e0a100;
+$text-color: #d4e1e9;
+$background-color: #171f27;
+$code-piece-border-color: $text-color;
 
 // CODE PIECE VARIABLES
 $code-piece-margin: 0.8rem;
@@ -14,4 +15,8 @@ $code-button-size: calc($code-piece-size * 1.1);
   // your SCSS here, e.g.
   height: calc($code-piece-size * $scaling);
   width: calc($code-piece-size * $scaling);
+}
+
+@mixin options-box-shadow() {
+  box-shadow: 0 9px 7px 0px #0000001a;
 }

@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss">
-$color: #000;
+$color: $code-piece-border-color;
 
 .code-row {
   position: relative;
@@ -176,10 +176,10 @@ $color: #000;
     pointer-events: none;
 
     .code-piece {
-      $amount: 0.5;
-      color: transparentize($color, $amount);
+      $amount: 0.7;
+      color: transparentize($color, $amount*0.7);
       border-color: transparentize($color, $amount);
-      background: lighten($color, $amount*100);
+      background: transparentize($color, $amount: 0.9);
     }
   }
 
