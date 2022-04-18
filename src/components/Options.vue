@@ -129,7 +129,7 @@ export default {
 <style scoped lang="scss">
 $margin-top: 2.7rem;
 $item-margin: 0.5rem;
-$dark-gray: #505050;
+$color: $menu-background-color;
 
 .options {
   z-index: 4;
@@ -142,14 +142,14 @@ $dark-gray: #505050;
   overflow-y: auto;
   max-height: 70vh;
   margin-top: $margin-top;
-  background: $dark-gray;
-  color: whitesmoke;
+  background: $color;
+  color: $text-color;
   text-align: left;
-
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  border-bottom: 1px solid darken($dark-gray, 7);
+  border-bottom: 1px solid darken($color, 7);
+  @include options-box-shadow();
 
   .footer {
     margin-top: auto;
@@ -225,7 +225,7 @@ $dark-gray: #505050;
   &::-webkit-scrollbar{
     width: 13px;
     height: 13px;
-    background: $dark-gray;
+    background: $color;
   }
   &::-webkit-scrollbar-thumb{
     background: #B3AFB3;

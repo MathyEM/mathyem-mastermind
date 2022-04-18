@@ -104,7 +104,7 @@ export default {
 
 <style scoped lang="scss">
 $margin-top: 2.7rem;
-$dark-gray: #505050;
+$color: $menu-background-color;
 
 .room-list {
   display: grid;
@@ -121,8 +121,9 @@ $dark-gray: #505050;
   overflow-x: hidden;
   max-height: 70vh;
   margin-top: $margin-top;
-  background: $dark-gray;
-  color: whitesmoke;
+  background: $color;
+  color: $text-color;
+  @include options-box-shadow();
   
   .rooms {
     overflow-y: auto;
@@ -139,7 +140,7 @@ $dark-gray: #505050;
     &::-webkit-scrollbar{
       width: 6px;
       height: 13px;
-      background: $dark-gray;
+      background: $color;
     }
     &::-webkit-scrollbar-thumb{
       background: #B3AFB3;
@@ -175,14 +176,14 @@ $dark-gray: #505050;
 
     &:nth-child(even) {
       .marquee-text-text {
-        background: lighten($dark-gray, 2);
+        background: lighten($color, 2);
       }
     }
 
     .opponent, .room-name {
       margin: 0;
       padding: 0.6em 0.5em;
-      border-bottom: 1px solid darken($dark-gray, 7);
+      border-bottom: 1px solid darken($color, 7);
     }
 
     .opponent {
@@ -198,7 +199,7 @@ $dark-gray: #505050;
         position: absolute;
         width: 0.3em;
         height: 95%;
-        background: $dark-gray;
+        background: $color;
         top: 50%;
         left: 0;
         transform: translateY(-50%);
@@ -207,7 +208,7 @@ $dark-gray: #505050;
     }
 
     &.active, &.active .room-name::before {
-      background: lighten($dark-gray, 8);
+      background: lighten($color, 8);
     }
 
     &::after {
@@ -228,7 +229,7 @@ $dark-gray: #505050;
   }
 
   .room:hover, .back-btn:hover, .room:hover .room-name::before {
-    background: lighten($dark-gray, 12);
+    background: lighten($color, 12);
   }
 
   .room-list-footer {
