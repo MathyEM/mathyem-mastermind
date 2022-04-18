@@ -49,6 +49,10 @@ export default {
         console.log('no registration detected')
         return
       }
+      if (!('getNotifications' in reg)) {
+        console.log('notifications not supported')
+        return
+      }
       const notifications = await reg.getNotifications()
       if (notifications.length > 0) {
         console.log(notifications)
