@@ -1,5 +1,3 @@
-workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"})
- 
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
