@@ -103,8 +103,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.7rem;
-$color: $menu-background-color;
+$margin-top: 3rem;
+$color: $background-color-2dp;
 
 .room-list {
   display: grid;
@@ -123,7 +123,7 @@ $color: $menu-background-color;
   margin-top: $margin-top;
   background: $color;
   color: $text-color;
-  @include options-box-shadow();
+  box-shadow: $shadow-2dp;
   
   .rooms {
     overflow-y: auto;
@@ -183,11 +183,11 @@ $color: $menu-background-color;
     .opponent, .room-name {
       margin: 0;
       padding: 0.6em 0.5em;
-      border-bottom: 1px solid darken($color, 7);
+      border-bottom: 1px solid $background-color-1dp;
     }
 
     .opponent {
-      border-right: 1px solid gray;
+      border-right: 1px solid $background-color-1dp;
     }
 
     .room-name {
@@ -208,7 +208,7 @@ $color: $menu-background-color;
     }
 
     &.active, &.active .room-name::before {
-      background: lighten($color, 8);
+      background: $background-color-8dp;
     }
 
     &::after {
@@ -229,7 +229,7 @@ $color: $menu-background-color;
   }
 
   .room:hover, .back-btn:hover, .room:hover .room-name::before {
-    background: lighten($color, 12);
+    background: $background-color-8dp;
   }
 
   .room-list-footer {

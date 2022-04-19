@@ -7,7 +7,7 @@
     v-click-outside="toggleMenus">
       <div class="footer">
         <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
-          <p><span class="join-code-text">Tap to copy invitation link</span><br> {{ getCurrentRoom._id }}</p>
+          <p><span class="join-code-text">Tap to copy invitation link</span></p>
           <div class="copy-img">
             <img :src="copyImg" alt="copy-paste icon">
           </div>
@@ -127,9 +127,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.7rem;
+$margin-top: 3rem;
 $item-margin: 0.5rem;
-$color: $menu-background-color;
+$color: $background-color-2dp;
 
 .options {
   z-index: 4;
@@ -149,7 +149,7 @@ $color: $menu-background-color;
   flex-direction: column;
   padding: 0.5rem;
   border-bottom: 1px solid darken($color, 7);
-  @include options-box-shadow();
+  box-shadow: $shadow-2dp;
 
   .footer {
     margin-top: auto;
@@ -202,17 +202,19 @@ $color: $menu-background-color;
 
   .leave-room, .logout-btn {
     button {
-      $btn-color: #fff;
+      $btn-color: $background-color-4dp;
       margin: auto;
       padding: 0.5rem;
       height: 100%;
       font-size: 0.8em;
       border: 0;
       color: inherit;
-      background: rgba($btn-color, $alpha: 0.2);
+      background: $background-color-4dp;
+      box-shadow: $shadow-2dp;
 
       &:active {
-        background: rgba($btn-color, $alpha: 0.1);
+        background: $background-color-3dp;
+        box-shadow: $shadow-1dp;
       }
 
       &.leave-room-confirm-btn {
