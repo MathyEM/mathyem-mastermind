@@ -37,6 +37,7 @@ export default {
     height: 2em;
     font-size: 1.1rem;
     padding: 0 0.75rem;
+    margin: 0;
     border-radius: $button-border-radius;
     background: $green;
     color: $text-color;

@@ -165,7 +165,6 @@ body {
 }
 
 input[type=text], input[type=username], input[type=email], input[type=password], button {
-  margin-top: 0.5rem;
   border: none;
   outline: none;
   border-radius: $button-border-radius;
