@@ -2,6 +2,7 @@ import { io } from 'socket.io-client'
 import store from '../store'
 import ConfigProvider from '@/ConfigProvider'
 import router from '../router'
+import 'cookie-store'
 
 const socketEndpoint = ConfigProvider.value('socketEndpoint')
 

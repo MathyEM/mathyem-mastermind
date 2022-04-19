@@ -6,6 +6,7 @@ import Room from '../views/Room.vue'
 import JoinRoom from '../views/JoinRoom.vue'
 // import Game from '../views/Game.vue'
 import store from '../store'
+// import 'cookie-store'
 
 Vue.use(VueRouter)
 
@@ -59,10 +60,15 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   // console.log('from:',from)
   // console.log('to:',to)
-  if (await window.cookieStore.get('session_id')) {
-    next()
-    return
+  try {
+    if (await window.cookieStore.get('session_id')) {
+      next()
+      return
+    }
+  } catch (error) {
+    console.log(error)
   }
+  
   if (to.name === 'login') {
     next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
   } else if (to.meta && to.meta.requiresAuth === false) {
