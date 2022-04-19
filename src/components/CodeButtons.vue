@@ -40,6 +40,15 @@ export default {
 
   .code-piece {
     margin: 0 calc($code-piece-margin / 2);
+    color: $text-color;
+    background: $background-color-2dp;
+    box-shadow: $shadow-2dp;
+    border-color: $text-color;
+    &:active {
+      background: $background-color-1dp;
+      box-shadow: $shadow-1dp;
+      border-color: $text-color-medium;
+    }
 
     > div {
       @include code-piece-scaling(1.1)

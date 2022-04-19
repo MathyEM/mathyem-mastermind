@@ -77,8 +77,6 @@ export default {
 </script>
 
 <style lang="scss">
-$color: $code-piece-border-color;
-
 .code-row {
   position: relative;
   user-select: none;
@@ -92,8 +90,11 @@ $color: $code-piece-border-color;
   .code-piece {
     display: flex;
     justify-content: center;
-    border: 1px solid $color;
-    border-radius: 0.5rem;
+    border: 1px solid $text-color-medium;
+    border-radius: 0.4rem;
+    color: $text-color;
+    background: $background-color-1dp;
+    box-shadow: $shadow-1dp;
     cursor: pointer;
 
     > div {
@@ -170,6 +171,10 @@ $color: $code-piece-border-color;
 
   &.active .code-piece {
     border-style: dashed;
+    border-color: $text-color;
+    color: $text-color;
+    background: $background-color-2dp;
+    box-shadow: $shadow-2dp;
   }
 
   &.disabled {
@@ -177,9 +182,10 @@ $color: $code-piece-border-color;
 
     .code-piece {
       $amount: 0.7;
-      color: transparentize($color, $amount*0.7);
-      border-color: transparentize($color, $amount);
-      background: transparentize($color, $amount: 0.9);
+      color: $text-color-disabled;
+      border-color: $text-color-disabled;
+      background: $background-color-1dp;
+      box-shadow: $shadow-1dp;
     }
   }
 
