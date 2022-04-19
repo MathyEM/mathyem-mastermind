@@ -90,7 +90,8 @@ export default {
   .code-piece {
     display: flex;
     justify-content: center;
-    border: 1px solid $text-color-medium;
+    // border: 1px solid $text-color-medium;
+    border: none;
     border-radius: 0.4rem;
     color: $text-color;
     background: $background-color-1dp;
@@ -140,7 +141,6 @@ export default {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
     gap: 0.1rem;
-    // border: 1px solid transparent;
 
     .hint {
       border: 1px solid black;
@@ -170,11 +170,9 @@ export default {
   }
 
   &.active .code-piece {
-    border-style: dashed;
-    border-color: $text-color;
     color: $text-color;
-    background: $background-color-2dp;
-    box-shadow: $shadow-2dp;
+    background: $background-color-3dp;
+    box-shadow: $shadow-3dp;
   }
 
   &.disabled {
