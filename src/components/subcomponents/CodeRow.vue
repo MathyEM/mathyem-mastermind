@@ -146,11 +146,11 @@ export default {
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
-    gap: 0.1rem;
+    gap: 2px;
 
     .hint {
-      border: 1px solid black;
       border-radius: 0.1rem;
+      box-shadow: $shadow-1dp;
 
       &.correctPiece {
         background: $orange;
