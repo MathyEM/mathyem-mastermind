@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 3rem;
+$margin-top: $menu-margin-top;
 $color: $background-color-2dp;
 
 .room-list {

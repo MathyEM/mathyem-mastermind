@@ -132,8 +132,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.25rem;
-  padding-bottom: 0.25rem;
+  padding: 0.25rem;
   margin-bottom: 0;
   font-size: 1.5rem;
   overflow: hidden;

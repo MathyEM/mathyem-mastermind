@@ -127,7 +127,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 3rem;
+$margin-top: $menu-margin-top;
 $item-margin: 0.5rem;
 $color: $background-color-2dp;
 
@@ -147,7 +147,7 @@ $color: $background-color-2dp;
   text-align: left;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   border-bottom: 1px solid darken($color, 7);
   box-shadow: $shadow-2dp;
 

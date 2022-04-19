@@ -1,5 +1,5 @@
 <template>
-  <div class="room-list-btn" @click="toggleMenus"><span>≡</span>{{ title }}</div>
+  <div class="room-list-btn" @click="toggleMenus"><span class="material-icons md-32">menu</span>{{ title }}</div>
 </template>
 
 <script>
@@ -45,7 +45,6 @@ export default {
 
   span {
     padding: 0 0.5rem 0 0.25rem;
-    font-size: 1.3em;
   }
 }
 </style>
