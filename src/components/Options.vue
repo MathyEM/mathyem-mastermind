@@ -128,7 +128,7 @@ export default {
 
 <style scoped lang="scss">
 $margin-top: $menu-margin-top;
-$item-margin: 0.5rem;
+$item-margin: 1rem;
 $color: $background-color-2dp;
 
 .options {
@@ -153,18 +153,15 @@ $color: $background-color-2dp;
 
   .footer {
     margin-top: auto;
-
-    & > div {
-      margin-top: $item-margin;
-    }
   }
 
   .join-code {
     font-size: 1rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     padding: 0.2rem 0;
+    margin-bottom: $item-margin;
     transition: background-color 100ms ease-in-out;
     cursor: pointer;
 
@@ -177,6 +174,7 @@ $color: $background-color-2dp;
     }
     .join-code-text {
       font-weight: bold;
+      margin-right: 1rem;
     }
     .copy-img {
       display: flex;
@@ -189,7 +187,7 @@ $color: $background-color-2dp;
   .options-buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $item-margin;
+    gap: 0.5rem;
   }
 
   .logout-btn {
@@ -202,23 +200,22 @@ $color: $background-color-2dp;
 
   .leave-room, .logout-btn {
     button {
-      $btn-color: $background-color-4dp;
       margin: auto;
       padding: 0.5rem;
       height: 100%;
-      font-size: 0.8em;
+      font-size: 1.1rem;
       border: 0;
       color: inherit;
-      background: $background-color-4dp;
+      background: $orange;
       box-shadow: $shadow-2dp;
 
       &:active {
-        background: $background-color-3dp;
+        background: $orange-darkened;
         box-shadow: $shadow-1dp;
       }
 
       &.leave-room-confirm-btn {
-        background: indianred;
+        background: $red;
       }
     }
   }
