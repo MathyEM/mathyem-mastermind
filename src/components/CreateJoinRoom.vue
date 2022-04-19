@@ -39,7 +39,7 @@ export default {
   },
 	data() {
 		return {
-			inputText: 'Name a new room or join a room id',
+			inputText: 'Your desired room name',
 			emptyInputError: false,
 		}
 	},
@@ -99,8 +99,34 @@ export default {
 .join-create-room {
 	input, button {
 		margin-top: 0.5rem;
-		border: 1px solid gray;
+		border: none;
+		outline: none;
 		border-radius: 0.2rem;
+		box-shadow: 0px 2px 6px -2px $shadow-color;
+	}
+	input {
+		background: $background-color-2dp;		
+		&::placeholder {
+			color: $text-color-medium;
+		}
+
+		&:focus {
+		background: $background-color-3dp;
+		box-shadow: 0px 4px 8px -1px $shadow-color;
+			&::placeholder {
+				color: $text-color;
+			}
+		}
+	}
+
+	button {
+		background: $green;
+		color: $text-color;
+
+		&:active {
+			box-shadow: 0px 2px 2px -2px $shadow-color;
+			background: darken($green, 2%);
+		}
 	}
 }
 

@@ -112,7 +112,7 @@ body {
 
 #app {
   height: 100%;
-  max-width: 400px;
+  max-width: 500px;
   position: relative;
   margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -132,10 +132,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 0.25rem;
   padding-bottom: 0.25rem;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.2rem;
   font-size: 1.5rem;
   overflow: hidden;
+  background: $background-color-1dp;
+  box-shadow: 0px 2px 4px -2px $shadow-color;
 
   .room-name {
     display: flex;
@@ -195,10 +198,6 @@ body {
   margin-top: 0;
   width: 100%;
   padding: 0 0.5rem 0;
-
-  h2 {
-    margin-top: 0;
-  }
 
   &.hidden {
     display: none;

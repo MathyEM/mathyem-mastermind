@@ -1,8 +1,16 @@
 // COLORS
-$green: #398300;
-$orange: #e0a100;
+$green: #316707;
+$orange: #d18800;
 $text-color: #fff;
+$text-color-medium: #a0a0a0;
+$text-color-disabled: #6c6c6c;
 $background-color: #121212;
+$background-color-1dp: lighten($background-color, 5%);
+$background-color-2dp: lighten($background-color, 7%);
+$background-color-3dp: lighten($background-color, 8%);
+$background-color-4dp: lighten($background-color, 9%);
+$background-color-5dp: lighten($background-color, 11%);
+$shadow-color: rgb(0 0 0 / 60%);
 $code-piece-border-color: $text-color;
 $menu-background-color: lighten($background-color, 3);
 
@@ -19,5 +27,5 @@ $code-button-size: calc($code-piece-size * 1.1);
 }
 
 @mixin options-box-shadow() {
-  box-shadow: 0 9px 7px 0px #0000001a;
+  box-shadow: 0 9px 7px 0px $shadow-color;
 }

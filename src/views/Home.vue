@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <h2>{{ title }}</h2>
-    <h3>Welcome {{ getUsername }}!</h3>
+    <h2>Welcome {{ getUsername }}!</h2>
     <CreateJoinRoom />
     <PushNotification v-if="!getPushSubscription" />
   </div>
@@ -22,7 +21,6 @@ export default {
   },
   data() {
     return {
-      title: 'Mastermind Game',
     }
   },
   computed: {
