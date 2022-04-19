@@ -134,7 +134,7 @@ body {
   align-items: center;
   padding: 0 0.25rem;
   padding-bottom: 0.25rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0;
   font-size: 1.5rem;
   overflow: hidden;
   background: $background-color-1dp;
@@ -197,7 +197,7 @@ body {
   margin: auto;
   margin-top: 0;
   width: 100%;
-  padding: 0 0.5rem 0;
+  padding: 0;
 
   &.hidden {
     display: none;

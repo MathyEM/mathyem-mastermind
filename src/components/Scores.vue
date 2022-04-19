@@ -55,9 +55,13 @@ $marquee-padding: 1rem;
 .scores {
   width: 100%;
   display: grid;
+  z-index: 1;
   margin: 0 0 1rem 0;
+  padding: 0.25rem 0.5rem;
   grid-template-columns: 50% 50%;
-  border-bottom: 1px solid black;
+  background: $background-color-2dp;
+  box-shadow: $shadow-2dp;
+  color: $text-color;
 }
 .player-score {
   $mid-padding: 0.5rem;
@@ -85,7 +89,7 @@ $marquee-padding: 1rem;
   }
 
   &:nth-of-type(2) {    
-    border-left: 1px solid black;
+    border-left: 1px solid $background-color-12dp;
     padding: 0;
     padding-left: $mid-padding;
     grid-template-columns: 25% 75%;
