@@ -29,12 +29,19 @@ export default {
 
 <style scoped lang="scss">
 .push-notification {
-  margin: 1rem;
+  margin: 3rem 2rem;
 
   button {
     font-size: 1.1rem;
-    width: 80%;
+    width: 100%;
     height: 2.6rem;
+    background: $orange;
+    color: $text-color;
+
+    &:active {
+      background: $orange-darkened;
+      box-shadow: $shadow-1dp;
+    }
   }
 }
 </style>
