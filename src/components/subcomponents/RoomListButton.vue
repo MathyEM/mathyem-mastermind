@@ -40,6 +40,8 @@ export default {
   font-weight: bold;
   user-select: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   span {
     padding: 0 0.5rem 0 0.25rem;
