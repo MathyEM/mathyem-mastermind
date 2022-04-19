@@ -17,7 +17,7 @@
     </div>
     <div v-else-if="getCurrentAttempt == attemptIndex && !getReviewingPreviousRound && hasCodeBreakerAuthority" class="undo-attempt">
       <button @click="undoAttemptPiece">
-        <img :src="undoImg" alt="Undo icon. Use to reset current attempt">
+        <span class="material-icons">undo</span>
         <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
       </button>
     </div>
@@ -45,7 +45,6 @@ export default {
   },
   data() {
     return {
-      undoImg: require('@/assets/undo.png'),
       loading: require('@/assets/Spinner-1s-357px.svg'),
     }
   },
@@ -121,16 +120,22 @@ export default {
     button {
       display: flex;
       align-items: center;
+      justify-content: center;
       height: 75%;
       width: 75%;
       outline: none;
       border: none;
       border-radius: 0.2rem;
       padding: 0 0.2rem;
-      box-shadow: $shadow-2dp;
+      background: $background-color-3dp;
+      box-shadow: $shadow-3dp;
+      span {
+        color: $text-color
+      }
 
-      img {
-        width: 100%;
+      &:active {
+        background: $background-color-1dp;
+        box-shadow: $shadow-1dp;
       }
     }
   }
