@@ -18,7 +18,6 @@
 					</div>
 				</div>
 				<button @click="createRoom" type="submit">Create Room</button>
-				<button @click="joinRoom" type="submit">Join Room</button>
 			</form>
 		</div>
   </div>
@@ -90,17 +89,6 @@ export default {
 			}
 			socketConnection.createRoom(this.getRoomName.trim())
     },
-    joinRoom() {
-			if (this.roomName.trim().length !== 24) {
-        this.TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS(true)
-				this.emptyInputError = false
-        return
-      }
-			if (this.$v.$error) {
-				return
-			}
-			socketConnection.joinRoom(this.getRoomName.trim())
-    }
   },
 	created() {
 	}
