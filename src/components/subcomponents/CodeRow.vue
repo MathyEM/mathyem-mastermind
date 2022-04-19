@@ -177,8 +177,8 @@ export default {
 
   &.active .code-piece {
     color: $text-color;
-    background: $background-color-3dp;
-    box-shadow: $shadow-3dp;
+    background: $background-color-12dp;
+    box-shadow: $shadow-12dp;
   }
 
   &.disabled {
