@@ -51,15 +51,21 @@ export default {
     }
 
     > div {
-      @include code-piece-scaling(1.1)
+      @include code-piece-scaling(1.3)
     }
   }
 }
+.is-browser {
+  .code-buttons-code-row .code-piece > div {
+    @include code-piece-scaling(1.25)
+  }
+}
+
 @media screen and (max-width: 375px) {
   .code-buttons-code-row {
     .code-piece {
       > div {
-        @include code-piece-scaling(1.25)
+        // @include code-piece-scaling(1.25)
       }
     }
   }

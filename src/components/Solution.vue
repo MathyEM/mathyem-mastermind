@@ -48,7 +48,14 @@ export default {
   column-gap: $code-piece-column-gap;
   .code-piece {
     > div {
-      @include code-piece-scaling(1)
+      @include code-piece-scaling(1.15)
+    }
+  }
+}
+.is-browser .solution-code-row {
+  .code-piece {
+    > div {
+      @include code-piece-scaling(1.0)
     }
   }
 }

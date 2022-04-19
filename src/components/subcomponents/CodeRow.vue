@@ -76,6 +76,17 @@ export default {
 </script>
 
 <style lang="scss">
+.is-browser .code-row {
+  .code-piece > div {
+    @include code-piece-scaling(1);
+  }
+  .accuracy-hints {
+    @include code-piece-scaling(1);
+  }
+  .undo-attempt {
+    @include code-piece-scaling(1);
+  }
+}
 .code-row {
   position: relative;
   user-select: none;
@@ -103,7 +114,7 @@ export default {
       align-items: center;
       justify-content: center;
       font-size: 1.2em;
-      @include code-piece-scaling(1);
+      @include code-piece-scaling(1.15);
     }
   }
   .accuracy-hints, .undo-attempt {
@@ -112,7 +123,7 @@ export default {
   }
 
   .undo-attempt {
-    @include code-piece-scaling(1);
+    @include code-piece-scaling(1.15);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -130,7 +141,11 @@ export default {
       background: $background-color-3dp;
       box-shadow: $shadow-3dp;
       span {
-        color: $text-color
+        color: $text-color;
+
+        &.material-icons {
+          font-size: 200%;
+        }
       }
 
       &:active {
@@ -141,7 +156,7 @@ export default {
   }
 
   .accuracy-hints {
-    @include code-piece-scaling(1);
+    @include code-piece-scaling(1.15);
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;

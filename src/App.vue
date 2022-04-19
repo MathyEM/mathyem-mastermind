@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       loading: require('@/assets/Spinner-1s-357px.svg'),
-      isBrowser: false,
+      isBrowser: !(window.matchMedia('(display-mode: standalone)').matches),
     }
   },
   computed: {
