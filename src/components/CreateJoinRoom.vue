@@ -1,6 +1,7 @@
 <template>
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
+			<p>Create your own room or ask a friend to join theirs</p>
 			<form v-on:submit.prevent="onSubmit">
 				<input v-model="roomName" class="join-create-input" type="text" :placeholder="inputText"><br/>
 				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error || emptyInputError" class="create-join-errors">
@@ -97,6 +98,7 @@ export default {
 
 <style scoped lang="scss">
 .join-create-room {
+	margin: 0 2rem;
 	input, button {
 		margin-top: 0.5rem;
 		border: none;
