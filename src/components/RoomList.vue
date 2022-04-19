@@ -21,8 +21,8 @@
       </div>
       <div class="room-list-footer">
         <div class="back-btn" @click="backToHome($route.name)">
-          <img :src="backBtn" alt="back-icon icon">
-          <p>Back to create/join room</p>
+          <span class="material-icons">arrow_back</span>
+          <p>Back to home</p>
         </div>
       </div>
       <!-- <div> Icons made by <a href="https://www.flaticon.com/authors/fuzzee" title="Fuzzee"> Fuzzee </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
@@ -236,7 +236,7 @@ $color: $background-color-2dp;
     .back-btn {
       padding: 0.5rem;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
       align-items: center;
       flex-direction: row;
       user-select: none;
@@ -244,11 +244,8 @@ $color: $background-color-2dp;
 
       p {
         margin: 0;
+        margin-left: 0.5rem;
         font-weight: bold;
-      }
-
-      img {
-        height: 1.8em;
       }
     }
   }
