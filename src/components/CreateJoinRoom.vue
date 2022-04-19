@@ -101,8 +101,8 @@ export default {
 		margin-top: 0.5rem;
 		border: none;
 		outline: none;
-		border-radius: 0.2rem;
-		box-shadow: 0px 2px 6px -2px $shadow-color;
+		border-radius: $button-border-radius;
+		box-shadow: $shadow-2dp;
 	}
 	input {
 		background: $background-color-2dp;		
@@ -112,7 +112,7 @@ export default {
 
 		&:focus {
 		background: $background-color-3dp;
-		box-shadow: 0px 4px 8px -1px $shadow-color;
+		box-shadow: $shadow-3dp;
 			&::placeholder {
 				color: $text-color;
 			}
@@ -124,8 +124,8 @@ export default {
 		color: $text-color;
 
 		&:active {
-			box-shadow: 0px 2px 2px -2px $shadow-color;
-			background: darken($green, 2%);
+			box-shadow: $shadow-1dp;
+			background: $green-darkened;
 		}
 	}
 }
