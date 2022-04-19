@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{'is-browser': isBrowser}">
     <div v-if="getLoginStatus" class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0) }">
       <RoomListButton :title="isInRoom ? '' : 'Room'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       loading: require('@/assets/Spinner-1s-357px.svg'),
+      isBrowser: false,
     }
   },
   computed: {

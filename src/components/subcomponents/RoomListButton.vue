@@ -44,7 +44,7 @@ export default {
   align-items: center;
 
   span {
-    padding: 0 0.5rem 0 0.25rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
   }
 }
 </style>
