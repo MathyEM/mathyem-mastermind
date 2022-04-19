@@ -164,7 +164,44 @@ body {
 }
 }
 
+input[type=text], input[type=username], input[type=email], input[type=password], button {
+  margin-top: 0.5rem;
+  border: none;
+  outline: none;
+  border-radius: $button-border-radius;
+  box-shadow: $shadow-2dp;
+}
 
+input[type=checkbox] {
+  box-shadow: $shadow-2dp;
+  border: none;
+  outline: none;
+  &:focus, &:active {
+    box-shadow: $shadow-1dp;
+  }
+}
+
+input {
+  background: $background-color-2dp;	
+  color: $text-color;	
+  &::placeholder {
+    color: $text-color-medium;
+  }
+
+  &:focus {
+  background: $background-color-3dp;
+  box-shadow: $shadow-3dp;
+    &::placeholder {
+      color: $text-color;
+    }
+  }
+}
+
+button {
+  &:active {
+    box-shadow: $shadow-1dp;
+  }
+}
 
 .room-name-text {
   margin: 0;

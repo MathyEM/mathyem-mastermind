@@ -1,7 +1,7 @@
 <template>
   <div v-if="!getLoginStatus" class="login-register">
     <form v-on:submit.prevent="onSubmit">
-      <input v-model="username" type="text" placeholder="Username" autocomplete="username">
+      <input v-model="username" type="text" name="username" placeholder="Username" autocomplete="username">
       <div v-if="!getRegisteringState && getIncorrectUsernameOrPasswordState" class="login-errors">
         <div class="register-error">{{ getErrors.generic.incorrectUsernameOrPassword['EN'] }}</div>
       </div>
@@ -26,9 +26,10 @@
         <div v-if="!$v.password.regex" class="register-error" v-html="getErrors.password.regex['EN']">{{ getErrors.password.regex['EN'] }}</div>
       </div>
       <div v-if="!getRegisteringState" class="remember-me"><p>Remember me</p><input type="checkbox" name="remember_me" id="remember_me" value="yes" v-model="rememberMe"></div>
-      <button v-if="!getRegisteringState" @click="login" type="submit">Login</button>
-      <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE">Register new account</button>
-      <button v-if="getRegisteringState" @click="register" type="submit">Register</button>
+      <button v-if="!getRegisteringState" @click="login" type="submit" class="login-btn">Login</button>
+      <button v-if="!getRegisteringState" @click="TOGGLE_REGISTERING_STATE" class="register-new-acc-btn">Register new account</button>
+      <button v-if="getRegisteringState" @click="register" type="submit" class="register-btn">Register</button>
+      <button v-if="getRegisteringState" @click="TOGGLE_REGISTERING_STATE" type="submit" class="back-btn">Back</button>
     </form>
   </div>
 </template>
@@ -151,12 +152,9 @@ form input:not(:first-of-type), .remember-me, button {
   margin-top: 0.75rem;
 }
 
-input, button {
-  border: 1px solid gray;
-  border-radius: 0.2rem;
-}
-
 .login-register {
+  margin: 0 2rem;
+
   .remember-me {
     width: 100%;
     display: flex;
@@ -172,7 +170,44 @@ input, button {
     }
 
     input {
-      width: 2.2rem;
+      width: 2.6rem;
+      margin: 0;
+    }
+  }
+
+  .login-btn {
+    background: $green;
+    color: $text-color;
+
+    &:active {
+      background: $green-darkened;
+    }
+  }
+
+  .register-new-acc-btn {
+    background: $orange;
+    color: $text-color;
+
+    &:active {
+      background: $orange-darkened;
+    }
+  }
+
+  .register-btn {
+    background: $green;
+    color: $text-color;
+
+    &:active {
+      background: $green-darkened;
+    }
+  }
+
+  .back-btn {
+    background: $orange;
+    color: $text-color;
+
+    &:active {
+      background: $orange-darkened;
     }
   }
 }
