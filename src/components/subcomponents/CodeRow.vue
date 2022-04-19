@@ -123,12 +123,13 @@ export default {
       align-items: center;
       height: 75%;
       width: 75%;
-      padding: 0 0.2rem;
-      border: 1px solid gray;
+      outline: none;
+      border: none;
       border-radius: 0.2rem;
+      padding: 0 0.2rem;
+      box-shadow: $shadow-2dp;
 
       img {
-        // height: 100%;
         width: 100%;
       }
     }
