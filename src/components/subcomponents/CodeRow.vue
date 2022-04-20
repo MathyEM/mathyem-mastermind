@@ -104,9 +104,10 @@ export default {
     border: none;
     border-radius: 0.4rem;
     color: $text-color;
-    background: $background-color-1dp;
-    box-shadow: $shadow-1dp;
+    background: $background-color-2dp;
+    box-shadow: $shadow-2dp;
     cursor: pointer;
+    transition: background-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
 
     > div {
       display: flex;
@@ -195,18 +196,17 @@ export default {
 
   &.active .code-piece {
     color: $text-color;
-    background: $background-color-12dp;
-    box-shadow: $shadow-12dp;
+    background: $background-color-16dp;
+    box-shadow: $shadow-16dp;
   }
 
   &.disabled {
     pointer-events: none;
 
     .code-piece {
-      $amount: 0.7;
       color: $text-color-disabled;
-      border-color: $text-color-disabled;
-      background: $background-color-1dp;
+      border-color: none;
+      background: $background-color-0dp;
       box-shadow: $shadow-1dp;
     }
   }

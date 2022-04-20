@@ -43,11 +43,11 @@ export default {
     color: $text-color;
     background: $background-color-8dp;
     box-shadow: $shadow-8dp;
-    border-color: $text-color;
+    border-color: none;
     &:active {
-      background: $background-color-1dp;
-      box-shadow: $shadow-1dp;
-      border-color: $text-color-medium;
+      background: $background-color-2dp;
+      box-shadow: $shadow-2dp;
+      border-color: none;
     }
 
     > div {

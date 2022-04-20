@@ -7,7 +7,9 @@ $red: #b32d2d;
 $text-color: #fff;
 $text-color-medium: #a0a0a0;
 $text-color-disabled: #6c6c6c;
+$text-color-disabled2:rgb(83, 83, 83);
 $background-color: #121212;
+$background-color-0dp: lighten($background-color, 3%);
 $background-color-1dp: lighten($background-color, 5%);
 $background-color-2dp: lighten($background-color, 7%);
 $background-color-3dp: lighten($background-color, 8%);
@@ -15,6 +17,8 @@ $background-color-4dp: lighten($background-color, 9%);
 $background-color-6dp: lighten($background-color, 11%);
 $background-color-8dp: lighten($background-color, 12%);
 $background-color-12dp: lighten($background-color, 14%);
+$background-color-16dp: lighten($background-color, 15%);
+$background-color-24dp: lighten($background-color, 16%);
 $shadow-color: rgb(0 0 0 / 60%);
 $code-piece-border-color: $text-color;
 $menu-background-color: lighten($background-color, 3);
@@ -33,6 +37,8 @@ $shadow-6dp: 0px 4px 5px 0px $shadow-color;
 $shadow-8dp: 0px 5px 6px 0px $shadow-color;
 $shadow-8dp: 0px 5px 9px 1px $shadow-color;
 $shadow-12dp: 0px 5px 10px 2px $shadow-color;
+$shadow-16dp: 0px 5px 12px 2px $shadow-color;
+$shadow-24dp: 0px 6px 13px 2px $shadow-color;
 
 //BUTTONS
 $button-border-radius: 0.2rem;
