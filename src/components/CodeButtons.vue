@@ -41,8 +41,8 @@ export default {
   .code-piece {
     margin: 0 calc($code-piece-margin / 2);
     color: $text-color;
-    background: $background-color-2dp;
-    box-shadow: $shadow-2dp;
+    background: $background-color-8dp;
+    box-shadow: $shadow-8dp;
     border-color: $text-color;
     &:active {
       background: $background-color-1dp;

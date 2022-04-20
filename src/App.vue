@@ -99,6 +99,7 @@ export default {
 * {
   box-sizing: border-box;
   touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
