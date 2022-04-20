@@ -52,7 +52,7 @@ module.exports = {
       },
       {
         "src": "img/icons/maskable_icon_x386.png",
-        "sizes": "256x256",
+        "sizes": "386x386",
         "type": "image/png",
         "purpose": "maskable"
       },
