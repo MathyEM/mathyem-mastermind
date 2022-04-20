@@ -132,15 +132,18 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 75%;
-      width: 75%;
+      height: 90%;
+      width: 90%;
       outline: none;
       border: none;
       border-radius: 0.2rem;
-      padding: 0 0.2rem;
+      padding: 0;
       background: $background-color-3dp;
       box-shadow: $shadow-3dp;
       span {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         color: $text-color;
 
         &.material-icons {
@@ -226,7 +229,13 @@ export default {
         border-radius: 0.1rem;
       }
     }
-
+    .undo-attempt {
+      button {
+        span.material-icons {
+          font-size: 170%;
+        }
+      }
+    }
   }
 }
 </style>
