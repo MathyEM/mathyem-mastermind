@@ -25,7 +25,6 @@
           <p>Back to home</p>
         </div>
       </div>
-      <!-- <div> Icons made by <a href="https://www.flaticon.com/authors/fuzzee" title="Fuzzee"> Fuzzee </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
     </div>
   </transition>
 </template>
@@ -44,7 +43,6 @@ export default {
   },
 	data() {
 		return {
-      backBtn: require('@/assets/left-arrow.png'),
       loading: require('@/assets/Spinner-1s-357px.svg'),
 		}
 	},

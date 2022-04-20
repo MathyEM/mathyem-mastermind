@@ -23,7 +23,6 @@
         </div>
       </div>
     </div>
-    <!-- <div> undefined <a href="" title="Gregor Cresnar"> Gregor Cresnar </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
   </transition>
 </template>
 
@@ -34,7 +33,6 @@ export default {
   name: 'Options',
   data() {
     return {
-      copyImg: require('@/assets/copy67x67.png'),
       leaveRoomClicked: false,
     }
   },

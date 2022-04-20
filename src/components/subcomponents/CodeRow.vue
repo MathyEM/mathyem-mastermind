@@ -18,7 +18,6 @@
     <div v-else-if="getCurrentAttempt == attemptIndex && !getReviewingPreviousRound && hasCodeBreakerAuthority" class="undo-attempt">
       <button @click="undoAttemptPiece">
         <span class="material-icons">undo</span>
-        <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
       </button>
     </div>
     <div v-if="getLoadingAccuracyHint === attemptIndex" class="accuracy-hints loading">
