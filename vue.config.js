@@ -45,6 +45,18 @@ module.exports = {
         "purpose": "maskable"
       },
       {
+        "src": "img/icons/maskable_icon_x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
         "src": "img/icons/maskable_icon_x192.png",
         "sizes": "192x192",
         "type": "image/png",
@@ -61,6 +73,12 @@ module.exports = {
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
       }],
     }
   },
