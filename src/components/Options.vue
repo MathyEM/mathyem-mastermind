@@ -9,7 +9,7 @@
         <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
           <p><span class="join-code-text">Tap to copy invitation link</span></p>
           <div class="copy-img">
-            <img :src="copyImg" alt="copy-paste icon">
+            <span class="material-icons">content_copy</span>
           </div>
         </div>
         <div class="options-buttons">
@@ -176,9 +176,6 @@ $color: $background-color-2dp;
     }
     .copy-img {
       display: flex;
-      img {
-        height: 2em;
-      }
     }
   }
 
