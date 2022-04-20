@@ -48,6 +48,7 @@ export default {
       background: $background-color-2dp;
       box-shadow: $shadow-2dp;
       border-color: none;
+      transition: background-color 50ms ease-in-out, box-shadow 50ms ease-in-out;
     }
 
     > div {
@@ -62,10 +63,10 @@ export default {
 }
 
 @media screen and (max-width: 375px) {
-  .code-buttons-code-row {
+  .is-browser .code-buttons-code-row {
     .code-piece {
       > div {
-        // @include code-piece-scaling(1.25)
+        @include code-piece-scaling(1.25)
       }
     }
   }

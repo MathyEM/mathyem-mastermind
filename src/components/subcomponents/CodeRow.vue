@@ -141,6 +141,8 @@ export default {
       padding: 0;
       background: $background-color-3dp;
       box-shadow: $shadow-3dp;
+      transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+
       span {
         display: flex;
         align-items: center;
@@ -155,6 +157,7 @@ export default {
       &:active {
         background: $background-color-1dp;
         box-shadow: $shadow-1dp;
+        transition: background-color 50ms ease-in-out, box-shadow 50ms ease-in-out;
       }
     }
   }
