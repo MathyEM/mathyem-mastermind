@@ -21,14 +21,9 @@ if (process.env.NODE_ENV === "production") {
     },
     async updated () {
       console.log('New content is available; please refresh.')
-      caches.keys().then(function(names) {
-        for (let name of names)
-          caches.delete(name);
-      }).then(function() {
-        setTimeout(() => {
-          window.location.reload(true)
-        }, 1000)
-      })
+      setTimeout(() => {
+        window.location.reload(true)
+      }, 1000)
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')

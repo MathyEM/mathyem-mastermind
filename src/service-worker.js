@@ -15,6 +15,10 @@ self.addEventListener('install', () => self.skipWaiting())
 console.log("Service Worker Loaded...")
 
 self.addEventListener('activate', async (event) => {
+  const existingCaches = await caches.keys()
+  const invalidCaches = existingCaches.filter(c => c !== cacheName)
+  await Promise.all(invalidCaches.map(ic => caches.delete(ic)))
+
   const notifications = await self.registration.getNotifications()
   if (notifications.length > 0) {
     notifications.forEach(async notification => {
