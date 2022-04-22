@@ -3,6 +3,7 @@
     <CodeRow
       :code="getSolution"
       :onClick="onClick"
+      :isSolution="true"
       :class="{ active: (!getSolutionState && !getReviewingPreviousRound )}"
       class="solution-code-row" />
   </div>
@@ -44,6 +45,10 @@ export default {
 </script>
 
 <style lang="scss">
+.solution {
+  width: fit-content;
+  margin: auto;
+}
 .solution-code-row {
   column-gap: $code-piece-column-gap;
   .code-piece {

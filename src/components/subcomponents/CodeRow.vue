@@ -3,6 +3,11 @@
     <div v-for="(piece, index1) in code" :key="index1" ref="code-piece" @click="onClick(index1, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
+    <div v-if="hasCodeMakerAuthority && !getReviewingPreviousRound && isSolution" class="undo-solution">
+      <button @click="undoSolutionPiece">
+        <span class="material-icons">undo</span>
+      </button>
+    </div>
   </div>
   <div v-else class="code-row" :class="{ disabled: disabled }">
     <div v-for="(piece, index2) in gameData.attempts[attemptIndex]" :key="index2" ref="code-piece" @click="onClick(index2, attemptIndex)" class="code-piece">
@@ -37,6 +42,10 @@ export default {
       type: Function
     },
     attemptIndex: Number,
+    isSolution: {
+      default: false,
+      type: Boolean,
+    },
     disabled: {
       default: false,
       type: Boolean,
@@ -52,6 +61,7 @@ export default {
       'getCurrentRoom',
       'getCurrentAttempt',
       'hasCodeBreakerAuthority',
+      'hasCodeMakerAuthority',
       'getReviewingPreviousRound',
       'getPreviousRound',
       'getLoadingAccuracyHint'
@@ -66,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['undoAttemptPiece']),
+    ...mapActions(['undoAttemptPiece', 'undoSolutionPiece']),
   },
   created() {
       
@@ -82,7 +92,7 @@ export default {
   .accuracy-hints {
     @include code-piece-scaling(1);
   }
-  .undo-attempt {
+  .undo-attempt, .undo-solution {
     @include code-piece-scaling(1);
   }
 }
@@ -117,12 +127,12 @@ export default {
       @include code-piece-scaling(1.15);
     }
   }
-  .accuracy-hints, .undo-attempt {
+  .accuracy-hints, .undo-attempt, .undo-solution {
     position: absolute;
     right: -25%;
   }
 
-  .undo-attempt {
+  .undo-attempt, .undo-solution {
     @include code-piece-scaling(1.15);
     display: flex;
     align-items: center;
@@ -231,7 +241,7 @@ export default {
         border-radius: 0.1rem;
       }
     }
-    .undo-attempt {
+    .undo-attempt, .undo-solution {
       button {
         span.material-icons {
           font-size: 170%;
