@@ -1,8 +1,8 @@
 <template>
   <div class="code-buttons">
-    <!-- if the solution is set and then check if they have codebreaker authority -->
+    <!-- if the solution is set and they have codebreaker authority -->
     <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
-    <!-- if the solution is set do you have codemaker authority? -->
+    <!-- if the solution is set do you have codemaker authority -->
     <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
   </div>
 </template>

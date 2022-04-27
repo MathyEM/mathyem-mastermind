@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Room from '../views/Room.vue'
 import JoinRoom from '../views/JoinRoom.vue'
+import SinglePlayer from '../views/SinglePlayer.vue'
 // import Game from '../views/Game.vue'
 import store from '../store'
 // import 'cookie-store'
@@ -42,6 +43,11 @@ const routes = [
     path: '/join/:id',
     name: 'join',
     component: JoinRoom,
+  },
+  {
+    path: '/singleplayer',
+    name: 'singleplayer',
+    component: SinglePlayer,
   },
   {
     path: '/about',

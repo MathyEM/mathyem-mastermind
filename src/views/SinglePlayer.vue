@@ -1,31 +1,27 @@
 <template>
-  <div v-if="getCurrentRoom._id" class="game">
-    <Scores />
+  <div class="singleplayer game">
     <Solution />
     <div class="game-status-wrapper">
       <GameStatus v-if="!getReviewingPreviousRound" />
       <NextRoundButton v-else />
     </div>
     <Attempts />
-    <CodeButtons />
+    <CodeButtons :singleplayer="true" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Scores from '@/components/Scores.vue'
 import Solution from '@/components/Solution.vue'
 import GameStatus from '@/components/GameStatus.vue'
 import NextRoundButton from '@/components/subcomponents/NextRoundButton'
 import Attempts from '@/components/Attempts.vue'
 import CodeButtons from '@/components/CodeButtons.vue'
-import { socketConnection } from '../services/socketio.service.js'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
-  name: 'Room',
+  name: 'SinglePlayer',
   components: {
-    Scores,
     Solution,
     GameStatus,
     NextRoundButton,
@@ -69,20 +65,15 @@ export default {
     }
   },
   async created() {
-    this.fetchTheRoom(this.roomId)
 
-    window.addEventListener('focus', async () => {
-      await this.socketLogin()
-      socketConnection.enterRoom(this.roomId)
-    })
   },
 }
 </script>
 
 <style lang="scss">
-.game {
+.singleplayer.game {
   display: grid;
-  grid-template-rows: auto auto auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
   height: 100%;
 }
 </style>
