@@ -6,7 +6,7 @@
       <NextRoundButton v-else />
     </div>
     <Attempts />
-    <CodeButtons :singleplayer="true" />
+    <SPCodeButtons :singleplayer="true" />
   </div>
 </template>
 
@@ -16,8 +16,8 @@ import Solution from '@/components/Solution.vue'
 import GameStatus from '@/components/GameStatus.vue'
 import NextRoundButton from '@/components/subcomponents/NextRoundButton'
 import Attempts from '@/components/Attempts.vue'
-import CodeButtons from '@/components/CodeButtons.vue'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import SPCodeButtons from '@/components/singleplayer/SPCodeButtons.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'SinglePlayer',
@@ -26,7 +26,7 @@ export default {
     GameStatus,
     NextRoundButton,
     Attempts,
-    CodeButtons,
+    SPCodeButtons,
   },
   data() {
     return {
@@ -34,23 +34,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getCurrentRoom',
-      'getUserId',
-      'getUsername',
-      'getGameStatus',
-      'getReviewingPreviousRound',
-      'getShowRoomList',
+      'SPGetCurrentRoom',
+      'SPGetReviewingPreviousRound',
     ]),
-    roomId() {
-      return this.$route.params.id
-    },
   },
   methods: {
-    ...mapMutations(['SET_SESSION_LOADING', 'SET_SHOW_ROOM_LIST']),
     ...mapActions(['InitializeSinglePlayerGame']),
   },
   async created() {
-
+    this.InitializeSinglePlayerGame()
   },
 }
 </script>

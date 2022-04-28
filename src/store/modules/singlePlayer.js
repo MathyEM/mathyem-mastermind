@@ -3,11 +3,38 @@ const state = {
 }
 
 const getters = {
-
+  SPGetCurrentRoom: state => state.SPCurrentRoom,
+  SPGetCurrentAttempt: state => {
+    if(state.SPCurrentRoom.attempts) {
+      const attempts = state.SPCurrentRoom.attempts
+      const index = attempts.filter(attempt => {
+        return attempt.includes('')
+      })
+      return index.length-1
+    }
+  },
+  SPGetReviewingPreviousRound: state => state.SPCurrentRoom.reviewingPreviousRound,
+  SPGetPreviousRound: state => state.SPCurrentRoom.previousRound,
+  SPGetCodeSet: state => state.SPCurrentRoom.codeSet,
 }
 
 const mutations = {
-  SET_SP_CURRENT_ROOM: (state, payload) => state.SPCurrentRoom = payload
+  SP_SET_CURRENT_ROOM: (state, payload) => state.SPCurrentRoom = payload,
+  SP_UNDO_ATTEMPT_PIECE(state, payload) {
+    const index = state.SPcurrentRoom.attempts[payload.attemptIndex].indexOf('')-1
+    if (index < 0) {
+      return
+    }
+    const attemptsCopy = state.SPcurrentRoom.attempts.slice()
+    attemptsCopy[payload.attemptIndex][index] = ''
+    state.SPcurrentRoom.attempts = attemptsCopy
+  },
+  SP_UPDATE_ATTEMPT(state, payload) {
+    const index = state.SPCurrentRoom.attempts[payload.attemptIndex].indexOf('')
+    const attemptsCopy = state.SPCurrentRoom.attempts.slice()
+    attemptsCopy[payload.attemptIndex][index] = payload.code
+    state.SPCurrentRoom.attempts = attemptsCopy
+  },
 }
 
 const actions = {
@@ -43,7 +70,22 @@ const actions = {
     defaultRoom.previousRound.codeSet = codeSet
     defaultRoom.previousRound.solution = solution
 
-    commit('SET_SP_CURRENT_ROOM', defaultRoom)
+    commit('SP_SET_CURRENT_ROOM', defaultRoom)
+  },
+  SPUpdateAttempt() {
+    if (!getters.hasCodeBreakerAuthority) {
+      return
+    }
+    const code = getters.getCodeSet[payload].toString()
+    const attemptIndex = getters.getCurrentAttempt
+    commit('UPDATE_ATTEMPT', { code, attemptIndex })
+  },
+  SPUndoAttemptPiece({ commit, getters }) {
+    if (!getters.SPGetReviewingPreviousRound) {
+      return
+    }
+    const attemptIndex = getters.SPGetCurrentAttempt
+    commit('SP_UNDO_ATTEMPT_PIECE', { attemptIndex })
   },
 }
 
