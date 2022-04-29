@@ -1,7 +1,7 @@
 <template>
   <div class="code-buttons">
     <!-- if the solution is set and they have codebreaker authority -->
-    <SPCodeRow ref="code-buttons" :code="SPGetCodeSet" :onClick="onClick" :disabled="getReviewingPreviousRound" class="code-buttons-code-row" />
+    <SPCodeRow ref="code-buttons" :code="SPGetCodeSet" :onClick="onClick" :disabled="SPGetReviewingPreviousRound" class="code-buttons-code-row" />
   </div>
 </template>
 

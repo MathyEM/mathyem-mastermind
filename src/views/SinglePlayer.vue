@@ -2,7 +2,7 @@
   <div class="singleplayer game">
     <SPSolution />
     <div class="game-status-wrapper">
-      <GameStatus v-if="!getReviewingPreviousRound" />
+      <GameStatus v-if="!SPGetReviewingPreviousRound" />
       <NextRoundButton v-else />
     </div>
     <SPAttempts />
