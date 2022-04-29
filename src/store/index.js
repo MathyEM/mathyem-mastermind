@@ -5,6 +5,7 @@ import statusMessages from './modules/statusMessages'
 import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
 import pushNotifcations from './modules/pushNotifcations'
+import singlePlayer from './modules/singlePlayer'
 import { socketConnection } from '@/services/socketio.service.js'
 import router from '../router'
 
@@ -282,6 +283,7 @@ export default new Vuex.Store({
     loginRegister,
     createJoinRoom,
     pushNotifcations,
+    singlePlayer,
   }
 })
 

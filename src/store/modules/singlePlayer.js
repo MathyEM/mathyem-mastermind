@@ -4,6 +4,7 @@ const state = {
 
 const getters = {
   SPGetCurrentRoom: state => state.SPCurrentRoom,
+  SPGetSolution: state => state.SPCurrentRoom.solution,
   SPGetCurrentAttempt: state => {
     if(state.SPCurrentRoom.attempts) {
       const attempts = state.SPCurrentRoom.attempts
@@ -38,11 +39,6 @@ const mutations = {
 }
 
 const actions = {
-	exampleFunction({ commit, dispatch }, roomId) {
-		socketConnection.leaveRoom(roomId)
-		commit('SET_SHOW_OPTIONS', false)
-		dispatch('resetCurrentRoom')
-	},
   InitializeSinglePlayerGame({ commit }) {
     const defaultRoom = {}
     const accuracyHints = [{},{},{},{},{},{},{},{},{},{}]
@@ -72,7 +68,7 @@ const actions = {
 
     commit('SP_SET_CURRENT_ROOM', defaultRoom)
   },
-  SPUpdateAttempt() {
+  SPUpdateAttempt({ commit }, payload) {
     if (!getters.hasCodeBreakerAuthority) {
       return
     }
