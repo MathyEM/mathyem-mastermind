@@ -10,7 +10,7 @@ import SPCodeRow from '@/components/singleplayer/subcomponents/SPCodeRow'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'CodeButtons',
+  name: 'SPCodeButtons',
   components: {
     SPCodeRow,
   },

@@ -26,7 +26,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'CodeRow',
+  name: 'SPCodeRow',
   props: {
     code: Array,
     onClick: {
