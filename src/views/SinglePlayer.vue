@@ -1,6 +1,6 @@
 <template>
   <div class="singleplayer game">
-    <Solution />
+    <SPSolution />
     <div class="game-status-wrapper">
       <GameStatus v-if="!getReviewingPreviousRound" />
       <NextRoundButton v-else />
@@ -12,7 +12,7 @@
 
 <script>
 // @ is an alias to /src
-import Solution from '@/components/Solution.vue'
+import SPSolution from '@/components/singleplayer/SPSolution.vue'
 import GameStatus from '@/components/GameStatus.vue'
 import NextRoundButton from '@/components/subcomponents/NextRoundButton'
 import SPAttempts from '@/components/singleplayer/SPAttempts.vue'
@@ -22,7 +22,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'SinglePlayer',
   components: {
-    Solution,
+    SPSolution,
     GameStatus,
     NextRoundButton,
     SPAttempts,
