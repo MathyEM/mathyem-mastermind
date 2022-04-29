@@ -22,7 +22,7 @@ export default {
   methods: {
     ...mapActions(['SPUpdateAttempt']),
     onClick(index) {
-      this.updateAttempt(index)
+      this.SPUpdateAttempt(index)
       return
     }
   }

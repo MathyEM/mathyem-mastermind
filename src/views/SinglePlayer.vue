@@ -51,6 +51,7 @@ export default {
 .singleplayer.game {
   display: grid;
   grid-template-rows: auto auto auto 1fr;
+  margin-top: 2rem;
   height: 100%;
 }
 </style>

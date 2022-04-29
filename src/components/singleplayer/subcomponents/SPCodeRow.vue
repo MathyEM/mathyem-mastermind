@@ -69,7 +69,4 @@ export default {
 </script>
 
 <style lang="scss">
-.singleplayer {
-  margin-top: 2rem;
-}
 </style>
