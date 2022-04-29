@@ -61,6 +61,7 @@ const actions = {
     defaultRoom.codeSet = codeSet
     defaultRoom.solution = solution
     defaultRoom.reviewingPreviousRound = false
+    defaultRoom.previousRound = {}
     defaultRoom.previousRound.accuracyHints = accuracyHints
     defaultRoom.previousRound.attempts = attempts
     defaultRoom.previousRound.codeSet = codeSet
