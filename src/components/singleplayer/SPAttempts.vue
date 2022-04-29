@@ -5,8 +5,9 @@
       :key="attemptIndex"
       :code="attempt"
       :onClick="onClick"
-      :attemptIndex="attemptIndex" 
-      class="attempts-code-row" />
+      :attemptIndex="attemptIndex"
+      class="attempts-code-row"
+      :class="{ active: (SPGetCurrentAttempt == attemptIndex && !SPGetReviewingPreviousRound) }" />
   </div>
 </template>
 
@@ -22,7 +23,7 @@ export default {
   props: {
   },
   computed: {
-    ...mapGetters(['getCurrentAttempt', 'getSolutionState', 'getCurrentRoom', 'getReviewingPreviousRound', 'getPreviousRound']),
+    ...mapGetters(['SPGetCurrentAttempt', 'SPGetCurrentRoom', 'SPGetReviewingPreviousRound', 'SPGetPreviousRound']),
     gameData: {
       get: function () {
         if (this.SPGetReviewingPreviousRound == true) {
