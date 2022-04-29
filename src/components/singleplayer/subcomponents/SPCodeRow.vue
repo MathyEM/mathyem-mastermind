@@ -16,7 +16,7 @@
       <div class="hint correctPiece" v-for="correctPieceCount in (Math.max((gameData.accuracyHints[attemptIndex].correctPieceCount-gameData.accuracyHints[attemptIndex].correctPositionCount), 0))" :key="'piece'+correctPieceCount"></div>
     </div>
     <div v-else-if="SPGetCurrentAttempt == attemptIndex && !SPGetReviewingPreviousRound" class="undo-attempt">
-      <button @click="undoAttemptPiece">
+      <button @click="SPUndoAttemptPiece">
         <span class="material-icons">undo</span>
       </button>
     </div>
@@ -69,5 +69,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.singleplayer {
+  margin-top: 2rem;
+}
 </style>
