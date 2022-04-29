@@ -15,7 +15,7 @@
       <div class="hint correctPosition" v-for="correctPositionCount in (gameData.accuracyHints[attemptIndex].correctPositionCount)" :key="'position'+correctPositionCount"></div>
       <div class="hint correctPiece" v-for="correctPieceCount in (Math.max((gameData.accuracyHints[attemptIndex].correctPieceCount-gameData.accuracyHints[attemptIndex].correctPositionCount), 0))" :key="'piece'+correctPieceCount"></div>
     </div>
-    <div v-else-if="getSPCurrentAttempt == attemptIndex && !getSPReviewingPreviousRound" class="undo-attempt">
+    <div v-else-if="SPGetCurrentAttempt == attemptIndex && !SPGetReviewingPreviousRound" class="undo-attempt">
       <button @click="undoAttemptPiece">
         <span class="material-icons">undo</span>
       </button>
@@ -45,17 +45,17 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getSPCurrentRoom',
-      'getSPCurrentAttempt',
-      'getSPReviewingPreviousRound',
-      'getSPPreviousRound',
+      'SPGetCurrentRoom',
+      'SPGetCurrentAttempt',
+      'SPGetReviewingPreviousRound',
+      'SPGetPreviousRound',
       ]),
     gameData: {
       get: function () {
-        if (this.getSPReviewingPreviousRound == true) {
-          return this.getSPPreviousRound
+        if (this.SPGetReviewingPreviousRound == true) {
+          return this.SPGetPreviousRound
         }
-        return this.getSPCurrentRoom
+        return this.SPGetCurrentRoom
       }
     }
   },
