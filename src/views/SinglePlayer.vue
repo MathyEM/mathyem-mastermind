@@ -5,7 +5,7 @@
       <GameStatus v-if="!getReviewingPreviousRound" />
       <NextRoundButton v-else />
     </div>
-    <Attempts />
+    <SPAttempts />
     <SPCodeButtons :singleplayer="true" />
   </div>
 </template>
@@ -15,7 +15,7 @@
 import Solution from '@/components/Solution.vue'
 import GameStatus from '@/components/GameStatus.vue'
 import NextRoundButton from '@/components/subcomponents/NextRoundButton'
-import Attempts from '@/components/Attempts.vue'
+import SPAttempts from '@/components/singleplayer/SPAttempts.vue'
 import SPCodeButtons from '@/components/singleplayer/SPCodeButtons.vue'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -25,7 +25,7 @@ export default {
     Solution,
     GameStatus,
     NextRoundButton,
-    Attempts,
+    SPAttempts,
     SPCodeButtons,
   },
   data() {
