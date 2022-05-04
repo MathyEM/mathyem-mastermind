@@ -3,7 +3,7 @@
     <SPSolution />
     <div class="game-status-wrapper">
       <GameStatus v-if="!SPGetReviewingPreviousRound" />
-      <NextRoundButton v-else />
+      <SPNextRoundButton v-else />
     </div>
     <SPAttempts />
     <SPCodeButtons :singleplayer="true" />
@@ -14,7 +14,7 @@
 // @ is an alias to /src
 import SPSolution from '@/components/singleplayer/SPSolution.vue'
 import GameStatus from '@/components/GameStatus.vue'
-import NextRoundButton from '@/components/subcomponents/NextRoundButton'
+import SPNextRoundButton from '@/components/singleplayer/subcomponents/SPNextRoundButton'
 import SPAttempts from '@/components/singleplayer/SPAttempts.vue'
 import SPCodeButtons from '@/components/singleplayer/SPCodeButtons.vue'
 import { mapActions, mapGetters } from 'vuex'
@@ -24,7 +24,7 @@ export default {
   components: {
     SPSolution,
     GameStatus,
-    NextRoundButton,
+    SPNextRoundButton,
     SPAttempts,
     SPCodeButtons,
   },

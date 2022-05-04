@@ -17,30 +17,6 @@ const getters = {
   SPGetReviewingPreviousRound: state => state.SPCurrentRoom.reviewingPreviousRound,
   SPGetPreviousRound: state => state.SPCurrentRoom.previousRound,
   SPGetCodeSet: state => state.SPCurrentRoom.codeSet,
-  SPGetBaseRoom: () => {
-    const defaultRoom = {}
-    const accuracyHints = [{},{},{},{},{},{},{},{},{},{}]
-    const attempts = [
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-    ]
-    const codeSet = ["1","2","3","4"]
-    const solution = []
-    defaultRoom.accuracyHints = accuracyHints
-    defaultRoom.attempts = attempts
-    defaultRoom.codeSet = codeSet
-    defaultRoom.solution = solution
-    defaultRoom.reviewingPreviousRound = false
-    return defaultRoom
-  }
 }
 
 const mutations = {
@@ -67,12 +43,37 @@ const mutations = {
     accuracyHintsCopy[attemptIndex] = accuracyHint
     state.SPCurrentRoom.accuracyHints = accuracyHintsCopy
   },
+  SP_SET_REVIEWING_PREVIOUS_ROUND: (state, payload) => state.SPCurrentRoom.reviewingPreviousRound = payload,
 }
 
 const actions = {
-  InitializeSinglePlayerGame({ commit, getters }) {
-    const defaultRoom = getters.SPGetBaseRoom
-    defaultRoom.solution = ["1","2","3","4"]
+  SPCreateBaseRoom() {
+    const defaultRoom = {}
+    const accuracyHints = [{},{},{},{},{},{},{},{},{},{}]
+    const attempts = [
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+    ]
+    const codeSet = ["1","2","3","4"]
+    const solution = []
+    defaultRoom.accuracyHints = accuracyHints
+    defaultRoom.attempts = attempts
+    defaultRoom.codeSet = codeSet
+    defaultRoom.solution = solution
+    defaultRoom.reviewingPreviousRound = false
+    return defaultRoom
+  },
+  async InitializeSinglePlayerGame({ commit, dispatch }) {
+    const defaultRoom = await dispatch('SPCreateBaseRoom')
+    defaultRoom.solution = [getRandomInt(4),getRandomInt(4),getRandomInt(4),getRandomInt(4)]
     defaultRoom.previousRound = {}
     defaultRoom.previousRound.accuracyHints = defaultRoom.accuracyHints
     defaultRoom.previousRound.attempts = defaultRoom.attempts
@@ -112,15 +113,20 @@ const actions = {
     const attemptIndex = getters.SPGetCurrentAttempt
     commit('SP_UNDO_ATTEMPT_PIECE', { attemptIndex })
   },
-  SPCompleteRound({ commit, getters }) {
-    const currentRoom = getters.SPGetCurrentRoom
+  async SPCompleteRound({ state, commit, dispatch }) {
+    let currentRoom = {...state.SPCurrentRoom}
     delete currentRoom.previousRound
+    delete currentRoom.reviewingPreviousRound
 
-    const room = getters.SPGetBaseRoom
+    const room = await dispatch('SPCreateBaseRoom')
+    console.log(room);
     room.reviewingPreviousRound = true
     room.previousRound = currentRoom
 
     commit('SP_SET_CURRENT_ROOM', room)
+  },
+  SPFinishRoundReview({ dispatch }) {
+    dispatch('InitializeSinglePlayerGame')
   },
 }
 
@@ -158,4 +164,8 @@ const getAccuracyHint = async (solution, attempt) => {
 	}
 	
 	return { correctPieceCount, correctPositionCount }
+}
+
+function getRandomInt(max) {
+  return Math.floor((Math.random() * max) + 1).toString();
 }
