@@ -17,6 +17,30 @@ const getters = {
   SPGetReviewingPreviousRound: state => state.SPCurrentRoom.reviewingPreviousRound,
   SPGetPreviousRound: state => state.SPCurrentRoom.previousRound,
   SPGetCodeSet: state => state.SPCurrentRoom.codeSet,
+  SPGetBaseRoom: () => {
+    const defaultRoom = {}
+    const accuracyHints = [{},{},{},{},{},{},{},{},{},{}]
+    const attempts = [
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+      ["","","",""],
+    ]
+    const codeSet = ["1","2","3","4"]
+    const solution = []
+    defaultRoom.accuracyHints = accuracyHints
+    defaultRoom.attempts = attempts
+    defaultRoom.codeSet = codeSet
+    defaultRoom.solution = solution
+    defaultRoom.reviewingPreviousRound = false
+    return defaultRoom
+  }
 }
 
 const mutations = {
@@ -46,37 +70,18 @@ const mutations = {
 }
 
 const actions = {
-  InitializeSinglePlayerGame({ commit }) {
-    const defaultRoom = {}
-    const accuracyHints = [{},{},{},{},{},{},{},{},{},{}]
-    const attempts = [
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-      ["","","",""],
-    ]
-    const codeSet = ["1","2","3","4"]
-    const solution = ["1","2","3","4"]
-    defaultRoom.accuracyHints = accuracyHints
-    defaultRoom.attempts = attempts
-    defaultRoom.codeSet = codeSet
-    defaultRoom.solution = solution
-    defaultRoom.reviewingPreviousRound = false
+  InitializeSinglePlayerGame({ commit, getters }) {
+    const defaultRoom = getters.SPGetBaseRoom
+    defaultRoom.solution = ["1","2","3","4"]
     defaultRoom.previousRound = {}
-    defaultRoom.previousRound.accuracyHints = accuracyHints
-    defaultRoom.previousRound.attempts = attempts
-    defaultRoom.previousRound.codeSet = codeSet
-    defaultRoom.previousRound.solution = solution
+    defaultRoom.previousRound.accuracyHints = defaultRoom.accuracyHints
+    defaultRoom.previousRound.attempts = defaultRoom.attempts
+    defaultRoom.previousRound.codeSet = defaultRoom.codeSet
+    defaultRoom.previousRound.solution = defaultRoom.solution
 
     commit('SP_SET_CURRENT_ROOM', defaultRoom)
   },
-  async SPUpdateAttempt({ commit, getters }, payload) {
+  async SPUpdateAttempt({ commit, getters, dispatch }, payload) {
     if (getters.SPGetReviewingPreviousRound) {
       return
     }
@@ -88,6 +93,16 @@ const actions = {
     if (checkEntryCompletion(attempt)) {
       const accuracyHint = await getAccuracyHint(getters.SPGetSolution, attempt)
       commit('SP_SET_ACCURACY_HINT', { accuracyHint, attemptIndex })
+      
+      if (accuracyHint.correctPositionCount == 4) { // If the attempt is correct
+        dispatch('SPCompleteRound')
+      }
+
+      if (attemptIndex == 0) { // when last attempt
+        console.log("last attempt")
+        dispatch('SPCompleteRound')
+        //End round - review previous round
+      }
     }
   },
   SPUndoAttemptPiece({ commit, getters }) {
@@ -96,6 +111,16 @@ const actions = {
     }
     const attemptIndex = getters.SPGetCurrentAttempt
     commit('SP_UNDO_ATTEMPT_PIECE', { attemptIndex })
+  },
+  SPCompleteRound({ commit, getters }) {
+    const currentRoom = getters.SPGetCurrentRoom
+    delete currentRoom.previousRound
+
+    const room = getters.SPGetBaseRoom
+    room.reviewingPreviousRound = true
+    room.previousRound = currentRoom
+
+    commit('SP_SET_CURRENT_ROOM', room)
   },
 }
 
