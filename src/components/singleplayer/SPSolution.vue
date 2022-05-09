@@ -1,10 +1,15 @@
 <template>
   <div class="solution">
-    <SPCodeRow
-      :code="getSolution"
+    <SPCodeRow v-if="!SPGetReviewingPreviousRound"
+      :code="['x','x','x','x']"
       :onClick="onClick"
       :isSolution="true"
       class="solution-code-row" />
+    <SPCodeRow v-else
+    :code="getSolution"
+    :onClick="onClick"
+    :isSolution="true"
+    class="solution-code-row" />
   </div>
 </template>
 
