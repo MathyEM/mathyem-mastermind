@@ -72,8 +72,9 @@ class SocketioService {
         store.commit('SET_USER', {})
         store.commit('SET_LOGIN_STATUS', false)
         await window.cookieStore.delete('session_id')
-
-        if (router.history.current.name != 'login') {
+        
+        if (router.history.current.name != 'login' && router.history.current.name != 'singleplayer') {
+          console.log('error, redirecting');
           router.push({ name: 'login' })
         }
       }
