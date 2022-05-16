@@ -3,7 +3,10 @@
     <div class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
       <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Room'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
-      <OptionsButton :title="isInRoom ? '' : 'Options'"/>
+      <OptionsButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Options'"/>
+      <button v-if="!getLoginStatus" @click="$router.push({ name: 'login' })" class="home-btn">
+        <span class="material-icons md-32">home</span>Home
+      </button>
     </div>
     <RoomList />
     <Options />
@@ -142,7 +145,7 @@ body {
   box-shadow: 0px 2px 4px -2px $shadow-color;
 
   &.unauthorized {
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   .room-name {
@@ -153,6 +156,20 @@ body {
     & > div {
       display: flex;
       justify-content: space-around;
+    }
+  }
+
+  .home-btn {
+    font-weight: bold;
+    font-size: inherit;
+    background: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+
+    span {
+      margin-right: 5px;
     }
   }
 }

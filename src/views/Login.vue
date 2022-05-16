@@ -2,18 +2,21 @@
   <div class="login-screen">
     <h2>{{ title }}</h2>
     <LoginRegister/>
+    <SinglePlayerButton v-if="!getRegisteringState" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
+import SinglePlayerButton from '@/components/SinglePlayerButton.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Login',
   components: {
     LoginRegister,
+    SinglePlayerButton,
   },
   data() {
     return {
@@ -21,7 +24,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus']),
+    ...mapGetters(['getLoginStatus', 'getRegisteringState']),
     loginStatus () {
       return this.getLoginStatus
     },

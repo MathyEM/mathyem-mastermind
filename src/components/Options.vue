@@ -3,17 +3,17 @@
     <div
     v-if="getShowOptions"
     class="options"
-    :class="{'in-room': (getCurrentRoom._id != undefined)}"
+    :class="{'in-room': (getCurrentRoom._id != false)}"
     v-click-outside="toggleMenus">
       <div class="footer">
-        <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
+        <div v-if="getCurrentRoom._id != false" class="join-code" @click="copyRoomId">
           <p><span class="join-code-text">Tap to copy invitation link</span></p>
           <div class="copy-img">
             <span class="material-icons">content_copy</span>
           </div>
         </div>
         <div class="options-buttons">
-          <div v-if="getCurrentRoom._id != undefined" class="leave-room">
+          <div v-if="getCurrentRoom._id != false" class="leave-room">
             <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
             <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
           </div>
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     ...mapState(['currentRoom']),
-    ...mapGetters(['getCurrentRoom', 'getShowOptions']),
+    ...mapGetters(['getCurrentRoom', 'getShowOptions', 'SPGetCurrentRoom']),
 	},
   methods: {
     ...mapMutations(['SET_SHOW_OPTIONS', 'SET_SHOW_ROOM_LIST']),
