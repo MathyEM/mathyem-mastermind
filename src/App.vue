@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{'is-browser': isBrowser}">
-    <div v-if="getLoginStatus" class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0) }">
-      <RoomListButton :title="isInRoom ? '' : 'Room'" />
+    <div class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
+      <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Room'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
       <OptionsButton :title="isInRoom ? '' : 'Options'"/>
     </div>
@@ -140,6 +140,10 @@ body {
   overflow: hidden;
   background: $background-color-1dp;
   box-shadow: 0px 2px 4px -2px $shadow-color;
+
+  &.unauthorized {
+    justify-content: flex-end;
+  }
 
   .room-name {
     display: flex;
