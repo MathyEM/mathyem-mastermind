@@ -4,8 +4,11 @@
       <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Room'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
       <OptionsButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Options'"/>
-      <button v-if="!getLoginStatus" @click="$router.push({ name: 'login' })" class="home-btn">
-        <span class="material-icons md-32">home</span>Home
+      <button v-if="!getLoginStatus && $router.history.current.name != 'login'" @click="$router.push({ name: 'login' })" class="home-btn">
+        <span class="material-icons md-32">login</span>Login
+      </button>
+      <button v-if="!getLoginStatus && $router.history.current.name == 'login'" class="home-btn">
+        <span class="material-icons md-32">login</span>Login
       </button>
     </div>
     <RoomList />
