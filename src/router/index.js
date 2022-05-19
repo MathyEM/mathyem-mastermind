@@ -73,22 +73,27 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   // console.log('from:',from)
   // console.log('to:',to)
-  try {
-    if (await window.cookieStore.get('session_id')) {
-      next()
-      return
-    }
-  } catch (error) {
-    console.log(error)
+  
+  if (from.name === 'login' && to.name === 'singleplayer' && await window.cookieStore.get('session_id')) {
+    next({ name: 'home' })
+    // console.log('called')
   }
   
-  if (to.name === 'login') {
-    next() // login route is always  okay (we could use the requires auth flag below). prevent a redirect loop
+  if (to.name === 'login' && !(await window.cookieStore.get('session_id'))) {
+    // console.log('login page is okay')
+    next() // login route is always okay (we could use the requires auth flag below). prevent a redirect loop
+  } else if (to.name === 'login' && await window.cookieStore.get('session_id')) {
+    // console.log('already logged in, go to home')
+    next({ name: 'home' })
   } else if (to.meta && to.meta.requiresAuth === false) {
+    // console.log('does not require auth')
     next() // requires auth is explicitly set to false
-  } else if (store.getters.getLoginStatus) {
+  } else if (store.getters.getLoginStatus || await window.cookieStore.get('session_id')) {
+    // console.log('im logged in, carry on');
     next() // i'm logged in. carry on
   } else {
+    // console.log('session_id:',await window.cookieStore.get('session_id'));
+    // console.log('always redirect to login page')
     next({ name: 'login' }) // always put your redirect as the default case
   }
 })
