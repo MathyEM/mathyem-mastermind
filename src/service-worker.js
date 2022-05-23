@@ -40,18 +40,18 @@ self.addEventListener('activate', async (event) => {
 
 self.addEventListener("push", async event => {
   const data = event.data.json()
+  console.log(self)
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
       icon: "https://i.imgur.com/7altDmI.png",
       badge: "https://i.imgur.com/7altDmI.png",
-      vibrate: [200, 100, 200],
       data: {
         roomId: data.data.roomId,
         test: 'test',
       }
     })
-  )
+    )
 })
 
 self.addEventListener("pushsubscriptionchange", event => {
