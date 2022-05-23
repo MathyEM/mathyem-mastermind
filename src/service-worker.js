@@ -51,7 +51,8 @@ self.addEventListener("push", async event => {
         test: 'test',
       }
     })
-  )
+    )
+    self.vibrate([300, 200, 300])
 })
 
 self.addEventListener("pushsubscriptionchange", event => {
