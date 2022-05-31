@@ -6,7 +6,7 @@
       <SPNextRoundButton v-else />
     </div>
     <SPAttempts />
-    <SPCodeButtons :singleplayer="true" />
+    <SPCodeButtons />
   </div>
 </template>
 
