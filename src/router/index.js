@@ -5,7 +5,7 @@ import Home from '../views/Home.vue'
 import Room from '../views/Room.vue'
 import JoinRoom from '../views/JoinRoom.vue'
 import SinglePlayer from '../views/SinglePlayer.vue'
-// import Tutorial from '../views/Tutorial.vue'
+import Tutorial from '../views/Tutorial.vue'
 // import Game from '../views/Game.vue'
 import store from '../store'
 // import 'cookie-store'
@@ -51,11 +51,11 @@ const routes = [
     component: SinglePlayer,
     meta: { requiresAuth: false }
   },
-  // {
-  //   path: '/tutorial',
-  //   name: 'tutorial',
-  //   component: Tutorial,
-  // },
+  {
+    path: '/tutorial',
+    name: 'tutorial',
+    component: Tutorial,
+  },
   {
     path: '/about',
     name: 'About',

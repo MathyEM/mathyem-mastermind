@@ -20,7 +20,7 @@ import SPCodeButtons from '@/components/singleplayer/SPCodeButtons.vue'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'SinglePlayer',
+  name: 'Tutorial',
   components: {
     SPSolution,
     GameStatus,
