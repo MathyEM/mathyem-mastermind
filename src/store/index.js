@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import options from './modules/options'
+import helpers from './modules/helpers'
 import statusMessages from './modules/statusMessages'
 import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
@@ -278,6 +279,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
+    helpers,
     statusMessages,
     options,
     loginRegister,
