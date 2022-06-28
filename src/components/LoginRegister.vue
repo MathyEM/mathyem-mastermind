@@ -137,11 +137,6 @@ export default {
     },
 		login() {
       this.loginUser()
-      // if (!this.$route.params.join) {
-      //   this.loginUser({ name: 'home' })
-      // } else {
-      //   this.loginUser({ name: 'join', params: { id: this.$route.params.join } })
-      // }
     },
     register() {
       this.registerUser(this.$v.$invalid)
