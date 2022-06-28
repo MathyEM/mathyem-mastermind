@@ -131,16 +131,22 @@ export default {
       'UPDATE_REMEMBER_ME',
       'UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE',
       ]),
+      ...mapGetters(['getUserId']),
     onSubmit() {
       return false
     },
 		login() {
-      this.loginUser(this.$route.params)
+      this.loginUser()
+      // if (!this.$route.params.join) {
+      //   this.loginUser({ name: 'home' })
+      // } else {
+      //   this.loginUser({ name: 'join', params: { id: this.$route.params.join } })
+      // }
     },
     register() {
       this.registerUser(this.$v.$invalid)
     }
-  }
+  },
 }
 </script>
 

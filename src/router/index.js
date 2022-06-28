@@ -71,8 +71,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  // console.log('from:',from)
-  // console.log('to:',to)
+  console.log('from:',from)
+  console.log('to:',to)
   
   if (from.name === 'login' && to.name === 'singleplayer' && await window.cookieStore.get('session_id')) {
     next({ name: 'home' })
@@ -92,7 +92,6 @@ router.beforeEach(async (to, from, next) => {
     // console.log('im logged in, carry on');
     next() // i'm logged in. carry on
   } else {
-    console.log(to);
     if (!to.params && !to.params.id && to.name !== 'join') {
       next({ name: 'login' }) // always put your redirect as the default case
     } else {

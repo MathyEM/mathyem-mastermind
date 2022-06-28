@@ -190,7 +190,8 @@ export default new Vuex.Store({
     socketLogin({ dispatch }, payload) {
       socketConnection.disconnect()
       socketConnection.setupSocketConnection()
-      router.go(payload)
+      payload
+      // router.go(payload)
       dispatch('updateLoginStatus', true)
     },
     updateLoginStatus({ commit }, payload) {

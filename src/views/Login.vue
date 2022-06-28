@@ -35,14 +35,24 @@ export default {
   watch: {
     loginStatus: async function (newLoginStatus) {
       if (newLoginStatus) {
-        this.$router.go(-1)
+        if (!this.$route.params.join) {
+          this.$router.go(-1)
+          console.log('go back!!!')
+        } else {
+          this.$router.push({ name: 'join', params: { id: this.$route.params.join } })
+        }
       }
     }
   },
   async created() {
     if (this.getLoginStatus) {
-      this.$router.push({ name: 'home' })
+      if (!this.$route.params.join) {
+        this.$router.push({ name: 'home' })
+      } else {
+        this.$router.push({ name: 'join', params: { id: this.$route.params.join } })
+      }
     }
+    
   },
 }
 </script>

@@ -93,7 +93,7 @@ const mutations = {
   },
 }
 const actions = {
-  loginUser({ getters, commit, dispatch }, payload) {
+  loginUser({ getters, commit, dispatch }) {
     if (!getters.getLocalUsername || !getters.getLocalPassword) {
       return
     }
@@ -106,12 +106,7 @@ const actions = {
     .then((response) => {
       commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', false)
       console.log(response)
-      if (payload.join) {
-        dispatch('socketLogin', { name: 'join', params: { id: payload.join } }, { root: true })
-        
-      } else {
-        dispatch('socketLogin', { name: 'home' }, { root: true })
-      }
+      dispatch('socketLogin', { name: 'home' }, { root: true })
     }).catch((err) => {
       commit('UPDATE_INCORRECT_USERNAME_OR_PASSWORD_STATE', true)
       console.log('status: ', err)
