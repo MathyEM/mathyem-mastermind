@@ -135,7 +135,7 @@ export default {
       return false
     },
 		login() {
-      this.loginUser()
+      this.loginUser(this.$route.params)
     },
     register() {
       this.registerUser(this.$v.$invalid)

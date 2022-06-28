@@ -18,7 +18,7 @@ const routes = [
     redirect: '/home',
   },
   {
-    path: '/login',
+    path: '/login/:join?',
     name: 'login',
     component: Login,
     meta: {
@@ -92,9 +92,12 @@ router.beforeEach(async (to, from, next) => {
     // console.log('im logged in, carry on');
     next() // i'm logged in. carry on
   } else {
-    // console.log('session_id:',await window.cookieStore.get('session_id'));
-    // console.log('always redirect to login page')
-    next({ name: 'login' }) // always put your redirect as the default case
+    console.log(to);
+    if (!to.params && !to.params.id && to.name !== 'join') {
+      next({ name: 'login' }) // always put your redirect as the default case
+    } else {
+      next({ name: 'login', params: { join: to.params.id } })
+    }
   }
 })
 
