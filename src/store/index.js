@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import options from './modules/options'
+import helpers from './modules/helpers'
 import statusMessages from './modules/statusMessages'
 import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
@@ -13,7 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appVersion: '2.11.9',
+    appVersion: '2.11.13',
     registeringState: false,
     sessionLoading: true,
     user: {
@@ -186,9 +187,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    socketLogin({ dispatch }) {
+    socketLogin({ dispatch }, payload) {
       socketConnection.disconnect()
       socketConnection.setupSocketConnection()
+      payload
+      // router.go(payload)
       dispatch('updateLoginStatus', true)
     },
     updateLoginStatus({ commit }, payload) {
@@ -278,6 +281,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
+    helpers,
     statusMessages,
     options,
     loginRegister,

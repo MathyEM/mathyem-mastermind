@@ -5,7 +5,7 @@ import Home from '../views/Home.vue'
 import Room from '../views/Room.vue'
 import JoinRoom from '../views/JoinRoom.vue'
 import SinglePlayer from '../views/SinglePlayer.vue'
-// import Tutorial from '../views/Tutorial.vue'
+import Tutorial from '../views/Tutorial.vue'
 // import Game from '../views/Game.vue'
 import store from '../store'
 // import 'cookie-store'
@@ -18,7 +18,7 @@ const routes = [
     redirect: '/home',
   },
   {
-    path: '/login',
+    path: '/login/:join?',
     name: 'login',
     component: Login,
     meta: {
@@ -51,11 +51,11 @@ const routes = [
     component: SinglePlayer,
     meta: { requiresAuth: false }
   },
-  // {
-  //   path: '/tutorial',
-  //   name: 'tutorial',
-  //   component: Tutorial,
-  // },
+  {
+    path: '/tutorial',
+    name: 'tutorial',
+    component: Tutorial,
+  },
   {
     path: '/about',
     name: 'About',
@@ -71,8 +71,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  // console.log('from:',from)
-  // console.log('to:',to)
+  console.log('from:',from)
+  console.log('to:',to)
   
   if (from.name === 'login' && to.name === 'singleplayer' && await window.cookieStore.get('session_id')) {
     next({ name: 'home' })
@@ -92,9 +92,11 @@ router.beforeEach(async (to, from, next) => {
     // console.log('im logged in, carry on');
     next() // i'm logged in. carry on
   } else {
-    // console.log('session_id:',await window.cookieStore.get('session_id'));
-    // console.log('always redirect to login page')
-    next({ name: 'login' }) // always put your redirect as the default case
+    if (!to.params && !to.params.id && to.name !== 'join') {
+      next({ name: 'login' }) // always put your redirect as the default case
+    } else {
+      next({ name: 'login', params: { join: to.params.id } })
+    }
   }
 })
 

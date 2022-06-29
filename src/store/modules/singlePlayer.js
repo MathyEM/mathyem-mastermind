@@ -73,7 +73,7 @@ const actions = {
   },
   async InitializeSinglePlayerGame({ commit, dispatch }) {
     const defaultRoom = await dispatch('SPCreateBaseRoom')
-    defaultRoom.solution = [getRandomInt(4),getRandomInt(4),getRandomInt(4),getRandomInt(4)]
+    defaultRoom.solution = [await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4)]
     defaultRoom.previousRound = {}
     defaultRoom.previousRound.accuracyHints = defaultRoom.accuracyHints
     defaultRoom.previousRound.attempts = defaultRoom.attempts
@@ -83,6 +83,7 @@ const actions = {
     commit('SP_SET_CURRENT_ROOM', defaultRoom)
   },
   async SPUpdateAttempt({ commit, getters, dispatch }, payload) {
+    const solution = getters.SPGetSolution
     if (getters.SPGetReviewingPreviousRound) {
       return
     }
@@ -91,8 +92,8 @@ const actions = {
     commit('SP_UPDATE_ATTEMPT', { code, attemptIndex })
 
     const attempt = getters.SPGetCurrentRoom.attempts[attemptIndex].slice()
-    if (checkEntryCompletion(attempt)) {
-      const accuracyHint = await getAccuracyHint(getters.SPGetSolution, attempt)
+    if (await dispatch('checkEntryCompletion', attempt)) {
+      const accuracyHint = await dispatch('getAccuracyHint', { solution, attempt })
       commit('SP_SET_ACCURACY_HINT', { accuracyHint, attemptIndex })
       
       if (accuracyHint.correctPositionCount == 4) { // If the attempt is correct
@@ -135,37 +136,4 @@ export default {
     getters,
     mutations,
     actions
-}
-
-function checkEntryCompletion(entry) {  // check if an attempt or solution entry is complete (i.e. does not require more code pieces)
-  if (!entry.includes('')) {
-    return true
-  }
-  return false
-}
-
-const getAccuracyHint = async (solution, attempt) => {
-	let solutionCopy = solution.slice()
-	let correctPieceCount = 0
-	let correctPositionCount = 0
-
-	for (let index = 0; index < attempt.length; index++) {
-		const piece = attempt[index]
-		const indexOfAttemptPiece = solutionCopy.indexOf(piece)
-
-		if (indexOfAttemptPiece > -1) {	// if the solutions includes the attemptPiece then count it as a correct piece and remove it from the copy
-			correctPieceCount++
-			solutionCopy.splice(indexOfAttemptPiece, 1)
-		}
-
-		if (piece === solution[index]) { // if the code piece is the same for both attempt and solution at the same index
-			correctPositionCount++
-		}
-	}
-	
-	return { correctPieceCount, correctPositionCount }
-}
-
-function getRandomInt(max) {
-  return Math.floor((Math.random() * max) + 1).toString();
 }
