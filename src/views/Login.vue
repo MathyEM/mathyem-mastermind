@@ -37,7 +37,6 @@ export default {
       if (newLoginStatus) {
         if (!this.$route.params.join) {
           this.$router.go(-1)
-          console.log('go back!!!')
         } else {
           this.$router.push({ name: 'join', params: { id: this.$route.params.join } })
         }

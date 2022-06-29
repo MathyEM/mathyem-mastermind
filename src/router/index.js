@@ -92,10 +92,10 @@ router.beforeEach(async (to, from, next) => {
     // console.log('im logged in, carry on');
     next() // i'm logged in. carry on
   } else {
-    if (!to.params && !to.params.id && to.name !== 'join') {
-      next({ name: 'login' }) // always put your redirect as the default case
-    } else {
+    if (to.params && to.params.id && to.name == 'join') {
       next({ name: 'login', params: { join: to.params.id } })
+    } else {
+      next({ name: 'login' }) // always put your redirect as the default case
     }
   }
 })
