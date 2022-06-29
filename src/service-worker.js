@@ -38,6 +38,15 @@ self.addEventListener('activate', async (event) => {
   console.log(await self.registration.cookies)
 })
 
+var refreshing;
+self.addEventListener('controllerchange',
+  function() {
+    if (refreshing) return;
+    refreshing = true
+    window.location.reload()
+  }
+)
+
 self.addEventListener("push", async event => {
   const data = event.data.json()
   console.log(self)
