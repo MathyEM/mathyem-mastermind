@@ -1,6 +1,6 @@
 {
   "name": "mastermind",
-  "version": "2.11.13",
+  "version": "2.11.14",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 7070",
