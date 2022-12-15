@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{'is-browser': isBrowser}">
     <div class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
-      <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Room'" />
+      <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Rooms'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
       <OptionsButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Options'"/>
       <button v-if="!getLoginStatus && $router.history.current.name != 'login'" @click="$router.push({ name: 'login' })" class="home-btn">
