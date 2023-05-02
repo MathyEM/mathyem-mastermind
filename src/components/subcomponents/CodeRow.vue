@@ -3,6 +3,11 @@
     <div v-for="(piece, index1) in code" :key="index1" ref="code-piece" @click="onClick(index1, attemptIndex)" class="code-piece">
       <div>{{ piece }}</div>
     </div>
+    <div v-if="hasCodeMakerAuthority && !getReviewingPreviousRound && isSolution" class="undo-solution">
+      <button @click="undoSolutionPiece">
+        <span class="material-icons">undo</span>
+      </button>
+    </div>
   </div>
   <div v-else class="code-row" :class="{ disabled: disabled }">
     <div v-for="(piece, index2) in gameData.attempts[attemptIndex]" :key="index2" ref="code-piece" @click="onClick(index2, attemptIndex)" class="code-piece">
@@ -17,8 +22,7 @@
     </div>
     <div v-else-if="getCurrentAttempt == attemptIndex && !getReviewingPreviousRound && hasCodeBreakerAuthority" class="undo-attempt">
       <button @click="undoAttemptPiece">
-        <img :src="undoImg" alt="Undo icon. Use to reset current attempt">
-        <!-- <a href="https://www.flaticon.com/free-icons/undo" title="undo icons">Undo icons created by joalfa - Flaticon</a> -->
+        <span class="material-icons">undo</span>
       </button>
     </div>
     <div v-if="getLoadingAccuracyHint === attemptIndex" class="accuracy-hints loading">
@@ -38,6 +42,10 @@ export default {
       type: Function
     },
     attemptIndex: Number,
+    isSolution: {
+      default: false,
+      type: Boolean,
+    },
     disabled: {
       default: false,
       type: Boolean,
@@ -45,7 +53,6 @@ export default {
   },
   data() {
     return {
-      undoImg: require('@/assets/undo.png'),
       loading: require('@/assets/Spinner-1s-357px.svg'),
     }
   },
@@ -54,6 +61,7 @@ export default {
       'getCurrentRoom',
       'getCurrentAttempt',
       'hasCodeBreakerAuthority',
+      'hasCodeMakerAuthority',
       'getReviewingPreviousRound',
       'getPreviousRound',
       'getLoadingAccuracyHint'
@@ -68,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['undoAttemptPiece']),
+    ...mapActions(['undoAttemptPiece', 'undoSolutionPiece']),
   },
   created() {
       
@@ -77,8 +85,17 @@ export default {
 </script>
 
 <style lang="scss">
-$color: #000;
-
+.is-browser .code-row {
+  .code-piece > div {
+    @include code-piece-scaling(1);
+  }
+  .accuracy-hints {
+    @include code-piece-scaling(1);
+  }
+  .undo-attempt, .undo-solution {
+    @include code-piece-scaling(1);
+  }
+}
 .code-row {
   position: relative;
   user-select: none;
@@ -92,9 +109,14 @@ $color: #000;
   .code-piece {
     display: flex;
     justify-content: center;
-    border: 1px solid $color;
-    border-radius: 0.5rem;
+    // border: 1px solid $text-color-medium;
+    border: none;
+    border-radius: 0.4rem;
+    color: $text-color;
+    background: $background-color-2dp;
+    box-shadow: $shadow-2dp;
     cursor: pointer;
+    transition: background-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
 
     > div {
       display: flex;
@@ -102,16 +124,16 @@ $color: #000;
       align-items: center;
       justify-content: center;
       font-size: 1.2em;
-      @include code-piece-scaling(1);
+      @include code-piece-scaling(1.15);
     }
   }
-  .accuracy-hints, .undo-attempt {
+  .accuracy-hints, .undo-attempt, .undo-solution {
     position: absolute;
     right: -25%;
   }
 
-  .undo-attempt {
-    @include code-piece-scaling(1);
+  .undo-attempt, .undo-solution {
+    @include code-piece-scaling(1.15);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -119,31 +141,47 @@ $color: #000;
     button {
       display: flex;
       align-items: center;
-      height: 75%;
-      width: 75%;
-      padding: 0 0.2rem;
-      border: 1px solid gray;
+      justify-content: center;
+      height: 90%;
+      width: 90%;
+      outline: none;
+      border: none;
       border-radius: 0.2rem;
+      padding: 0;
+      background: $background-color-3dp;
+      box-shadow: $shadow-3dp;
+      transition: background-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
 
-      img {
-        // height: 100%;
-        width: 100%;
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        color: $text-color;
+
+        &.material-icons {
+          font-size: 200%;
+        }
+      }
+
+      &:active {
+        background: $background-color-1dp;
+        box-shadow: $shadow-1dp;
+        transition: background-color 50ms ease-in-out, box-shadow 50ms ease-in-out;
       }
     }
   }
 
   .accuracy-hints {
-    @include code-piece-scaling(1);
+    @include code-piece-scaling(1.15);
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-auto-flow: column;
-    gap: 0.1rem;
-    // border: 1px solid transparent;
+    gap: 2px;
 
     .hint {
-      border: 1px solid black;
       border-radius: 0.1rem;
+      box-shadow: $shadow-1dp;
 
       &.correctPiece {
         background: $orange;
@@ -169,17 +207,19 @@ $color: #000;
   }
 
   &.active .code-piece {
-    border-style: dashed;
+    color: $text-color;
+    background: $background-color-16dp;
+    box-shadow: $shadow-16dp;
   }
 
   &.disabled {
     pointer-events: none;
 
     .code-piece {
-      $amount: 0.5;
-      color: transparentize($color, $amount);
-      border-color: transparentize($color, $amount);
-      background: lighten($color, $amount*100);
+      color: $text-color-disabled;
+      border-color: none;
+      background: $background-color-0dp;
+      box-shadow: $shadow-1dp;
     }
   }
 
@@ -201,7 +241,13 @@ $color: #000;
         border-radius: 0.1rem;
       }
     }
-
+    .undo-attempt, .undo-solution {
+      button {
+        span.material-icons {
+          font-size: 170%;
+        }
+      }
+    }
   }
 }
 </style>

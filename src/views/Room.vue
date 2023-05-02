@@ -82,7 +82,7 @@ export default {
 <style lang="scss">
 .game {
   display: grid;
-  grid-template-rows: auto auto auto auto 1fr auto;
+  grid-template-rows: auto auto auto auto 1fr;
   height: 100%;
 }
 </style>

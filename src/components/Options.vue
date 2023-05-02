@@ -3,17 +3,17 @@
     <div
     v-if="getShowOptions"
     class="options"
-    :class="{'in-room': (getCurrentRoom._id != undefined)}"
+    :class="{'in-room': (getCurrentRoom._id != false)}"
     v-click-outside="toggleMenus">
       <div class="footer">
-        <div v-if="getCurrentRoom._id != undefined" class="join-code" @click="copyRoomId">
-          <p><span class="join-code-text">Tap to copy invitation link</span><br> {{ getCurrentRoom._id }}</p>
+        <div v-if="getCurrentRoom._id != false" class="join-code" @click="copyRoomId">
+          <p><span class="join-code-text">Tap to copy invitation link</span></p>
           <div class="copy-img">
-            <img :src="copyImg" alt="copy-paste icon">
+            <span class="material-icons">content_copy</span>
           </div>
         </div>
         <div class="options-buttons">
-          <div v-if="getCurrentRoom._id != undefined" class="leave-room">
+          <div v-if="getCurrentRoom._id != false" class="leave-room">
             <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
             <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
           </div>
@@ -23,7 +23,6 @@
         </div>
       </div>
     </div>
-    <!-- <div> undefined <a href="" title="Gregor Cresnar"> Gregor Cresnar </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
   </transition>
 </template>
 
@@ -34,13 +33,12 @@ export default {
   name: 'Options',
   data() {
     return {
-      copyImg: require('@/assets/copy67x67.png'),
       leaveRoomClicked: false,
     }
   },
   computed: {
     ...mapState(['currentRoom']),
-    ...mapGetters(['getCurrentRoom', 'getShowOptions']),
+    ...mapGetters(['getCurrentRoom', 'getShowOptions', 'SPGetCurrentRoom']),
 	},
   methods: {
     ...mapMutations(['SET_SHOW_OPTIONS', 'SET_SHOW_ROOM_LIST']),
@@ -127,9 +125,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.7rem;
-$item-margin: 0.5rem;
-$dark-gray: #505050;
+$margin-top: $menu-margin-top;
+$item-margin: 1rem;
+$color: $background-color-2dp;
 
 .options {
   z-index: 4;
@@ -142,29 +140,26 @@ $dark-gray: #505050;
   overflow-y: auto;
   max-height: 70vh;
   margin-top: $margin-top;
-  background: $dark-gray;
-  color: whitesmoke;
+  background: $color;
+  color: $text-color;
   text-align: left;
-
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
-  border-bottom: 1px solid darken($dark-gray, 7);
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid darken($color, 7);
+  box-shadow: $shadow-2dp;
 
   .footer {
     margin-top: auto;
-
-    & > div {
-      margin-top: $item-margin;
-    }
   }
 
   .join-code {
     font-size: 1rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     padding: 0.2rem 0;
+    margin-bottom: $item-margin;
     transition: background-color 100ms ease-in-out;
     cursor: pointer;
 
@@ -177,19 +172,17 @@ $dark-gray: #505050;
     }
     .join-code-text {
       font-weight: bold;
+      margin-right: 1rem;
     }
     .copy-img {
       display: flex;
-      img {
-        height: 2em;
-      }
     }
   }
 
   .options-buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $item-margin;
+    gap: 0.5rem;
   }
 
   .logout-btn {
@@ -202,21 +195,22 @@ $dark-gray: #505050;
 
   .leave-room, .logout-btn {
     button {
-      $btn-color: #fff;
       margin: auto;
       padding: 0.5rem;
       height: 100%;
-      font-size: 0.8em;
+      font-size: 1.1rem;
       border: 0;
       color: inherit;
-      background: rgba($btn-color, $alpha: 0.2);
+      background: $orange;
+      box-shadow: $shadow-2dp;
 
       &:active {
-        background: rgba($btn-color, $alpha: 0.1);
+        background: $orange-darkened;
+        box-shadow: $shadow-1dp;
       }
 
       &.leave-room-confirm-btn {
-        background: indianred;
+        background: $red;
       }
     }
   }
@@ -225,7 +219,7 @@ $dark-gray: #505050;
   &::-webkit-scrollbar{
     width: 13px;
     height: 13px;
-    background: $dark-gray;
+    background: $color;
   }
   &::-webkit-scrollbar-thumb{
     background: #B3AFB3;

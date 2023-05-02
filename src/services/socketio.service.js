@@ -2,6 +2,7 @@ import { io } from 'socket.io-client'
 import store from '../store'
 import ConfigProvider from '@/ConfigProvider'
 import router from '../router'
+import 'cookie-store'
 
 const socketEndpoint = ConfigProvider.value('socketEndpoint')
 
@@ -25,6 +26,7 @@ class SocketioService {
     this.socket.on('connected', async response => {
       store.commit('SET_SESSION_LOADING', false)
       if (response.authorization) {
+        store.commit('SET_LOGIN_STATUS', true)
         const { _id, username, email } = response.user
         store.commit('SET_USER', {
           id: _id,
@@ -32,7 +34,6 @@ class SocketioService {
           email: email,
         })
 
-        store.commit('SET_LOGIN_STATUS', true)
       }
     })
     
@@ -71,8 +72,9 @@ class SocketioService {
         store.commit('SET_USER', {})
         store.commit('SET_LOGIN_STATUS', false)
         await window.cookieStore.delete('session_id')
-
-        if (router.history.current.name != 'login') {
+        
+        if (router.history.current.name != 'login' && router.history.current.name != 'singleplayer') {
+          console.log('error, redirecting');
           router.push({ name: 'login' })
         }
       }

@@ -1,9 +1,15 @@
 <template>
-  <div id="app">
-    <div v-if="getLoginStatus" class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0) }">
-      <RoomListButton :title="isInRoom ? '' : 'Room'" />
+  <div id="app" :class="{'is-browser': isBrowser}">
+    <div class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
+      <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Rooms'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
-      <OptionsButton :title="isInRoom ? '' : 'Options'"/>
+      <OptionsButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Options'"/>
+      <button v-if="!getLoginStatus && $router.history.current.name != 'login'" @click="$router.push({ name: 'login' })" class="home-btn">
+        <span class="material-icons md-32">login</span>Login
+      </button>
+      <button v-if="!getLoginStatus && $router.history.current.name == 'login'" class="home-btn">
+        <span class="material-icons md-32">login</span>Login
+      </button>
     </div>
     <RoomList />
     <Options />
@@ -36,6 +42,7 @@ export default {
   data() {
     return {
       loading: require('@/assets/Spinner-1s-357px.svg'),
+      isBrowser: !(window.matchMedia('(display-mode: standalone)').matches),
     }
   },
   computed: {
@@ -44,9 +51,13 @@ export default {
   methods: {
     ...mapActions(['setRegistrationAndPushSubscription']),
     async clearNotifications() {
-      const reg = await this.getSWRegistration
+      const reg = await navigator.serviceWorker.getRegistration()
       if (!reg) {
         console.log('no registration detected')
+        return
+      }
+      if (!('getNotifications' in reg)) {
+        console.log('notifications not supported')
         return
       }
       const notifications = await reg.getNotifications()
@@ -94,6 +105,7 @@ export default {
 * {
   box-sizing: border-box;
   touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -103,18 +115,19 @@ html {
 body {
   height: 100%;
   margin: 0;
+  background: $background-color;
 }
 
 #app {
   height: 100%;
-  max-width: 400px;
+  max-width: 500px;
   position: relative;
   margin: auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $text-color;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: min-content auto min-content;
@@ -127,10 +140,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 0.25rem;
-  margin-bottom: 0.1rem;
+  padding: 0.25rem;
+  margin-bottom: 0;
   font-size: 1.5rem;
   overflow: hidden;
+  background: $background-color-1dp;
+  box-shadow: 0px 2px 4px -2px $shadow-color;
+
+  &.unauthorized {
+    justify-content: center;
+  }
 
   .room-name {
     display: flex;
@@ -140,6 +159,20 @@ body {
     & > div {
       display: flex;
       justify-content: space-around;
+    }
+  }
+
+  .home-btn {
+    font-weight: bold;
+    font-size: inherit;
+    background: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+
+    span {
+      margin-right: 5px;
     }
   }
 }
@@ -157,7 +190,43 @@ body {
 }
 }
 
+input[type=text], input[type=username], input[type=email], input[type=password], button {
+  border: none;
+  outline: none;
+  border-radius: $button-border-radius;
+  box-shadow: $shadow-2dp;
+}
 
+input[type=checkbox] {
+  box-shadow: $shadow-2dp;
+  border: none;
+  outline: none;
+  &:focus, &:active {
+    box-shadow: $shadow-1dp;
+  }
+}
+
+input {
+  background: $background-color-2dp;	
+  color: $text-color;	
+  &::placeholder {
+    color: $text-color-medium;
+  }
+
+  &:focus {
+  background: $background-color-3dp;
+  box-shadow: $shadow-3dp;
+    &::placeholder {
+      color: $text-color;
+    }
+  }
+}
+
+button {
+  &:active {
+    box-shadow: $shadow-1dp;
+  }
+}
 
 .room-name-text {
   margin: 0;
@@ -189,11 +258,7 @@ body {
   margin: auto;
   margin-top: 0;
   width: 100%;
-  padding: 0 0.5rem 0;
-
-  h2 {
-    margin-top: 0;
-  }
+  padding: 0;
 
   &.hidden {
     display: none;

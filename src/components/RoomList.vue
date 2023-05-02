@@ -21,11 +21,10 @@
       </div>
       <div class="room-list-footer">
         <div class="back-btn" @click="backToHome($route.name)">
-          <img :src="backBtn" alt="back-icon icon">
-          <p>Back to create/join room</p>
+          <span class="material-icons">arrow_back</span>
+          <p>Back to home</p>
         </div>
       </div>
-      <!-- <div> Icons made by <a href="https://www.flaticon.com/authors/fuzzee" title="Fuzzee"> Fuzzee </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div> -->
     </div>
   </transition>
 </template>
@@ -44,7 +43,6 @@ export default {
   },
 	data() {
 		return {
-      backBtn: require('@/assets/left-arrow.png'),
       loading: require('@/assets/Spinner-1s-357px.svg'),
 		}
 	},
@@ -103,8 +101,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$margin-top: 2.7rem;
-$dark-gray: #505050;
+$margin-top: $menu-margin-top;
+$color: $background-color-2dp;
 
 .room-list {
   display: grid;
@@ -121,8 +119,9 @@ $dark-gray: #505050;
   overflow-x: hidden;
   max-height: 70vh;
   margin-top: $margin-top;
-  background: $dark-gray;
-  color: whitesmoke;
+  background: $color;
+  color: $text-color;
+  box-shadow: $shadow-2dp;
   
   .rooms {
     overflow-y: auto;
@@ -139,7 +138,7 @@ $dark-gray: #505050;
     &::-webkit-scrollbar{
       width: 6px;
       height: 13px;
-      background: $dark-gray;
+      background: $color;
     }
     &::-webkit-scrollbar-thumb{
       background: #B3AFB3;
@@ -175,18 +174,18 @@ $dark-gray: #505050;
 
     &:nth-child(even) {
       .marquee-text-text {
-        background: lighten($dark-gray, 2);
+        background: lighten($color, 2);
       }
     }
 
     .opponent, .room-name {
       margin: 0;
       padding: 0.6em 0.5em;
-      border-bottom: 1px solid darken($dark-gray, 7);
+      border-bottom: 1px solid $background-color-1dp;
     }
 
     .opponent {
-      border-right: 1px solid gray;
+      border-right: 1px solid $background-color-1dp;
     }
 
     .room-name {
@@ -198,7 +197,7 @@ $dark-gray: #505050;
         position: absolute;
         width: 0.3em;
         height: 95%;
-        background: $dark-gray;
+        background: $color;
         top: 50%;
         left: 0;
         transform: translateY(-50%);
@@ -207,7 +206,7 @@ $dark-gray: #505050;
     }
 
     &.active, &.active .room-name::before {
-      background: lighten($dark-gray, 8);
+      background: $background-color-8dp;
     }
 
     &::after {
@@ -228,14 +227,14 @@ $dark-gray: #505050;
   }
 
   .room:hover, .back-btn:hover, .room:hover .room-name::before {
-    background: lighten($dark-gray, 12);
+    background: $background-color-8dp;
   }
 
   .room-list-footer {
     .back-btn {
       padding: 0.5rem;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
       align-items: center;
       flex-direction: row;
       user-select: none;
@@ -243,11 +242,8 @@ $dark-gray: #505050;
 
       p {
         margin: 0;
+        margin-left: 0.5rem;
         font-weight: bold;
-      }
-
-      img {
-        height: 1.8em;
       }
     }
   }

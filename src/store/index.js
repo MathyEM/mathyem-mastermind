@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import options from './modules/options'
+import helpers from './modules/helpers'
 import statusMessages from './modules/statusMessages'
 import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
 import pushNotifcations from './modules/pushNotifcations'
+import singlePlayer from './modules/singlePlayer'
 import { socketConnection } from '@/services/socketio.service.js'
 import router from '../router'
 
@@ -12,7 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appVersion: '2.5.8',
+    appVersion: '2.11.14',
     registeringState: false,
     sessionLoading: true,
     user: {
@@ -144,6 +146,17 @@ export default new Vuex.Store({
       attemptsCopy[payload.attemptIndex][index] = ''
       state.currentRoom.attempts = attemptsCopy
     },
+    UNDO_SOLUTION_PIECE(state) {
+      // get the index of the first empty string in the solution
+      // minus 1 to get the index of the piece we want to remove
+      const index = state.localSolution.indexOf('')-1
+      if (index < 0) {
+        return
+      }
+      const localSolutionCopy = state.localSolution.slice()
+      localSolutionCopy[index] = ''
+      state.localSolution = localSolutionCopy
+    },
     UPDATE_ALL_ATTEMPTS(state, payload) {
       state.currentRoom.attempts = payload
     },
@@ -174,9 +187,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    socketLogin({ dispatch }) {
+    socketLogin({ dispatch }, payload) {
       socketConnection.disconnect()
       socketConnection.setupSocketConnection()
+      payload
+      // router.go(payload)
       dispatch('updateLoginStatus', true)
     },
     updateLoginStatus({ commit }, payload) {
@@ -214,6 +229,12 @@ export default new Vuex.Store({
       }
       const attemptIndex = getters.getCurrentAttempt
       commit('UNDO_ATTEMPT_PIECE', { attemptIndex })
+    },
+    undoSolutionPiece({ commit, getters }) {
+      if (!getters.hasCodeMakerAuthority) {
+        return
+      }
+      commit('UNDO_SOLUTION_PIECE')
     },
     updateLocalSolution({ commit, getters, dispatch }, payload) {
       if (!getters.hasCodeMakerAuthority) {
@@ -260,11 +281,13 @@ export default new Vuex.Store({
     },
   },
   modules: {
+    helpers,
     statusMessages,
     options,
     loginRegister,
     createJoinRoom,
     pushNotifcations,
+    singlePlayer,
   }
 })
 

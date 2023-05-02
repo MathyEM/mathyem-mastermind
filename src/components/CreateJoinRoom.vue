@@ -1,6 +1,7 @@
 <template>
   <div class="home-menu">
 		<div v-if="getLoginStatus" class="join-create-room">
+			<p>Create your own room or ask a friend to join theirs</p>
 			<form v-on:submit.prevent="onSubmit">
 				<input v-model="roomName" class="join-create-input" type="text" :placeholder="inputText"><br/>
 				<div v-if="getCreateJoinRoomAnyErrorStatus || this.$v.$error || emptyInputError" class="create-join-errors">
@@ -18,7 +19,6 @@
 					</div>
 				</div>
 				<button @click="createRoom" type="submit">Create Room</button>
-				<button @click="joinRoom" type="submit">Join Room</button>
 			</form>
 		</div>
   </div>
@@ -40,7 +40,7 @@ export default {
   },
 	data() {
 		return {
-			inputText: 'Name a new room or join a room id',
+			inputText: 'Your desired room name',
 			emptyInputError: false,
 		}
 	},
@@ -90,17 +90,6 @@ export default {
 			}
 			socketConnection.createRoom(this.getRoomName.trim())
     },
-    joinRoom() {
-			if (this.roomName.trim().length !== 24) {
-        this.TOGGLE_INVALID_JOIN_CODE_LENGTH_ERROR_STATUS(true)
-				this.emptyInputError = false
-        return
-      }
-			if (this.$v.$error) {
-				return
-			}
-			socketConnection.joinRoom(this.getRoomName.trim())
-    }
   },
 	created() {
 	}
@@ -109,10 +98,37 @@ export default {
 
 <style scoped lang="scss">
 .join-create-room {
+	margin: 0 2rem;
 	input, button {
 		margin-top: 0.5rem;
-		border: 1px solid gray;
-		border-radius: 0.2rem;
+		border: none;
+		outline: none;
+		border-radius: $button-border-radius;
+		box-shadow: $shadow-2dp;
+	}
+	input {
+		background: $background-color-2dp;		
+		&::placeholder {
+			color: $text-color-medium;
+		}
+
+		&:focus {
+		background: $background-color-3dp;
+		box-shadow: $shadow-3dp;
+			&::placeholder {
+				color: $text-color;
+			}
+		}
+	}
+
+	button {
+		background: $green;
+		color: $text-color;
+
+		&:active {
+			box-shadow: $shadow-1dp;
+			background: $green-darkened;
+		}
 	}
 }
 

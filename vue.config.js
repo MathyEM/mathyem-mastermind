@@ -7,6 +7,7 @@ module.exports = {
               sourceMap: false,
               prependData: `
               @import "@/assets/scss/_variables.scss";
+              @import "@/assets/scss/_material-icons.scss";
               `,
           }
       }
@@ -17,10 +18,68 @@ module.exports = {
     workboxOptions: {
       swSrc: "./src/service-worker.js",
     },
+    appleMobileWebAppStatusBarStyle: 'black',
+    backgroundColor: '#121212',
+    themeColor: '#121212',
     manifestOptions: {
       name: "Mastermind",
       short_name: "Mastermind",
-      theme_color: '#ffb700',
+      theme_color: '#121212',
+      background_color: '#121212',
+      "icons": [{
+        "src": "img/icons/maskable_icon_x48.png",
+        "sizes": "48x48",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x72.png",
+        "sizes": "72x72",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "img/icons/maskable_icon_x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x384.png",
+        "sizes": "384x384",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "img/icons/maskable_icon_x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      }],
     }
   },
   devServer: {

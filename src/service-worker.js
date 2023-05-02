@@ -1,5 +1,3 @@
-workbox.core.setCacheNameDetails({prefix: "vue-pwa-test"})
- 
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
@@ -17,6 +15,10 @@ self.addEventListener('install', () => self.skipWaiting())
 console.log("Service Worker Loaded...")
 
 self.addEventListener('activate', async (event) => {
+  caches.keys().then(function(names) {
+    for (let name of names)
+      caches.delete(name);
+  })
   const notifications = await self.registration.getNotifications()
   if (notifications.length > 0) {
     notifications.forEach(async notification => {
@@ -36,20 +38,29 @@ self.addEventListener('activate', async (event) => {
   console.log(await self.registration.cookies)
 })
 
+var refreshing;
+self.addEventListener('controllerchange',
+  function() {
+    if (refreshing) return;
+    refreshing = true
+    window.location.reload()
+  }
+)
+
 self.addEventListener("push", async event => {
   const data = event.data.json()
+  console.log(self)
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
       icon: "https://i.imgur.com/7altDmI.png",
       badge: "https://i.imgur.com/7altDmI.png",
-      vibrate: [200, 100, 200],
       data: {
         roomId: data.data.roomId,
         test: 'test',
       }
     })
-  )
+    )
 })
 
 self.addEventListener("pushsubscriptionchange", event => {

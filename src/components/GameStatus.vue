@@ -23,6 +23,7 @@ export default {
 .game-status {
   p {
     margin: 0.8rem 0;
+    color: $text-color-medium;
   }
 }
 

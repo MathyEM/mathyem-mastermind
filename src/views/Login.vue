@@ -2,18 +2,21 @@
   <div class="login-screen">
     <h2>{{ title }}</h2>
     <LoginRegister/>
+    <SinglePlayerButton v-if="!getRegisteringState" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
+import SinglePlayerButton from '@/components/SinglePlayerButton.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Login',
   components: {
     LoginRegister,
+    SinglePlayerButton,
   },
   data() {
     return {
@@ -21,7 +24,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoginStatus']),
+    ...mapGetters(['getLoginStatus', 'getRegisteringState']),
     loginStatus () {
       return this.getLoginStatus
     },
@@ -30,16 +33,26 @@ export default {
 
   },
   watch: {
-    loginStatus: function (newLoginStatus) {
+    loginStatus: async function (newLoginStatus) {
       if (newLoginStatus) {
-        this.$router.go(-1)
+        if (!this.$route.params.join) {
+          this.$router.go(-1)
+          console.log('go back!!!')
+        } else {
+          this.$router.push({ name: 'join', params: { id: this.$route.params.join } })
+        }
       }
     }
   },
   async created() {
     if (this.getLoginStatus) {
-      this.$router.push({ name: 'home' })
+      if (!this.$route.params.join) {
+        this.$router.push({ name: 'home' })
+      } else {
+        this.$router.push({ name: 'join', params: { id: this.$route.params.join } })
+      }
     }
+    
   },
 }
 </script>

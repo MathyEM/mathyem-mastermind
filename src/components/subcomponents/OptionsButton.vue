@@ -1,6 +1,6 @@
 <template>
   <div class="options-btn" @click="toggleMenus">
-    <div class="options-icon">{{ title }} <span>⚙</span></div>
+    <div class="options-icon">{{ title }}<span class="material-icons md-32">settings</span></div>
   </div>
 </template>
 
@@ -33,10 +33,11 @@ export default {
   cursor: pointer;
 }
 .options-icon {
-  padding: 0 0.25rem 0 0.75rem;
-
+  display: flex;
+  align-items: center;
+  
   span {
-    font-size: 1.4em;
+    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   }
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="code-buttons">
-    <!-- if the solution is set and then check if they have codebreaker authority -->
+    <!-- if the solution is set and they have codebreaker authority -->
     <CodeRow v-if="getSolutionState" ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeBreakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
-    <!-- if the solution is set do you have codemaker authority? -->
+    <!-- if the solution is set do you have codemaker authority -->
     <CodeRow v-else ref="code-buttons" :code="getCodeSet" :onClick="onClick" :disabled="!hasCodeMakerAuthority || getReviewingPreviousRound" class="code-buttons-code-row" />
   </div>
 </template>
@@ -40,14 +40,30 @@ export default {
 
   .code-piece {
     margin: 0 calc($code-piece-margin / 2);
+    color: $text-color;
+    background: $background-color-8dp;
+    box-shadow: $shadow-8dp;
+    border-color: none;
+    &:active {
+      background: $background-color-2dp;
+      box-shadow: $shadow-2dp;
+      border-color: none;
+      transition: background-color 50ms ease-in-out, box-shadow 50ms ease-in-out;
+    }
 
     > div {
-      @include code-piece-scaling(1.1)
+      @include code-piece-scaling(1.3)
     }
   }
 }
+.is-browser {
+  .code-buttons-code-row .code-piece > div {
+    @include code-piece-scaling(1.25)
+  }
+}
+
 @media screen and (max-width: 375px) {
-  .code-buttons-code-row {
+  .is-browser .code-buttons-code-row {
     .code-piece {
       > div {
         @include code-piece-scaling(1.25)

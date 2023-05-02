@@ -1,6 +1,6 @@
 <template>
   <div class="next-round">
-    <button @click="finishRoundReview">Continue to next round</button>
+    <button @click="SPFinishRoundReview">Continue to next round</button>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'NextRoundButton',
+  name: 'SPNextRoundButton',
   components: {
     
   },
@@ -22,7 +22,7 @@ export default {
   computed: {
   },
   methods: {
-    ...mapActions(['finishRoundReview'])
+    ...mapActions(['SPFinishRoundReview'])
   }
 }
 </script>
