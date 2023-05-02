@@ -1,30 +1,47 @@
 const state = {
+  currentStep: 0,
   tutorialSteps: [
     {
       disableButtons: true,
-      text: `<h3>Welcome to Mastermind</h3>
-<p>This tutorial will guide you through the rules of Mastermind.</p>
-      `,
+      header: 'Welcome to Mastermind',
+      body: "This tutorial will guide you through the rules of Mastermind.",
       position: "center",
     },
     {
       disableButtons: true,
-      text: `<p>Your goal as a Mastermind is to break the code your opponent has created for you</p>`
+      header: 'Welcome to Mastermind',
+      body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
+      position: "center",
     }
   ],
 }
 
 const getters = {
-  SPGetCurrentRoom: state => state.SPCurrentRoom,
+  TUTGetTutorialSteps: state => state.tutorialSteps,
+  TUTGetCurrentStep: state => state.currentStep,
 }
 
 const mutations = {
-  SP_SET_CURRENT_ROOM: (state, payload) => state.SPCurrentRoom = payload,
+  TUT_INCREMENT_CURRENT_STEP(state) {
+    state.currentStep = state.currentStep+1
+  },
+  TUT_DECREMENT_CURRENT_STEP(state) {
+    state.currentStep = state.currentStep-1
+  },
 }
 
 const actions = {
-  SPCreateBaseRoom() {
-
+  TutIncrementCurrentStep({ commit, getters }) {
+    if (!getters.TUTGetCurrentStep > getters.TUTGetTutorialSteps.length - 1) {
+      return
+    }
+    commit('TUT_INCREMENT_CURRENT_STEP')
+  },
+  TutDecrementCurrentStep({ commit, getters }) {
+    if (!getters.TUTGetCurrentStep > 0) {
+      return
+    }
+    commit('TUT_DECREMENT_CURRENT_STEP')
   },
 }
 

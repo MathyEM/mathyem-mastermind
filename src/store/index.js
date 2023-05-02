@@ -7,6 +7,7 @@ import loginRegister from './modules/loginRegister'
 import createJoinRoom from './modules/createJoinRoom'
 import pushNotifcations from './modules/pushNotifcations'
 import singlePlayer from './modules/singlePlayer'
+import tutorial from './modules/tutorial'
 import { socketConnection } from '@/services/socketio.service.js'
 import router from '../router'
 
@@ -288,6 +289,7 @@ export default new Vuex.Store({
     createJoinRoom,
     pushNotifcations,
     singlePlayer,
+    tutorial,
   }
 })
 

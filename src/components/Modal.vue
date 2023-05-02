@@ -10,9 +10,11 @@ export default {
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container"><!-- USE CONDITIONAL CLASS TO CHANGE POSITION OF THE MODAL -->
           <div class="modal-header">
-            <slot name="header">default header</slot>
+            <h3>
+              <slot name="header">default header</slot>
+            </h3>
           </div>
 
           <div class="modal-body">
@@ -22,10 +24,6 @@ export default {
           <div class="modal-footer">
             <slot name="footer">
               default footer
-              <button
-                class="modal-default-button"
-                @click="$emit('close')"
-              >OK</button>
             </slot>
           </div>
         </div>
@@ -34,7 +32,7 @@ export default {
   </Transition>
 </template>
 
-<style>
+<style lang="scss">
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -56,7 +54,7 @@ export default {
   width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: $background-color;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
@@ -64,7 +62,6 @@ export default {
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
 }
 
 .modal-body {
