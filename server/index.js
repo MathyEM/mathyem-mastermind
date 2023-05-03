@@ -82,6 +82,15 @@ async function updateUser() {
   console.log(needsUpdated)
 }
 
+async function updatePassword(username) {
+  const user = await User.findOne({ username: username }, 'hash')
+  console.log(user);
+  user.setPassword("Jegerenlilletaber-123")
+  await user.save()
+  console.log(user);
+
+}
+
 // DELETE ALL USERS EXCEPT TEST USERS
 // deleteUsers()
 // updateUser()
