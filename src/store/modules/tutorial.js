@@ -32,7 +32,7 @@ const mutations = {
 
 const actions = {
   TutIncrementCurrentStep({ commit, getters }) {
-    if (!getters.TUTGetCurrentStep > getters.TUTGetTutorialSteps.length - 1) {
+    if (!getters.TUTGetCurrentStep < getters.TUTGetTutorialSteps.length - 1) {
       return
     }
     commit('TUT_INCREMENT_CURRENT_STEP')
