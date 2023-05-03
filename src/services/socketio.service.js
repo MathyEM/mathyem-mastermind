@@ -79,7 +79,7 @@ class SocketioService {
         }
       }
       store.commit('SET_SESSION_LOADING', false)
-      if (router.history.current.name != 'home' && store.getters.getLoginStatus) {
+      if ((router.history.current.name != 'home' && store.getters.getLoginStatus) && router.history.current.name != 'tutorial') {
         router.push({ name: 'home' })
       }
     })
