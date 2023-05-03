@@ -39,14 +39,14 @@ app.use(bodyParser.json())
 app.use(cors({
   credentials: true,
   methods: ['GET', 'POST'],
-  origin: ['http://localhost:7070', 'http://192.168.87.133:7070',, 'https://mem-home.dk', 'https://mastermind.mem-home.dk']
+  origin: ['http://localhost:7070', 'http://192.168.87.133:7070', 'http://192.168.87.101:7070', 'https://mem-home.dk', 'https://mastermind.mem-home.dk']
 }))
 
 io = require('socket.io')(http, {
   cors: {
     credentials: true,
     methods: ['GET', 'POST'],
-    origin: ['http://localhost:7070', 'http://192.168.87.133:7070', 'https://mem-home.dk', 'https://mastermind.mem-home.dk']
+    origin: ['http://localhost:7070', 'http://192.168.87.133:7070', 'http://192.168.87.101:7070', 'https://mem-home.dk', 'https://mastermind.mem-home.dk']
   }
 })
 

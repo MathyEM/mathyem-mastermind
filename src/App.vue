@@ -51,6 +51,10 @@ export default {
   methods: {
     ...mapActions(['setRegistrationAndPushSubscription']),
     async clearNotifications() {
+      if (!window.navigator.serviceWorker) {
+        console.log('no service worker')
+        return
+      }
       const reg = await navigator.serviceWorker.getRegistration()
       if (!reg) {
         console.log('no registration detected')

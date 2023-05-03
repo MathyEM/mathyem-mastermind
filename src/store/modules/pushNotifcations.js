@@ -25,12 +25,12 @@ const mutations = {
 const actions = {
   async setRegistrationAndPushSubscription({ commit }) {
     // does the browser support service workers
-    if (('navigator' in window === false) || ('serviceWorker' in navigator === false)) {
+    if (('navigator' in window === false) || ('serviceWorker' in window.navigator === false)) {
       console.log('no navigator')
       return
     }
     // get service worker registration
-    const reg = await navigator.serviceWorker.getRegistration()
+    const reg = await window.navigator.serviceWorker.getRegistration()
     if (!reg) {
       return
     }
@@ -57,6 +57,10 @@ const actions = {
 // Register Push, Send Push
 async function send(commit) {
   console.log('Registering Push...')
+  if (!window.navigator.serviceWorker) {
+    console.log('no service worker')
+    return
+  }
   const registration = await window.navigator.serviceWorker.getRegistration()
   const applicationServerKey = urlBase64ToUint8Array(publicVapidKey)
   const subscription = await registration.pushManager.subscribe({
