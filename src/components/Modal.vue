@@ -56,7 +56,8 @@ export default {
   transform: translateX(-50%)translateY(-50%);
   top: 50%;
   left: 50%;
-  width: 50%;
+  max-width: 500px;
+  width: 90%;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: $background-color;
@@ -81,6 +82,18 @@ export default {
   }
   &.left {
 
+  }
+
+  button {
+    background: $background-color-2dp;
+    box-shadow: $shadow-2dp;
+    color: $text-color;
+    padding: $code-piece-margin/1.2;
+  }
+
+  p {
+    display: inline-block;
+    margin: 0 0.5rem;
   }
 }
 

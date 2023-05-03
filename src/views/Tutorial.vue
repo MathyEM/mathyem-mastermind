@@ -12,9 +12,8 @@
       <template v-slot:body>{{ TUTGetTutorialSteps[TUTGetCurrentStep].body }}</template>
       <template v-slot:footer>
         <button @click="TutDecrementCurrentStep">Back</button>
-        
+        <p>{{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
         <button @click="TutIncrementCurrentStep">Next</button>
-        <p>Step {{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
       </template>
     </Modal>
     <SPCodeButtons />
