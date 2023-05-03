@@ -11,7 +11,8 @@
       <template v-slot:header>{{ TUTGetTutorialSteps[TUTGetCurrentStep].header }}</template>
       <template v-slot:body>{{ TUTGetTutorialSteps[TUTGetCurrentStep].body }}</template>
       <template v-slot:footer>
-        <button @click="TutDecrementCurrentStep">Back</button>
+        <button v-if="TUTGetCurrentStep != 0" @click="TutDecrementCurrentStep">Back</button>
+        <button v-else @click="TutDecrementCurrentStep" class="disabled" disabled>Back</button>
         <p>{{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
         <button @click="TutIncrementCurrentStep">Next</button>
       </template>

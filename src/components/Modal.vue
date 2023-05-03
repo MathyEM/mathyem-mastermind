@@ -66,22 +66,13 @@ export default {
   transition: all 0.3s ease;
   overflow: auto;
 
-  &.center {
-    
-  }
   &.top {
     top: 10%;
-  }
-  &.right {
-
   }
   &.bottom {
     transform: translateX(-50%)translateY(0);
     top: initial;
     bottom: 2rem;
-  }
-  &.left {
-
   }
 
   button {
@@ -89,6 +80,12 @@ export default {
     box-shadow: $shadow-2dp;
     color: $text-color;
     padding: $code-piece-margin/1.2;
+
+    &.disabled {
+      background: darken($background-color-2dp, 2%);
+      box-shadow: $shadow-inset-1dp;
+      color: lighten($text-color-medium, 10%);
+    }
   }
 
   p {

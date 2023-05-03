@@ -29,6 +29,7 @@ $code-piece-column-gap: 0.6rem;
 $code-piece-size: calc(90vh / 12 - 1.3rem);
 
 // BOX SHADOWS
+$shadow-inset-1dp: inset 0px 1px 2px 0px $shadow-color;
 $shadow-1dp: 0px 1px 2px 0px $shadow-color;
 $shadow-2dp: 0px 1.5px 3px 0px $shadow-color;
 $shadow-3dp: 0px 2px 3px 0px $shadow-color;
