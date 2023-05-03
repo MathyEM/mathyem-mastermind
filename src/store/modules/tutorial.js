@@ -11,7 +11,7 @@ const state = {
       disableButtons: true,
       header: 'Welcome to Mastermind',
       body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
-      position: "center",
+      position: "bottom",
     }
   ],
 }

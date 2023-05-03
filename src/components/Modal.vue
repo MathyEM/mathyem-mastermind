@@ -1,7 +1,8 @@
 <script>
 export default {
   props: {
-    show: Boolean
+    show: Boolean,
+    position: String,
   }
 }
 </script>
@@ -10,7 +11,7 @@ export default {
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container"><!-- USE CONDITIONAL CLASS TO CHANGE POSITION OF THE MODAL -->
+        <div class="modal-container" :class="position">
           <div class="modal-header">
             <h3>
               <slot name="header">default header</slot>
@@ -51,13 +52,36 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
+  position: absolute;
+  transform: translateX(-50%)translateY(-50%);
+  top: 50%;
+  left: 50%;
+  width: 50%;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: $background-color;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+  overflow: auto;
+
+  &.center {
+    
+  }
+  &.top {
+    top: 10%;
+  }
+  &.right {
+
+  }
+  &.bottom {
+    transform: translateX(-50%)translateY(0);
+    top: initial;
+    bottom: 2rem;
+  }
+  &.left {
+
+  }
 }
 
 .modal-header h3 {

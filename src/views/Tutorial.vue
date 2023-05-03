@@ -7,7 +7,7 @@
       <SPNextRoundButton v-else />
     </div>
     <SPAttempts />
-    <Modal :show="showModal">
+    <Modal :show="showModal" :position="TUTGetTutorialSteps[TUTGetCurrentStep].position">
       <template v-slot:header>{{ TUTGetTutorialSteps[TUTGetCurrentStep].header }}</template>
       <template v-slot:body>{{ TUTGetTutorialSteps[TUTGetCurrentStep].body }}</template>
       <template v-slot:footer>
