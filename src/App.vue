@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{'is-browser': isBrowser}">
-    <div class="menus-container" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
+    <div class="menus-container high-z" :class="{ 'is-scrolling': (getDuration(getCurrentRoom.name) > 0), 'unauthorized': !getLoginStatus}">
       <RoomListButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Rooms'" />
       <MarqueeText v-if="isInRoom" :duration="getDuration(getCurrentRoom.name)" :repeat="1" class="room-name"><h3 class="room-name-text">{{getCurrentRoom.name}}</h3></MarqueeText>
       <OptionsButton v-if="getLoginStatus" :title="isInRoom ? '' : 'Options'"/>
@@ -11,8 +11,8 @@
         <span class="material-icons md-32">login</span>Login
       </button>
     </div>
-    <RoomList />
-    <Options />
+    <RoomList class="high-z" />
+    <Options class="high-z" />
     <div v-if="getSessionLoading" class="loading">
       <img :src="loading" alt="repeating loading gif">
     </div>
@@ -135,6 +135,12 @@ body {
   box-sizing: border-box;
   display: grid;
   grid-template-rows: min-content auto min-content;
+}
+
+.high-z {
+  &.options, &.menus-container, &.room-list{
+    z-index: 9998;
+  }
 }
 
 .menus-container {

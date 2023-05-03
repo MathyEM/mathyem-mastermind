@@ -14,7 +14,7 @@
         </div>
         <div class="options-buttons">
           <div v-if="getCurrentRoom._id != false" class="leave-room">
-            <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room</button>
+            <button v-if="!leaveRoomClicked" class="leave-room-btn" @click="leaveRoomCheck">Leave room forever</button>
             <button v-if="leaveRoomClicked" class="leave-room-confirm-btn" @click="leaveRoom(getRoomId())">Confirm</button>
           </div>
           <div class="logout-btn">

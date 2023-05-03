@@ -1,36 +1,36 @@
 const state = {
   currentStep: 0,
   tutorialSteps: [
-    {
+    { //0
       disableButtons: true,
       header: 'Welcome to Mastermind',
       body: "This tutorial will guide you through the rules of Mastermind.",
       position: "center",
     },
-    {
+    { //1
       disableButtons: true,
       header: 'The Mastermind',
       body: "Your goal as a Mastermind is to break the code maker's code and gain score.",
       position: "center",
     },
-    {
+    { //2
       disableButtons: true,
       header: 'The Mastermind',
       body: 'You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive.',
       position: "center",
     },
-    {
+    { //3
       disableButtons: true,
       header: 'Welcome to Mastermind',
       body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
-      position: "bottom",
+      position: "center",
       highlight: "code",
     },
-    {
+    { //4
       disableButtons: true,
       header: 'Welcome to Mastermind',
       body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
-      position: "bottom",
+      position: "center",
     }
   ],
 }

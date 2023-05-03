@@ -1,7 +1,8 @@
 <template>
   <div class="tutorial game">
-    <button class="test-btn" @click="test">test</button>
-    <SPSolution />
+    <div class="highlight-code" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'code') }">
+      <SPSolution />
+    </div>
     <div class="game-status-wrapper">
       <GameStatus v-if="!SPGetReviewingPreviousRound" />
       <SPNextRoundButton v-else />
@@ -77,8 +78,24 @@ export default {
   margin-top: 2rem;
   height: 100%;
 }
+
 .test-btn {
   max-width: 2rem;
   margin: 0 auto 0.5rem auto;
+}
+
+.highlight-code.show {
+  z-index: 9999;
+  margin: 0 1rem;
+  box-sizing: initial;
+  justify-self: center;
+  padding: $code-piece-column-gap;
+  margin-top: $code-piece-column-gap*-1;
+  margin-bottom: $code-piece-column-gap*-1;
+  width: calc(( $code-piece-size * 4 ) + ( $code-piece-column-gap * 3 )); 
+  height: $code-piece-size;
+  background: rgb(255 255 255 / 3%);
+  box-sizing: initial;
+  border-radius: 0.4rem;
 }
 </style>
