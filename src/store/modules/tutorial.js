@@ -9,6 +9,25 @@ const state = {
     },
     {
       disableButtons: true,
+      header: 'The Mastermind',
+      body: "Your goal as a Mastermind is to break the code maker's code and gain score.",
+      position: "center",
+    },
+    {
+      disableButtons: true,
+      header: 'The Mastermind',
+      body: 'You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive.',
+      position: "center",
+    },
+    {
+      disableButtons: true,
+      header: 'Welcome to Mastermind',
+      body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
+      position: "bottom",
+      highlight: "code",
+    },
+    {
+      disableButtons: true,
       header: 'Welcome to Mastermind',
       body: 'Your goal as a Mastermind is to break the code your opponent has created for you',
       position: "bottom",
@@ -32,7 +51,7 @@ const mutations = {
 
 const actions = {
   TutIncrementCurrentStep({ commit, getters }) {
-    if (!getters.TUTGetCurrentStep < getters.TUTGetTutorialSteps.length - 1) {
+    if (getters.TUTGetCurrentStep == getters.TUTGetTutorialSteps.length - 1) {
       return
     }
     commit('TUT_INCREMENT_CURRENT_STEP')
