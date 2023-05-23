@@ -139,7 +139,7 @@ body {
 
 .high-z {
   &.options, &.menus-container, &.room-list{
-    z-index: 9998;
+    z-index: 9993;
   }
 }
 

@@ -9,19 +9,19 @@ export default {
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container" :class="position">
+    <div class="modal-parent">
+      <div v-if="show" class="modal-mask">
+      </div>
+      <div v-if="show" class="modal-wrapper" :class="position">
+        <div class="modal-container">
           <div class="modal-header">
             <h3>
               <slot name="header">default header</slot>
             </h3>
           </div>
-
           <div class="modal-body">
             <slot name="body">default body</slot>
           </div>
-
           <div class="modal-footer">
             <slot name="footer">
               default footer
@@ -34,9 +34,18 @@ export default {
 </template>
 
 <style lang="scss">
+.modal-parent {
+  position: absolute;
+  width: 100vw;
+  max-width: 500px;
+  height: 100vh;
+  top: 0;
+  user-select: none;
+}
+
 .modal-mask {
   position: fixed;
-  z-index: 9997;
+  z-index: 9994;
   top: 0;
   left: 0;
   width: 100%;
@@ -47,16 +56,27 @@ export default {
 }
 
 .modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+  position: absolute;
+  transform: translateY(0);
+  z-index: 9999;
+  
+  &.top {
+    top: 10%;
+  }
+
+  &.center {
+    top: 40%;
+  }
+
+  &.bottom {
+    top: initial;
+    bottom: 10%;
+
+  }
 }
 
 .modal-container {
-  position: absolute;
-  transform: translateX(-50%)translateY(-50%);
-  top: 50%;
-  left: 50%;
-  max-width: 500px;
+  position: relative;
   width: 90%;
   margin: 0px auto;
   padding: 20px 30px;
@@ -65,15 +85,6 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   overflow: auto;
-
-  &.top {
-    top: 10%;
-  }
-  &.bottom {
-    transform: translateX(-50%)translateY(0);
-    top: initial;
-    bottom: 2rem;
-  }
 
   button {
     background: $background-color-2dp;
@@ -92,6 +103,10 @@ export default {
     display: inline-block;
     margin: 0 0.5rem;
   }
+}
+
+.modal-header, .modal-body, .modal-footer {
+  white-space: break-spaces;
 }
 
 .modal-header h3 {

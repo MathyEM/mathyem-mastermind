@@ -1,24 +1,28 @@
 <template>
   <div class="tutorial game">
-    <div class="highlight-code" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'code') }">
+    <div class="highlight highlight-code" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'code') }">
       <SPSolution />
     </div>
     <div class="game-status-wrapper">
       <GameStatus v-if="!SPGetReviewingPreviousRound" />
       <SPNextRoundButton v-else />
     </div>
-    <SPAttempts />
+    <div class="highlight highlight-attempts" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'attempts') }">
+      <SPAttempts />
+    </div>
+    <div class="highlight highlight-buttons" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'buttons') }">
+      <SPCodeButtons />
+    </div>
     <Modal :show="showModal" :position="TUTGetTutorialSteps[TUTGetCurrentStep].position">
-      <template v-slot:header>{{ TUTGetTutorialSteps[TUTGetCurrentStep].header }}</template>
-      <template v-slot:body>{{ TUTGetTutorialSteps[TUTGetCurrentStep].body }}</template>
-      <template v-slot:footer>
+      <template #header><p v-html="TUTGetTutorialSteps[TUTGetCurrentStep].header"></p> </template>
+      <template #body><p v-html="TUTGetTutorialSteps[TUTGetCurrentStep].body"></p></template>
+      <template #footer>
         <button v-if="TUTGetCurrentStep != 0" @click="TutDecrementCurrentStep">Back</button>
         <button v-else @click="TutDecrementCurrentStep" class="disabled" disabled>Back</button>
         <p>{{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
         <button @click="TutIncrementCurrentStep">Next</button>
       </template>
     </Modal>
-    <SPCodeButtons />
   </div>
 </template>
 
@@ -74,7 +78,7 @@ export default {
 <style lang="scss">
 .tutorial.game {
   display: grid;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto min-content auto auto;
   margin-top: 2rem;
   height: 100%;
 }
@@ -94,8 +98,26 @@ export default {
   margin-bottom: $code-piece-column-gap*-1;
   width: calc(( $code-piece-size * 4 ) + ( $code-piece-column-gap * 3 )); 
   height: $code-piece-size;
-  background: rgb(255 255 255 / 3%);
-  box-sizing: initial;
+  background: rgb(255 255 255 / 5%);
   border-radius: 0.4rem;
+}
+
+.highlight-attempts.show {
+  z-index: 9999;
+  margin: 0 1rem;
+  box-sizing: initial;
+  justify-self: center;
+  padding: $code-piece-column-gap;
+  margin-top: $code-piece-column-gap*-1;
+  margin-bottom: $code-piece-column-gap*-1;
+  width: calc(( $code-piece-size * 4 ) + ( $code-piece-column-gap * 3 )); 
+  height: calc(($code-piece-size * 10) + ( $code-piece-row-gap * 9 ));
+  background: rgb(255 255 255 / 5%);
+  border-radius: 0.4rem;
+}
+
+
+.bold {
+  font-weight: bold;
 }
 </style>

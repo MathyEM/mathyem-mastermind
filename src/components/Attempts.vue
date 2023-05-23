@@ -50,7 +50,7 @@ export default {
   margin: auto;
   padding-bottom: 1.5rem;
   width: fit-content;
-  row-gap: 0.4rem;
+  row-gap: $code-piece-row-gap;
 
   .attempts-code-row {
     display: grid;
@@ -62,7 +62,7 @@ export default {
 }
 @media screen and (max-width: 350px) {
   .attempts {
-    row-gap: 0.4rem;
+    row-gap: $code-piece-row-gap;
     .attempts-code-row{
       column-gap: 0.6rem;
     }

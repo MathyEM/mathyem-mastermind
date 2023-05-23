@@ -27,6 +27,7 @@ $menu-background-color: lighten($background-color, 3);
 $code-piece-margin: 0.8rem;
 $code-piece-column-gap: 0.6rem;
 $code-piece-size: calc(90vh / 12 - 1.3rem);
+$code-piece-row-gap: 0.4rem;
 
 // BOX SHADOWS
 $shadow-inset-1dp: inset 0px 1px 2px 0px $shadow-color;
