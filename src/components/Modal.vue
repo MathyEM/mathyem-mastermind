@@ -65,7 +65,8 @@ export default {
   }
 
   &.center {
-    top: 40%;
+  transform: translateY(-50%);
+    top: 50%;
   }
 
   &.bottom {

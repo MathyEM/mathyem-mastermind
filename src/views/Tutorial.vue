@@ -1,7 +1,7 @@
 <template>
   <div class="tutorial game">
     <div class="highlight highlight-code" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'code') }">
-      <SPSolution />
+      <SPSolution :showSolution="(TUTGetTutorialSteps[TUTGetCurrentStep].showSolution)" />
     </div>
     <div class="game-status-wrapper">
       <GameStatus v-if="!SPGetReviewingPreviousRound" />
@@ -10,7 +10,7 @@
     <div class="highlight highlight-attempts" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'attempts') }">
       <SPAttempts />
     </div>
-    <div class="highlight highlight-buttons" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'buttons') }">
+    <div class="highlight highlight-buttons" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'buttons'), 'disable-buttons': (TUTGetTutorialSteps[TUTGetCurrentStep].disableButtons) }">
       <SPCodeButtons />
     </div>
     <Modal :show="showModal" :position="TUTGetTutorialSteps[TUTGetCurrentStep].position">
@@ -116,6 +116,27 @@ export default {
   border-radius: 0.4rem;
 }
 
+.highlight-buttons.show {
+  z-index: 9999;
+  margin: 0 1rem;
+  box-sizing: initial;
+  justify-self: center;
+  padding: $code-piece-column-gap;
+  margin-top: $code-piece-column-gap*-1;
+  margin-bottom: $code-piece-column-gap*-1;
+  @include code-piece-scaling(1.3);
+  width: calc(( $code-piece-size * (4 * 1.3) ) + ( $code-piece-column-gap * 3 )); 
+  background: rgb(255 255 255 / 5%);
+  border-radius: 0.4rem;
+}
+
+.disable-buttons {
+  pointer-events: none;
+}
+
+.small-text {
+  font-size: 0.8em;
+}
 
 .bold {
   font-weight: bold;

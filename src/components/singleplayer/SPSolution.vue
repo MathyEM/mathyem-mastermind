@@ -1,6 +1,6 @@
 <template>
   <div class="solution">
-    <SPCodeRow v-if="!SPGetReviewingPreviousRound"
+    <SPCodeRow v-if="!SPGetReviewingPreviousRound && !showSolution"
       :code="['x','x','x','x']"
       :onClick="onClick"
       :isSolution="true"
@@ -23,6 +23,7 @@ export default {
     SPCodeRow
   },
   props: {
+    showSolution: Boolean,
   },
   data() {
     return {
