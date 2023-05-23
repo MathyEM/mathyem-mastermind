@@ -88,8 +88,9 @@ async function updatePassword(username) {
   user.setPassword("Jegerenlilletaber-123")
   await user.save()
   console.log(user);
-
 }
+
+// updatePassword('Sillecool')
 
 // DELETE ALL USERS EXCEPT TEST USERS
 // deleteUsers()
