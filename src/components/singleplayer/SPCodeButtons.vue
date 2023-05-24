@@ -22,6 +22,7 @@ export default {
   methods: {
     ...mapActions(['SPUpdateAttempt']),
     onClick(index) {
+      console.log(index);
       this.SPUpdateAttempt(index)
       return
     }

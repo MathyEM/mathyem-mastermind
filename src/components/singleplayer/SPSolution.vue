@@ -6,7 +6,7 @@
       :isSolution="true"
       class="solution-code-row" />
     <SPCodeRow v-else
-    :code="getSolution"
+    :code="solution || getSolution"
     :onClick="onClick"
     :isSolution="true"
     class="solution-code-row" />
@@ -24,6 +24,7 @@ export default {
   },
   props: {
     showSolution: Boolean,
+    solution: Array,
   },
   data() {
     return {

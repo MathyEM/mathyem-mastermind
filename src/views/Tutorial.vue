@@ -1,13 +1,13 @@
 <template>
   <div class="tutorial game">
     <div class="highlight highlight-code" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'code') }">
-      <SPSolution :showSolution="(TUTGetTutorialSteps[TUTGetCurrentStep].showSolution)" />
+      <SPSolution :code="TUTGetSolution" :showSolution="(TUTGetTutorialSteps[TUTGetCurrentStep].showSolution)" />
     </div>
     <div class="game-status-wrapper">
       <GameStatus v-if="!SPGetReviewingPreviousRound" />
       <SPNextRoundButton v-else />
     </div>
-    <div class="highlight highlight-attempts" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'attempts') }">
+    <div class="highlight highlight-attempts" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'attempts'), 'disable-buttons': (TUTGetTutorialSteps[TUTGetCurrentStep].disableButtons) }">
       <SPAttempts />
     </div>
     <div class="highlight highlight-buttons" :class="{ show: (TUTGetTutorialSteps[TUTGetCurrentStep].highlight == 'buttons'), 'disable-buttons': (TUTGetTutorialSteps[TUTGetCurrentStep].disableButtons) }">
@@ -57,20 +57,29 @@ export default {
       'SPGetReviewingPreviousRound',
       'TUTGetTutorialSteps',
       'TUTGetCurrentStep',
+      'TUTGetSolution'
     ]),
+  },
+  watch: {
+    TUTGetCurrentStep(nextStep) {
+      if (this.TUTGetTutorialSteps[nextStep].insertAttempt && this.SPGetCurrentRoom.attempts[9][0] == "") {
+        this.TutInsertAttempt()
+      }
+    }
   },
   methods: {
     ...mapActions([
       'InitializeSinglePlayerGame',
       'TutIncrementCurrentStep',
       'TutDecrementCurrentStep',
+      'TutInsertAttempt',
     ]),
     test() {
       this.showModal = true
     }
   },
   async created() {
-    this.InitializeSinglePlayerGame()
+    this.InitializeSinglePlayerGame(this.TUTGetSolution)
   },
 }
 </script>
@@ -140,5 +149,13 @@ export default {
 
 .bold {
   font-weight: bold;
+}
+
+.orange {
+  color: $orange;
+}
+
+.green {
+  color: $green;
 }
 </style>

@@ -71,9 +71,13 @@ const actions = {
     defaultRoom.reviewingPreviousRound = false
     return defaultRoom
   },
-  async InitializeSinglePlayerGame({ commit, dispatch }) {
+  async InitializeSinglePlayerGame({ commit, dispatch }, customSolution = null) {
     const defaultRoom = await dispatch('SPCreateBaseRoom')
-    defaultRoom.solution = [await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4)]
+    if (customSolution == null) {
+      defaultRoom.solution = [await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4),await dispatch('getRandomInt', 4)]
+    } else {
+      defaultRoom.solution = customSolution
+    }
     defaultRoom.previousRound = {}
     defaultRoom.previousRound.accuracyHints = defaultRoom.accuracyHints
     defaultRoom.previousRound.attempts = defaultRoom.attempts

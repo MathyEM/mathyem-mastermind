@@ -1,5 +1,6 @@
 const state = {
-  currentStep: 0,
+  defaultSolution: ['1','1','4','2'],
+  currentStep: 5,
   tutorialSteps: [
     { //0
       disableButtons: false,
@@ -37,19 +38,44 @@ const state = {
       highlight: null,
     },
     { //5
-      disableButtons: false,
+      disableButtons: true,
       header: 'Scoring',
-      body: `You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive. \n \n The fewer attempts you use guessing the code, the more score you will receive`,
+      body: `You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive. \n \n The fewer attempts you use when guessing the code, the more score you will receive`,
       position: "center",
       highlight: "attempts",
       showSolution: false,
     },
     { //6
-      disableButtons: false,
-      header: 'Scoring',
-      body: `You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive. \n \n The fewer attempts you use guessing the code, the more score you will receive`,
+      disableButtons: true,
+      header: 'Hints',
+      body: `To the right of your attempts you will be able to see <span class="orange bold">orange</span> and <span class="green bold">green</span> hints to help you find the correct code.`,
       position: "center",
       highlight: "attempts",
+      showSolution: false,
+      insertAttempt: true,
+    },
+    { //7
+      disableButtons: true,
+      header: 'Hints',
+      body: `An <span class="orange bold">orange</span> hint means that one of your code pieces is used somewhere in the <span class="bold">Mastermind's</span> code, but is not currently in the correct position. \n\nA <span class="green bold">green</span> hint means that you have used a correct code piece and placed it correctly. \n\n The position of <span class="orange bold">orange</span> and <span class="green bold">green</span> hints do not indicate which of you code pieces are placed correctly, only how many of the are.`,
+      position: "center",
+      highlight: "attempts",
+      showSolution: false,
+    },
+    { //8
+      disableButtons: true,
+      header: 'An Example',
+      body: `As an example, the <span class="bold">Mastermind's</span> code is now revaled. There is currently <span class="bold">one</span> <span class="green bold">green</span> hint and <span class="bold">two</span> <span class="orange bold">orange</span> hints next to the first attempt. \n\nSince only <span class="bold">three</span> hints are showing that means one of the code pieces must be repeating. Because the solution is currently revealed, you can see that <span class="bold">1</span> is the repeating code piece.`,
+      position: "center",
+      highlight: "attempts",
+      showSolution: true,
+    },
+    { //9
+      disableButtons: true,
+      header: 'Good Luck!',
+      body: `This tutorial is over now. Click <span class="bold">'Next'</span> below to go back to the home screen`,
+      position: "center",
+      highlight: null,
       showSolution: true,
     }
   ],
@@ -58,6 +84,7 @@ const state = {
 const getters = {
   TUTGetTutorialSteps: state => state.tutorialSteps,
   TUTGetCurrentStep: state => state.currentStep,
+  TUTGetSolution: state => state.defaultSolution,
 }
 
 const mutations = {
@@ -82,6 +109,11 @@ const actions = {
     }
     commit('TUT_DECREMENT_CURRENT_STEP')
   },
+  TutInsertAttempt({ dispatch }) {
+    for (let i = 0; i < 4; i++) {
+      dispatch('SPUpdateAttempt', i)
+    }
+  }
 }
 
 export default {

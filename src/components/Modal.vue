@@ -9,7 +9,7 @@ export default {
 
 <template>
   <Transition name="modal">
-    <div class="modal-parent">
+    <div v-if="show" class="modal-parent">
       <div v-if="show" class="modal-mask">
       </div>
       <div v-if="show" class="modal-wrapper" :class="position">
