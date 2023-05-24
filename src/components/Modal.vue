@@ -91,7 +91,7 @@ export default {
     background: $background-color-2dp;
     box-shadow: $shadow-2dp;
     color: $text-color;
-    padding: $code-piece-margin/1.2;
+    padding: calc($code-piece-margin / 1.2);
 
     &.disabled {
       background: darken($background-color-2dp, 2%);
