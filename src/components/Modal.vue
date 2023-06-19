@@ -56,16 +56,18 @@ export default {
 }
 
 .modal-wrapper {
+  width: 100%;
   position: absolute;
-  transform: translateY(0);
+  transform: translateY(0) translateX(-50%);
   z-index: 9999;
+  left: 50%;
   
   &.top {
     top: 10%;
   }
 
   &.center {
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(-50%);
     top: 50%;
   }
 
