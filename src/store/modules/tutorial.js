@@ -1,6 +1,6 @@
 const state = {
   defaultSolution: ['1','1','4','2'],
-  currentStep: 5,
+  currentStep: 0,
   tutorialSteps: [
     { //0
       disableButtons: false,
@@ -73,7 +73,7 @@ const state = {
     { //9
       disableButtons: true,
       header: 'Good Luck!',
-      body: `This tutorial is over now. Click <span class="bold">'Next'</span> below to go back to the home screen`,
+      body: `This tutorial is over now. \n \n Click <span class="bold">'Finish'</span> below to go back to the home screen`,
       position: "center",
       highlight: null,
       showSolution: true,

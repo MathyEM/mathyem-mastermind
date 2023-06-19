@@ -20,7 +20,8 @@
         <button v-if="TUTGetCurrentStep != 0" @click="TutDecrementCurrentStep">Back</button>
         <button v-else @click="TutDecrementCurrentStep" class="disabled" disabled>Back</button>
         <p>{{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
-        <button @click="TutIncrementCurrentStep">Next</button>
+        <button v-if="TUTGetCurrentStep != TUTGetTutorialSteps.length-1" @click="TutIncrementCurrentStep">Next</button>
+        <button v-else>Finish</button>
       </template>
     </Modal>
   </div>
