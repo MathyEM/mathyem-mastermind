@@ -21,7 +21,7 @@
         <button v-else @click="TutDecrementCurrentStep" class="disabled" disabled>Back</button>
         <p>{{ TUTGetCurrentStep + 1 }}/{{ TUTGetTutorialSteps.length }}</p>
         <button v-if="TUTGetCurrentStep != TUTGetTutorialSteps.length-1" @click="TutIncrementCurrentStep">Next</button>
-        <button v-else>Finish</button>
+        <button v-else @click="$router.push({ name: 'home' })">Finish</button>
       </template>
     </Modal>
   </div>
