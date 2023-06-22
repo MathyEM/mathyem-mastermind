@@ -3,6 +3,7 @@
     <h2>{{ title }}</h2>
     <LoginRegister/>
     <SinglePlayerButton v-if="!getRegisteringState" />
+    <TutorialButton />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 // @ is an alias to /src
 import LoginRegister from '@/components/LoginRegister.vue'
 import SinglePlayerButton from '@/components/SinglePlayerButton.vue'
+import TutorialButton from '@/components/TutorialButton.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -17,6 +19,7 @@ export default {
   components: {
     LoginRegister,
     SinglePlayerButton,
+    TutorialButton,
   },
   data() {
     return {

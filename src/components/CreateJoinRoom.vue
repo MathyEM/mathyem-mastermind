@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.home-menu {
+	margin: 2rem 0;
+}
 .join-create-room {
 	margin: 0 2rem;
 	input, button {

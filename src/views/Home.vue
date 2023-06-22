@@ -3,6 +3,7 @@
     <h2>Welcome {{ getUsername }}!</h2>
     <CreateJoinRoom />
     <SinglePlayerButton />
+    <TutorialButton />
     <PushNotification v-if="!getPushSubscription" />
   </div>
 </template>
@@ -11,6 +12,7 @@
 // @ is an alias to /src
 import CreateJoinRoom from '@/components/CreateJoinRoom.vue'
 import SinglePlayerButton from '@/components/SinglePlayerButton.vue'
+import TutorialButton from '@/components/TutorialButton.vue'
 import PushNotification from '@/components/PushNotification.vue'
 
 import { mapActions, mapGetters } from 'vuex'
@@ -20,6 +22,7 @@ export default {
   components: {
     CreateJoinRoom,
     SinglePlayerButton,
+    TutorialButton,
     PushNotification,
   },
   data() {
@@ -48,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss">
-.join-create-room, .singleplayer-btn {
+.join-create-room, .singleplayer-btn, .tutorial-btn {
   margin-inline: 2rem;
 
   input, button {

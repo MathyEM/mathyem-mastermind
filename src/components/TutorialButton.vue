@@ -24,7 +24,7 @@ export default {
   margin-top: 1rem;
 
   button {
-    background: $green;
+    background: $orange;
     color: white;
   }
 }

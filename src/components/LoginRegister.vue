@@ -154,7 +154,7 @@ form input:not(:first-of-type), .remember-me, button {
 }
 
 .login-register {
-  margin: 0 2rem;
+  margin: 2rem;
 
   .remember-me {
     width: 100%;
