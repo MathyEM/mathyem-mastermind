@@ -26,7 +26,7 @@ const state = {
     { //3
       disableButtons: false,
       header: 'The Mastermind',
-      body: `If you are the <span class="bold">Mastermind</span> the code will be visible here while you are making it.`,
+      body: `If you are the <span class="bold">Mastermind</span> the code will be visible at the top while you are making it.`,
       position: "center",
       highlight: null,
     },
