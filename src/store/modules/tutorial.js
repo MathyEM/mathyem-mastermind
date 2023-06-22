@@ -12,7 +12,7 @@ const state = {
     { //1
       disableButtons: false,
       header: 'Welcome to Mastermind',
-      body: `Mastermind has two players, the <span class="bold">Mastermind</span> and the <span class="bold">Code Breaker</span>. \n \n The two players will take turns playing as <span class="bold">Mastermind</span> and <span class="bold">Code Breaker</span>. \n \n \n <span class="small-text">(in single player modes like this tutorial, you will always act as the <span class="bold">Code Breaker</span>)</span>`,
+      body: `Mastermind has two players, the <span class="bold">Mastermind</span> and the <span class="bold">Code Breaker</span>. \n \n The two players will take turns playing as <span class="bold">Mastermind</span> and <span class="bold">Code Breaker</span>. \n \n \n <span class="small-text">(in solo games, you will always play as the <span class="bold">Code Breaker</span>)</span>`,
       position: "center",
       highlight: null,
     },
@@ -57,7 +57,7 @@ const state = {
     { //7
       disableButtons: true,
       header: 'Hints',
-      body: `An <span class="orange bold">orange</span> hint means that one of your code pieces is used somewhere in the <span class="bold">Mastermind's</span> code, but is not currently in the correct position. \n\nA <span class="green bold">green</span> hint means that you have used a correct code piece and placed it correctly. \n\n The position of <span class="orange bold">orange</span> and <span class="green bold">green</span> hints do not indicate which of you code pieces are placed correctly, only how many of the are.`,
+      body: `An <span class="orange bold">orange</span> hint means that one of your code pieces is used somewhere in the <span class="bold">Mastermind's</span> code, but is not currently in the correct position. \n\nA <span class="green bold">green</span> hint means that you have used a correct code piece and placed it correctly. \n\n The order of the hints do <strong>not</strong> correspond to your attempt.`,
       position: "center",
       highlight: "attempts",
       showSolution: false,
@@ -65,7 +65,7 @@ const state = {
     { //8
       disableButtons: true,
       header: 'An Example',
-      body: `As an example, the <span class="bold">Mastermind's</span> code is now revaled. There is currently <span class="bold">one</span> <span class="green bold">green</span> hint and <span class="bold">two</span> <span class="orange bold">orange</span> hints next to the first attempt. \n\nSince only <span class="bold">three</span> hints are showing that means one of the code pieces must be repeating. Because the solution is currently revealed, you can see that <span class="bold">1</span> is the repeating code piece.`,
+      body: `As an example, the <span class="bold">Mastermind's</span> code is now revaled. There is currently <span class="bold">one</span> <span class="green bold">green</span> hint and <span class="bold">two</span> <span class="orange bold">orange</span> hints next to the first attempt. \n\nSince only <span class="bold">three</span> hints appeared that means one of the code pieces must be repeating - in this case <span class="bold">1</span>.`,
       position: "center",
       highlight: "attempts",
       showSolution: true,
@@ -94,6 +94,9 @@ const mutations = {
   TUT_DECREMENT_CURRENT_STEP(state) {
     state.currentStep = state.currentStep-1
   },
+  TUT_SET_CURRENT_STEP(state, payload) {
+    state.currentStep = payload
+  }
 }
 
 const actions = {
@@ -113,7 +116,10 @@ const actions = {
     for (let i = 0; i < 4; i++) {
       dispatch('SPUpdateAttempt', i)
     }
-  }
+  },
+  TutResetTutorial({ commit }) {
+    commit('TUT_SET_CURRENT_STEP', 0)
+  },
 }
 
 export default {
