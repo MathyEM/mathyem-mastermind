@@ -21,14 +21,14 @@ const state = {
       header: 'The Mastermind',
       body: `Using the buttons at the bottom of the screen, the <span class="bold">Mastermind</span> has to create a code for the <span class="bold">Code Breaker</span> to solve.`,
       position: "center",
-      highlight: "buttons",
+      highlight: null,
     },
     { //3
       disableButtons: false,
       header: 'The Mastermind',
       body: `If you are the <span class="bold">Mastermind</span> the code will be visible here while you are making it.`,
       position: "center",
-      highlight: "code",
+      highlight: null,
     },
     { //4
       disableButtons: false,
@@ -42,7 +42,7 @@ const state = {
       header: 'Scoring',
       body: `You have 10 attempts to deduce the code. Each failed attempt reduces the amount of score you receive. \n \n The fewer attempts you use when guessing the code, the more score you will receive`,
       position: "center",
-      highlight: "attempts",
+      highlight: null,
       showSolution: false,
     },
     { //6
@@ -50,7 +50,7 @@ const state = {
       header: 'Hints',
       body: `To the right of your attempts you will be able to see <span class="orange bold">orange</span> and <span class="green bold">green</span> hints to help you find the correct code.`,
       position: "center",
-      highlight: "attempts",
+      highlight: null,
       showSolution: false,
       insertAttempt: true,
     },
@@ -59,7 +59,7 @@ const state = {
       header: 'Hints',
       body: `An <span class="orange bold">orange</span> hint means that one of your code pieces is used somewhere in the <span class="bold">Mastermind's</span> code, but is not currently in the correct position. \n\nA <span class="green bold">green</span> hint means that you have used a correct code piece and placed it correctly. \n\n The order of the hints do <strong>not</strong> correspond to your attempt.`,
       position: "center",
-      highlight: "attempts",
+      highlight: null,
       showSolution: false,
     },
     { //8
@@ -67,7 +67,7 @@ const state = {
       header: 'An Example',
       body: `As an example, the <span class="bold">Mastermind's</span> code is now revaled. There is currently <span class="bold">one</span> <span class="green bold">green</span> hint and <span class="bold">two</span> <span class="orange bold">orange</span> hints next to the first attempt. \n\nSince only <span class="bold">three</span> hints appeared that means one of the code pieces must be repeating - in this case <span class="bold">1</span>.`,
       position: "center",
-      highlight: "attempts",
+      highlight: null,
       showSolution: true,
     },
     { //9
